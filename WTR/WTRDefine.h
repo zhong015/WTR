@@ -27,7 +27,9 @@
 
 //#import "UIImageView+WTRLoad.h"
 //#import "WTRMutiDownloader.h"
-
+//#import "WTRPhotosViewController.h"
+//#import "WTRImageListShow.h"
+//#import "WTRVideoCut.h"
 
 #define ISIOS8 ([UIDevice currentDevice].systemVersion.floatValue>=8.0)
 #define ISIOS9 ([UIDevice currentDevice].systemVersion.floatValue>=9.0)

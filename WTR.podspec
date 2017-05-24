@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
   #
 
   s.name         = "WTR"
-  s.version      = "0.0.4"
+  s.version      = "0.0.5"
   s.summary      = "基本快捷方法"
 
   # This description is used to generate tags and improve search results.
@@ -25,7 +25,7 @@ Pod::Spec.new do |s|
   #   * Write the description between the DESC delimiters below.
   #   * Finally, don't worry about the indent, CocoaPods strips it!
   s.description  = <<-DESC
-        键盘弹起自动调整View
+        键盘弹起自动调整View、视频剪切、自定义转场动画、新相册图片获取、图片列表显示、图片处理、自定义表单上传、文件分块下载等
                    DESC
 
   s.homepage     = "https://github.com/zhong015/WTR.git"
