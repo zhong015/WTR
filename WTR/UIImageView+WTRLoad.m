@@ -134,7 +134,6 @@ static id _s;
 
 -(void)setimvImage:(NSDictionary *)dic
 {
-//    [[NSRunLoop currentRunLoop] runMode:NSRunLoopCommonModes beforeDate:[NSDate dateWithTimeIntervalSinceNow:3]];
     UIImageView *imv=[dic objectForKey:@"imv"];
     UIImage *im=[dic objectForKey:@"im"];
     imv.image=im;

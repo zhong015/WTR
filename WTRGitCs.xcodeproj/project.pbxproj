@@ -7,21 +7,21 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		D2382BC41ED5520500D0E048 /* UIImageView+WTRLoad.m in Sources */ = {isa = PBXBuildFile; fileRef = D2382BB31ED5520400D0E048 /* UIImageView+WTRLoad.m */; };
-		D2382BC51ED5520500D0E048 /* WTRMutiDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = D2382BB51ED5520400D0E048 /* WTRMutiDownloader.m */; };
-		D2382BC61ED5520500D0E048 /* UIImage+WTRManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D2382BB81ED5520400D0E048 /* UIImage+WTRManager.m */; };
-		D2382BC71ED5520500D0E048 /* WTRImageListShow.m in Sources */ = {isa = PBXBuildFile; fileRef = D2382BBA1ED5520500D0E048 /* WTRImageListShow.m */; };
-		D2382BC81ED5520500D0E048 /* PHIMCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D2382BBD1ED5520500D0E048 /* PHIMCollectionViewCell.m */; };
-		D2382BC91ED5520500D0E048 /* WTRPhotosAssetViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D2382BBF1ED5520500D0E048 /* WTRPhotosAssetViewController.m */; };
-		D2382BCA1ED5520500D0E048 /* WTRPhotosShowViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D2382BC11ED5520500D0E048 /* WTRPhotosShowViewController.m */; };
-		D2382BCB1ED5520500D0E048 /* WTRPhotosViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D2382BC31ED5520500D0E048 /* WTRPhotosViewController.m */; };
-		D2382BD51ED5525200D0E048 /* UIView+WTRFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = D2382BCE1ED5525200D0E048 /* UIView+WTRFrame.m */; };
-		D2382BD61ED5525200D0E048 /* WTR.m in Sources */ = {isa = PBXBuildFile; fileRef = D2382BD01ED5525200D0E048 /* WTR.m */; };
-		D2382BD71ED5525200D0E048 /* WTRFilePath.m in Sources */ = {isa = PBXBuildFile; fileRef = D2382BD21ED5525200D0E048 /* WTRFilePath.m */; };
-		D2382BD81ED5525200D0E048 /* WTRZAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D2382BD41ED5525200D0E048 /* WTRZAppDelegate.m */; };
-		D2382BDC1ED552D800D0E048 /* WTRVideoCut.m in Sources */ = {isa = PBXBuildFile; fileRef = D2382BDB1ED552D800D0E048 /* WTRVideoCut.m */; };
-		D2382BDF1ED5567B00D0E048 /* WTRMultipartForm.m in Sources */ = {isa = PBXBuildFile; fileRef = D2382BDE1ED5567B00D0E048 /* WTRMultipartForm.m */; };
-		D2382BE31ED558FF00D0E048 /* WTRDIYTransitions.m in Sources */ = {isa = PBXBuildFile; fileRef = D2382BE21ED558FF00D0E048 /* WTRDIYTransitions.m */; };
+		D264445A1ED5733800190727 /* UIView+WTRFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = D26444551ED5733800190727 /* UIView+WTRFrame.m */; };
+		D264445B1ED5733800190727 /* WTR.m in Sources */ = {isa = PBXBuildFile; fileRef = D26444571ED5733800190727 /* WTR.m */; };
+		D264445C1ED5733800190727 /* WTRZAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D26444591ED5733800190727 /* WTRZAppDelegate.m */; };
+		D26444641ED5735A00190727 /* UIImageView+WTRLoad.m in Sources */ = {isa = PBXBuildFile; fileRef = D264445F1ED5735A00190727 /* UIImageView+WTRLoad.m */; };
+		D26444651ED5735A00190727 /* WTRMultipartForm.m in Sources */ = {isa = PBXBuildFile; fileRef = D26444611ED5735A00190727 /* WTRMultipartForm.m */; };
+		D26444661ED5735A00190727 /* WTRMutiDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = D26444631ED5735A00190727 /* WTRMutiDownloader.m */; };
+		D264446C1ED573AE00190727 /* UIImage+WTRManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D26444691ED573AE00190727 /* UIImage+WTRManager.m */; };
+		D264446D1ED573AE00190727 /* WTRImageListShow.m in Sources */ = {isa = PBXBuildFile; fileRef = D264446B1ED573AE00190727 /* WTRImageListShow.m */; };
+		D26444771ED573CE00190727 /* PHIMCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D26444701ED573CE00190727 /* PHIMCollectionViewCell.m */; };
+		D26444781ED573CE00190727 /* WTRPhotosAssetViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D26444721ED573CE00190727 /* WTRPhotosAssetViewController.m */; };
+		D26444791ED573CE00190727 /* WTRPhotosShowViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D26444741ED573CE00190727 /* WTRPhotosShowViewController.m */; };
+		D264447A1ED573CE00190727 /* WTRPhotosViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D26444761ED573CE00190727 /* WTRPhotosViewController.m */; };
+		D264447E1ED573E600190727 /* WTRVideoCut.m in Sources */ = {isa = PBXBuildFile; fileRef = D264447D1ED573E600190727 /* WTRVideoCut.m */; };
+		D26444851ED5740400190727 /* WTRDIYTransitions.m in Sources */ = {isa = PBXBuildFile; fileRef = D26444841ED5740400190727 /* WTRDIYTransitions.m */; };
+		D26444881ED5740E00190727 /* WTRFilePath.m in Sources */ = {isa = PBXBuildFile; fileRef = D26444871ED5740E00190727 /* WTRFilePath.m */; };
 		D2C85D6B1ED42E0800528873 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D2C85D6A1ED42E0800528873 /* main.m */; };
 		D2C85D6E1ED42E0800528873 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D2C85D6D1ED42E0800528873 /* AppDelegate.m */; };
 		D2C85D711ED42E0800528873 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D2C85D701ED42E0800528873 /* ViewController.m */; };
@@ -31,36 +31,36 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		D2382BB21ED5520400D0E048 /* UIImageView+WTRLoad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImageView+WTRLoad.h"; sourceTree = "<group>"; };
-		D2382BB31ED5520400D0E048 /* UIImageView+WTRLoad.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+WTRLoad.m"; sourceTree = "<group>"; };
-		D2382BB41ED5520400D0E048 /* WTRMutiDownloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WTRMutiDownloader.h; sourceTree = "<group>"; };
-		D2382BB51ED5520400D0E048 /* WTRMutiDownloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WTRMutiDownloader.m; sourceTree = "<group>"; };
-		D2382BB71ED5520400D0E048 /* UIImage+WTRManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+WTRManager.h"; sourceTree = "<group>"; };
-		D2382BB81ED5520400D0E048 /* UIImage+WTRManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+WTRManager.m"; sourceTree = "<group>"; };
-		D2382BB91ED5520400D0E048 /* WTRImageListShow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WTRImageListShow.h; sourceTree = "<group>"; };
-		D2382BBA1ED5520500D0E048 /* WTRImageListShow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WTRImageListShow.m; sourceTree = "<group>"; };
-		D2382BBC1ED5520500D0E048 /* PHIMCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHIMCollectionViewCell.h; sourceTree = "<group>"; };
-		D2382BBD1ED5520500D0E048 /* PHIMCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHIMCollectionViewCell.m; sourceTree = "<group>"; };
-		D2382BBE1ED5520500D0E048 /* WTRPhotosAssetViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WTRPhotosAssetViewController.h; sourceTree = "<group>"; };
-		D2382BBF1ED5520500D0E048 /* WTRPhotosAssetViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WTRPhotosAssetViewController.m; sourceTree = "<group>"; };
-		D2382BC01ED5520500D0E048 /* WTRPhotosShowViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WTRPhotosShowViewController.h; sourceTree = "<group>"; };
-		D2382BC11ED5520500D0E048 /* WTRPhotosShowViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WTRPhotosShowViewController.m; sourceTree = "<group>"; };
-		D2382BC21ED5520500D0E048 /* WTRPhotosViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WTRPhotosViewController.h; sourceTree = "<group>"; };
-		D2382BC31ED5520500D0E048 /* WTRPhotosViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WTRPhotosViewController.m; sourceTree = "<group>"; };
-		D2382BCD1ED5525200D0E048 /* UIView+WTRFrame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+WTRFrame.h"; sourceTree = "<group>"; };
-		D2382BCE1ED5525200D0E048 /* UIView+WTRFrame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+WTRFrame.m"; sourceTree = "<group>"; };
-		D2382BCF1ED5525200D0E048 /* WTR.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WTR.h; sourceTree = "<group>"; };
-		D2382BD01ED5525200D0E048 /* WTR.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WTR.m; sourceTree = "<group>"; };
-		D2382BD11ED5525200D0E048 /* WTRFilePath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WTRFilePath.h; sourceTree = "<group>"; };
-		D2382BD21ED5525200D0E048 /* WTRFilePath.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WTRFilePath.m; sourceTree = "<group>"; };
-		D2382BD31ED5525200D0E048 /* WTRZAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WTRZAppDelegate.h; sourceTree = "<group>"; };
-		D2382BD41ED5525200D0E048 /* WTRZAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WTRZAppDelegate.m; sourceTree = "<group>"; };
-		D2382BDA1ED552D800D0E048 /* WTRVideoCut.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WTRVideoCut.h; sourceTree = "<group>"; };
-		D2382BDB1ED552D800D0E048 /* WTRVideoCut.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WTRVideoCut.m; sourceTree = "<group>"; };
-		D2382BDD1ED5567B00D0E048 /* WTRMultipartForm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WTRMultipartForm.h; sourceTree = "<group>"; };
-		D2382BDE1ED5567B00D0E048 /* WTRMultipartForm.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WTRMultipartForm.m; sourceTree = "<group>"; };
-		D2382BE11ED558FF00D0E048 /* WTRDIYTransitions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WTRDIYTransitions.h; sourceTree = "<group>"; };
-		D2382BE21ED558FF00D0E048 /* WTRDIYTransitions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WTRDIYTransitions.m; sourceTree = "<group>"; };
+		D26444541ED5733800190727 /* UIView+WTRFrame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+WTRFrame.h"; sourceTree = "<group>"; };
+		D26444551ED5733800190727 /* UIView+WTRFrame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+WTRFrame.m"; sourceTree = "<group>"; };
+		D26444561ED5733800190727 /* WTR.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WTR.h; sourceTree = "<group>"; };
+		D26444571ED5733800190727 /* WTR.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WTR.m; sourceTree = "<group>"; };
+		D26444581ED5733800190727 /* WTRZAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WTRZAppDelegate.h; sourceTree = "<group>"; };
+		D26444591ED5733800190727 /* WTRZAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WTRZAppDelegate.m; sourceTree = "<group>"; };
+		D264445E1ED5735A00190727 /* UIImageView+WTRLoad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImageView+WTRLoad.h"; sourceTree = "<group>"; };
+		D264445F1ED5735A00190727 /* UIImageView+WTRLoad.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+WTRLoad.m"; sourceTree = "<group>"; };
+		D26444601ED5735A00190727 /* WTRMultipartForm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WTRMultipartForm.h; sourceTree = "<group>"; };
+		D26444611ED5735A00190727 /* WTRMultipartForm.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WTRMultipartForm.m; sourceTree = "<group>"; };
+		D26444621ED5735A00190727 /* WTRMutiDownloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WTRMutiDownloader.h; sourceTree = "<group>"; };
+		D26444631ED5735A00190727 /* WTRMutiDownloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WTRMutiDownloader.m; sourceTree = "<group>"; };
+		D26444681ED573AE00190727 /* UIImage+WTRManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+WTRManager.h"; sourceTree = "<group>"; };
+		D26444691ED573AE00190727 /* UIImage+WTRManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+WTRManager.m"; sourceTree = "<group>"; };
+		D264446A1ED573AE00190727 /* WTRImageListShow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WTRImageListShow.h; sourceTree = "<group>"; };
+		D264446B1ED573AE00190727 /* WTRImageListShow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WTRImageListShow.m; sourceTree = "<group>"; };
+		D264446F1ED573CE00190727 /* PHIMCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHIMCollectionViewCell.h; sourceTree = "<group>"; };
+		D26444701ED573CE00190727 /* PHIMCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHIMCollectionViewCell.m; sourceTree = "<group>"; };
+		D26444711ED573CE00190727 /* WTRPhotosAssetViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WTRPhotosAssetViewController.h; sourceTree = "<group>"; };
+		D26444721ED573CE00190727 /* WTRPhotosAssetViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WTRPhotosAssetViewController.m; sourceTree = "<group>"; };
+		D26444731ED573CE00190727 /* WTRPhotosShowViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WTRPhotosShowViewController.h; sourceTree = "<group>"; };
+		D26444741ED573CE00190727 /* WTRPhotosShowViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WTRPhotosShowViewController.m; sourceTree = "<group>"; };
+		D26444751ED573CE00190727 /* WTRPhotosViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WTRPhotosViewController.h; sourceTree = "<group>"; };
+		D26444761ED573CE00190727 /* WTRPhotosViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WTRPhotosViewController.m; sourceTree = "<group>"; };
+		D264447C1ED573E600190727 /* WTRVideoCut.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WTRVideoCut.h; sourceTree = "<group>"; };
+		D264447D1ED573E600190727 /* WTRVideoCut.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WTRVideoCut.m; sourceTree = "<group>"; };
+		D26444831ED5740400190727 /* WTRDIYTransitions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WTRDIYTransitions.h; sourceTree = "<group>"; };
+		D26444841ED5740400190727 /* WTRDIYTransitions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WTRDIYTransitions.m; sourceTree = "<group>"; };
+		D26444861ED5740E00190727 /* WTRFilePath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WTRFilePath.h; sourceTree = "<group>"; };
+		D26444871ED5740E00190727 /* WTRFilePath.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WTRFilePath.m; sourceTree = "<group>"; };
 		D2C85D661ED42E0800528873 /* WTRGitCs.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WTRGitCs.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D2C85D6A1ED42E0800528873 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		D2C85D6C1ED42E0800528873 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -85,76 +85,76 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		D2382BB11ED5520400D0E048 /* WTRDownload */ = {
+		D26444531ED5732400190727 /* WTRBase */ = {
 			isa = PBXGroup;
 			children = (
-				D2382BB21ED5520400D0E048 /* UIImageView+WTRLoad.h */,
-				D2382BB31ED5520400D0E048 /* UIImageView+WTRLoad.m */,
-				D2382BB41ED5520400D0E048 /* WTRMutiDownloader.h */,
-				D2382BB51ED5520400D0E048 /* WTRMutiDownloader.m */,
-				D2382BDD1ED5567B00D0E048 /* WTRMultipartForm.h */,
-				D2382BDE1ED5567B00D0E048 /* WTRMultipartForm.m */,
+				D26444861ED5740E00190727 /* WTRFilePath.h */,
+				D26444871ED5740E00190727 /* WTRFilePath.m */,
+				D26444541ED5733800190727 /* UIView+WTRFrame.h */,
+				D26444551ED5733800190727 /* UIView+WTRFrame.m */,
+				D26444561ED5733800190727 /* WTR.h */,
+				D26444571ED5733800190727 /* WTR.m */,
+				D26444581ED5733800190727 /* WTRZAppDelegate.h */,
+				D26444591ED5733800190727 /* WTRZAppDelegate.m */,
 			);
-			path = WTRDownload;
+			name = WTRBase;
 			sourceTree = "<group>";
 		};
-		D2382BB61ED5520400D0E048 /* WTRImageManager */ = {
+		D264445D1ED5733F00190727 /* WTRDownload */ = {
 			isa = PBXGroup;
 			children = (
-				D2382BB71ED5520400D0E048 /* UIImage+WTRManager.h */,
-				D2382BB81ED5520400D0E048 /* UIImage+WTRManager.m */,
-				D2382BB91ED5520400D0E048 /* WTRImageListShow.h */,
-				D2382BBA1ED5520500D0E048 /* WTRImageListShow.m */,
+				D264445E1ED5735A00190727 /* UIImageView+WTRLoad.h */,
+				D264445F1ED5735A00190727 /* UIImageView+WTRLoad.m */,
+				D26444601ED5735A00190727 /* WTRMultipartForm.h */,
+				D26444611ED5735A00190727 /* WTRMultipartForm.m */,
+				D26444621ED5735A00190727 /* WTRMutiDownloader.h */,
+				D26444631ED5735A00190727 /* WTRMutiDownloader.m */,
 			);
-			path = WTRImageManager;
+			name = WTRDownload;
 			sourceTree = "<group>";
 		};
-		D2382BBB1ED5520500D0E048 /* WTRPhotosPicker */ = {
+		D26444671ED5736000190727 /* WTRImageManager */ = {
 			isa = PBXGroup;
 			children = (
-				D2382BC21ED5520500D0E048 /* WTRPhotosViewController.h */,
-				D2382BC31ED5520500D0E048 /* WTRPhotosViewController.m */,
-				D2382BBE1ED5520500D0E048 /* WTRPhotosAssetViewController.h */,
-				D2382BBF1ED5520500D0E048 /* WTRPhotosAssetViewController.m */,
-				D2382BBC1ED5520500D0E048 /* PHIMCollectionViewCell.h */,
-				D2382BBD1ED5520500D0E048 /* PHIMCollectionViewCell.m */,
-				D2382BC01ED5520500D0E048 /* WTRPhotosShowViewController.h */,
-				D2382BC11ED5520500D0E048 /* WTRPhotosShowViewController.m */,
+				D26444681ED573AE00190727 /* UIImage+WTRManager.h */,
+				D26444691ED573AE00190727 /* UIImage+WTRManager.m */,
+				D264446A1ED573AE00190727 /* WTRImageListShow.h */,
+				D264446B1ED573AE00190727 /* WTRImageListShow.m */,
 			);
-			path = WTRPhotosPicker;
+			name = WTRImageManager;
 			sourceTree = "<group>";
 		};
-		D2382BCC1ED5525200D0E048 /* WTRBase */ = {
+		D264446E1ED573B800190727 /* WTRPhotosPicker */ = {
 			isa = PBXGroup;
 			children = (
-				D2382BCD1ED5525200D0E048 /* UIView+WTRFrame.h */,
-				D2382BCE1ED5525200D0E048 /* UIView+WTRFrame.m */,
-				D2382BCF1ED5525200D0E048 /* WTR.h */,
-				D2382BD01ED5525200D0E048 /* WTR.m */,
-				D2382BD11ED5525200D0E048 /* WTRFilePath.h */,
-				D2382BD21ED5525200D0E048 /* WTRFilePath.m */,
-				D2382BD31ED5525200D0E048 /* WTRZAppDelegate.h */,
-				D2382BD41ED5525200D0E048 /* WTRZAppDelegate.m */,
+				D264446F1ED573CE00190727 /* PHIMCollectionViewCell.h */,
+				D26444701ED573CE00190727 /* PHIMCollectionViewCell.m */,
+				D26444711ED573CE00190727 /* WTRPhotosAssetViewController.h */,
+				D26444721ED573CE00190727 /* WTRPhotosAssetViewController.m */,
+				D26444731ED573CE00190727 /* WTRPhotosShowViewController.h */,
+				D26444741ED573CE00190727 /* WTRPhotosShowViewController.m */,
+				D26444751ED573CE00190727 /* WTRPhotosViewController.h */,
+				D26444761ED573CE00190727 /* WTRPhotosViewController.m */,
 			);
-			path = WTRBase;
+			name = WTRPhotosPicker;
 			sourceTree = "<group>";
 		};
-		D2382BD91ED552D100D0E048 /* WTRVideo */ = {
+		D264447B1ED573DC00190727 /* WTRVideo */ = {
 			isa = PBXGroup;
 			children = (
-				D2382BDA1ED552D800D0E048 /* WTRVideoCut.h */,
-				D2382BDB1ED552D800D0E048 /* WTRVideoCut.m */,
+				D264447C1ED573E600190727 /* WTRVideoCut.h */,
+				D264447D1ED573E600190727 /* WTRVideoCut.m */,
 			);
-			path = WTRVideo;
+			name = WTRVideo;
 			sourceTree = "<group>";
 		};
-		D2382BE01ED558CF00D0E048 /* WTRDIYTransitions */ = {
+		D26444821ED573FD00190727 /* WTRDIYTransitions */ = {
 			isa = PBXGroup;
 			children = (
-				D2382BE11ED558FF00D0E048 /* WTRDIYTransitions.h */,
-				D2382BE21ED558FF00D0E048 /* WTRDIYTransitions.m */,
+				D26444831ED5740400190727 /* WTRDIYTransitions.h */,
+				D26444841ED5740400190727 /* WTRDIYTransitions.m */,
 			);
-			path = WTRDIYTransitions;
+			name = WTRDIYTransitions;
 			sourceTree = "<group>";
 		};
 		D2A5BF951ED5353900693D59 /* UI */ = {
@@ -210,12 +210,12 @@
 			isa = PBXGroup;
 			children = (
 				D2C85D861ED431C200528873 /* WTRDefine.h */,
-				D2382BCC1ED5525200D0E048 /* WTRBase */,
-				D2382BB11ED5520400D0E048 /* WTRDownload */,
-				D2382BB61ED5520400D0E048 /* WTRImageManager */,
-				D2382BBB1ED5520500D0E048 /* WTRPhotosPicker */,
-				D2382BD91ED552D100D0E048 /* WTRVideo */,
-				D2382BE01ED558CF00D0E048 /* WTRDIYTransitions */,
+				D26444821ED573FD00190727 /* WTRDIYTransitions */,
+				D264447B1ED573DC00190727 /* WTRVideo */,
+				D264446E1ED573B800190727 /* WTRPhotosPicker */,
+				D26444671ED5736000190727 /* WTRImageManager */,
+				D264445D1ED5733F00190727 /* WTRDownload */,
+				D26444531ED5732400190727 /* WTRBase */,
 			);
 			path = WTR;
 			sourceTree = "<group>";
@@ -292,24 +292,24 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D2382BD71ED5525200D0E048 /* WTRFilePath.m in Sources */,
-				D2382BD51ED5525200D0E048 /* UIView+WTRFrame.m in Sources */,
-				D2382BC81ED5520500D0E048 /* PHIMCollectionViewCell.m in Sources */,
-				D2382BC51ED5520500D0E048 /* WTRMutiDownloader.m in Sources */,
+				D26444651ED5735A00190727 /* WTRMultipartForm.m in Sources */,
+				D26444851ED5740400190727 /* WTRDIYTransitions.m in Sources */,
+				D26444881ED5740E00190727 /* WTRFilePath.m in Sources */,
+				D264447A1ED573CE00190727 /* WTRPhotosViewController.m in Sources */,
+				D26444661ED5735A00190727 /* WTRMutiDownloader.m in Sources */,
+				D26444791ED573CE00190727 /* WTRPhotosShowViewController.m in Sources */,
+				D264446C1ED573AE00190727 /* UIImage+WTRManager.m in Sources */,
 				D2C85D711ED42E0800528873 /* ViewController.m in Sources */,
-				D2382BC41ED5520500D0E048 /* UIImageView+WTRLoad.m in Sources */,
+				D26444641ED5735A00190727 /* UIImageView+WTRLoad.m in Sources */,
 				D2C85D6E1ED42E0800528873 /* AppDelegate.m in Sources */,
-				D2382BDF1ED5567B00D0E048 /* WTRMultipartForm.m in Sources */,
-				D2382BD81ED5525200D0E048 /* WTRZAppDelegate.m in Sources */,
-				D2382BDC1ED552D800D0E048 /* WTRVideoCut.m in Sources */,
-				D2382BCA1ED5520500D0E048 /* WTRPhotosShowViewController.m in Sources */,
-				D2382BE31ED558FF00D0E048 /* WTRDIYTransitions.m in Sources */,
-				D2382BD61ED5525200D0E048 /* WTR.m in Sources */,
+				D264445A1ED5733800190727 /* UIView+WTRFrame.m in Sources */,
+				D26444781ED573CE00190727 /* WTRPhotosAssetViewController.m in Sources */,
 				D2C85D6B1ED42E0800528873 /* main.m in Sources */,
-				D2382BC71ED5520500D0E048 /* WTRImageListShow.m in Sources */,
-				D2382BC61ED5520500D0E048 /* UIImage+WTRManager.m in Sources */,
-				D2382BCB1ED5520500D0E048 /* WTRPhotosViewController.m in Sources */,
-				D2382BC91ED5520500D0E048 /* WTRPhotosAssetViewController.m in Sources */,
+				D264445B1ED5733800190727 /* WTR.m in Sources */,
+				D264446D1ED573AE00190727 /* WTRImageListShow.m in Sources */,
+				D264447E1ED573E600190727 /* WTRVideoCut.m in Sources */,
+				D26444771ED573CE00190727 /* PHIMCollectionViewCell.m in Sources */,
+				D264445C1ED5733800190727 /* WTRZAppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

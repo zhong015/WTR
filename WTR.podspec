@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
   #
 
   s.name         = "WTR"
-  s.version      = "0.0.6"
+  s.version      = "0.0.7"
   s.summary      = "基本快捷方法"
 
   # This description is used to generate tags and improve search results.
@@ -91,10 +91,25 @@ Pod::Spec.new do |s|
   #  Not including the public_header_files will make all headers public.
   #
 
-  s.source_files  = "WTR", "WTR/*.{h,m}","WTR/**/*.{h,m}"
-  s.exclude_files = "Classes/Exclude"
+  s.source_files  = "WTR/*.{h,m}","WTR/*/*.{h,m}"
+  # s.exclude_files = "Classes/Exclude"
+  # s.public_header_files = "WTR/WTRDefine.h"
 
-  # s.public_header_files = "Classes/**/*.h"
+  s.subspec 'WTRBase' do |ss|
+    ss.source_files = 'WTR/WTRFilePath.{h,m}','WTR/UIView+WTRFrame.{h,m}','WTR/WTR.{h,m}','WTR/WTRZAppDelegate.{h,m}'
+  end
+
+  s.subspec 'WTRDIYTransitions' do |ss|
+    ss.source_files = 'WTR/WTRDIYTransitions.{h,m}'
+  end
+
+  s.subspec 'WTRPhotosPicker' do |ss|
+    ss.source_files = 'WTR/PHIMCollectionViewCell.{h,m}','WTR/WTRPhotosAssetViewController.{h,m}','WTR/WTRPhotosShowViewController.{h,m}','WTR/WTRPhotosViewController.{h,m}'
+  end
+
+  s.subspec 'WTRVideo' do |ss|
+    ss.source_files = 'WTR/WTRVideoCut.{h,m}'
+  end
 
 
   # ――― Resources ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
