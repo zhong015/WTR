@@ -245,7 +245,7 @@ didFinishDownloadingToURL:(NSURL *)location
     
     long long numberofFenlie=totalbytes/(WTRMutiMaxfileSize*1024-100)+1;
     
-    long jiangebt=totalbytes/numberofFenlie;
+    long long jiangebt=totalbytes/numberofFenlie;
     
     for (int i=0; i<numberofFenlie; i++) {
         
