@@ -1,21 +1,27 @@
 //
-//  WTRZX.h
-//  PocketUniversity
+//  WTR.h
+//  WTRGitCs
 //
-//  Created by wangfuzhong on 15/7/16.
-//  Copyright (c) 2015年 CY. All rights reserved.
+//  Created by wfz on 2017/5/24.
+//  Copyright © 2017年 wfz. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
-@interface WTRZX : NSObject
+@interface WTR : NSObject
 
-//.layer.masksToBounds=YES;//键盘弹起，切掉超出部分
+
+/*
+    自动调整键盘弹起时textfiledOrTextView的高度
+ 
+    .layer.masksToBounds=YES;//键盘弹起，切掉超出部分
+ */
 +(void)addKeyboardTransform:(UIView *)textfiledOrTextView TransView:(UIView *)view;//监听键盘高度 自动调整view
 +(void)removeKeyboardTransform:(UIView *)textfiledOrTextView; //移除监听
 
 +(void)huishoujianpan;//回收监听的键盘
+
 
 //获取字符串所占区域大小
 +(CGSize)getsizeOfStr:(NSString *)str Fontsize:(UIFont *)tyfont Width:(CGFloat )ww;
@@ -41,4 +47,15 @@
 +(void)clearAllCaches; //清除所有缓存
 +(NSString *)AllCachesSize; //所有缓存大小
 
+
++(UIViewController *)curintViewController;
+
 @end
+
+
+@interface NSData (WTRMDJiaMi)
+
+-(NSString *)md5jiami;
+
+@end
+

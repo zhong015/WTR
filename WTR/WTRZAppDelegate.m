@@ -6,7 +6,7 @@
 //  Copyright © 2017年 wfz. All rights reserved.
 //
 
-#import "WTRAppDelegate.h"
+#import "WTRZAppDelegate.h"
 
 @implementation WTRAppDelegate
 

@@ -7,19 +7,37 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		D2A5BF7F1ED5067A00693D59 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = D2A5BF7E1ED5067A00693D59 /* README.md */; };
+		D2A5BF821ED524BD00693D59 /* WTR.m in Sources */ = {isa = PBXBuildFile; fileRef = D2A5BF811ED524BD00693D59 /* WTR.m */; };
+		D2A5BF851ED526B400693D59 /* UIView+WTRFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = D2A5BF841ED526B400693D59 /* UIView+WTRFrame.m */; };
+		D2A5BF881ED5276600693D59 /* UIImage+WTRManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D2A5BF871ED5276600693D59 /* UIImage+WTRManager.m */; };
+		D2A5BF8B1ED52AD900693D59 /* WTRMutiDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = D2A5BF8A1ED52AD900693D59 /* WTRMutiDownloader.m */; };
+		D2A5BF8E1ED52E5000693D59 /* UIImageView+WTRLoad.m in Sources */ = {isa = PBXBuildFile; fileRef = D2A5BF8D1ED52E5000693D59 /* UIImageView+WTRLoad.m */; };
+		D2A5BF911ED52F4F00693D59 /* WTRFilePath.m in Sources */ = {isa = PBXBuildFile; fileRef = D2A5BF901ED52F4F00693D59 /* WTRFilePath.m */; };
+		D2A5BF941ED5307900693D59 /* WTRImageListShow.m in Sources */ = {isa = PBXBuildFile; fileRef = D2A5BF931ED5307900693D59 /* WTRImageListShow.m */; };
 		D2C85D6B1ED42E0800528873 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D2C85D6A1ED42E0800528873 /* main.m */; };
 		D2C85D6E1ED42E0800528873 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D2C85D6D1ED42E0800528873 /* AppDelegate.m */; };
 		D2C85D711ED42E0800528873 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D2C85D701ED42E0800528873 /* ViewController.m */; };
 		D2C85D741ED42E0800528873 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D2C85D721ED42E0800528873 /* Main.storyboard */; };
 		D2C85D761ED42E0800528873 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D2C85D751ED42E0800528873 /* Assets.xcassets */; };
 		D2C85D791ED42E0800528873 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D2C85D771ED42E0800528873 /* LaunchScreen.storyboard */; };
-		D2C85D851ED4319B00528873 /* WTRZX.m in Sources */ = {isa = PBXBuildFile; fileRef = D2C85D831ED4319B00528873 /* WTRZX.m */; };
-		D2C85D891ED432E800528873 /* WTRAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D2C85D881ED432E800528873 /* WTRAppDelegate.m */; };
+		D2C85D891ED432E800528873 /* WTRZAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D2C85D881ED432E800528873 /* WTRZAppDelegate.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		D2A5BF7E1ED5067A00693D59 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		D2A5BF801ED524BD00693D59 /* WTR.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WTR.h; sourceTree = "<group>"; };
+		D2A5BF811ED524BD00693D59 /* WTR.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WTR.m; sourceTree = "<group>"; };
+		D2A5BF831ED526B400693D59 /* UIView+WTRFrame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+WTRFrame.h"; sourceTree = "<group>"; };
+		D2A5BF841ED526B400693D59 /* UIView+WTRFrame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+WTRFrame.m"; sourceTree = "<group>"; };
+		D2A5BF861ED5276600693D59 /* UIImage+WTRManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+WTRManager.h"; sourceTree = "<group>"; };
+		D2A5BF871ED5276600693D59 /* UIImage+WTRManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+WTRManager.m"; sourceTree = "<group>"; };
+		D2A5BF891ED52AD900693D59 /* WTRMutiDownloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WTRMutiDownloader.h; sourceTree = "<group>"; };
+		D2A5BF8A1ED52AD900693D59 /* WTRMutiDownloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WTRMutiDownloader.m; sourceTree = "<group>"; };
+		D2A5BF8C1ED52E5000693D59 /* UIImageView+WTRLoad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImageView+WTRLoad.h"; sourceTree = "<group>"; };
+		D2A5BF8D1ED52E5000693D59 /* UIImageView+WTRLoad.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+WTRLoad.m"; sourceTree = "<group>"; };
+		D2A5BF8F1ED52F4F00693D59 /* WTRFilePath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WTRFilePath.h; sourceTree = "<group>"; };
+		D2A5BF901ED52F4F00693D59 /* WTRFilePath.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WTRFilePath.m; sourceTree = "<group>"; };
+		D2A5BF921ED5307900693D59 /* WTRImageListShow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WTRImageListShow.h; sourceTree = "<group>"; };
+		D2A5BF931ED5307900693D59 /* WTRImageListShow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WTRImageListShow.m; sourceTree = "<group>"; };
 		D2C85D661ED42E0800528873 /* WTRGitCs.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WTRGitCs.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D2C85D6A1ED42E0800528873 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		D2C85D6C1ED42E0800528873 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -30,11 +48,9 @@
 		D2C85D751ED42E0800528873 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D2C85D781ED42E0800528873 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D2C85D7A1ED42E0800528873 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		D2C85D821ED4319B00528873 /* WTRZX.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WTRZX.h; sourceTree = "<group>"; };
-		D2C85D831ED4319B00528873 /* WTRZX.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WTRZX.m; sourceTree = "<group>"; };
 		D2C85D861ED431C200528873 /* WTRDefine.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WTRDefine.h; sourceTree = "<group>"; };
-		D2C85D871ED432E800528873 /* WTRAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WTRAppDelegate.h; sourceTree = "<group>"; };
-		D2C85D881ED432E800528873 /* WTRAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WTRAppDelegate.m; sourceTree = "<group>"; };
+		D2C85D871ED432E800528873 /* WTRZAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WTRZAppDelegate.h; sourceTree = "<group>"; };
+		D2C85D881ED432E800528873 /* WTRZAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WTRZAppDelegate.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -48,11 +64,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		D2A5BF951ED5353900693D59 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
 		D2C85D5D1ED42E0800528873 = {
 			isa = PBXGroup;
 			children = (
-				D2A5BF7E1ED5067A00693D59 /* README.md */,
 				D2C85D801ED4319B00528873 /* WTR */,
+				D2A5BF951ED5353900693D59 /* UI */,
 				D2C85D681ED42E0800528873 /* WTRGitCs */,
 				D2C85D671ED42E0800528873 /* Products */,
 			);
@@ -94,10 +117,22 @@
 			isa = PBXGroup;
 			children = (
 				D2C85D861ED431C200528873 /* WTRDefine.h */,
-				D2C85D821ED4319B00528873 /* WTRZX.h */,
-				D2C85D831ED4319B00528873 /* WTRZX.m */,
-				D2C85D871ED432E800528873 /* WTRAppDelegate.h */,
-				D2C85D881ED432E800528873 /* WTRAppDelegate.m */,
+				D2A5BF801ED524BD00693D59 /* WTR.h */,
+				D2A5BF811ED524BD00693D59 /* WTR.m */,
+				D2C85D871ED432E800528873 /* WTRZAppDelegate.h */,
+				D2C85D881ED432E800528873 /* WTRZAppDelegate.m */,
+				D2A5BF831ED526B400693D59 /* UIView+WTRFrame.h */,
+				D2A5BF841ED526B400693D59 /* UIView+WTRFrame.m */,
+				D2A5BF861ED5276600693D59 /* UIImage+WTRManager.h */,
+				D2A5BF871ED5276600693D59 /* UIImage+WTRManager.m */,
+				D2A5BF891ED52AD900693D59 /* WTRMutiDownloader.h */,
+				D2A5BF8A1ED52AD900693D59 /* WTRMutiDownloader.m */,
+				D2A5BF8C1ED52E5000693D59 /* UIImageView+WTRLoad.h */,
+				D2A5BF8D1ED52E5000693D59 /* UIImageView+WTRLoad.m */,
+				D2A5BF8F1ED52F4F00693D59 /* WTRFilePath.h */,
+				D2A5BF901ED52F4F00693D59 /* WTRFilePath.m */,
+				D2A5BF921ED5307900693D59 /* WTRImageListShow.h */,
+				D2A5BF931ED5307900693D59 /* WTRImageListShow.m */,
 			);
 			path = WTR;
 			sourceTree = "<group>";
@@ -174,12 +209,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D2A5BF7F1ED5067A00693D59 /* README.md in Sources */,
+				D2A5BF911ED52F4F00693D59 /* WTRFilePath.m in Sources */,
+				D2A5BF821ED524BD00693D59 /* WTR.m in Sources */,
+				D2A5BF8B1ED52AD900693D59 /* WTRMutiDownloader.m in Sources */,
+				D2A5BF851ED526B400693D59 /* UIView+WTRFrame.m in Sources */,
+				D2A5BF881ED5276600693D59 /* UIImage+WTRManager.m in Sources */,
 				D2C85D711ED42E0800528873 /* ViewController.m in Sources */,
+				D2A5BF8E1ED52E5000693D59 /* UIImageView+WTRLoad.m in Sources */,
 				D2C85D6E1ED42E0800528873 /* AppDelegate.m in Sources */,
 				D2C85D6B1ED42E0800528873 /* main.m in Sources */,
-				D2C85D891ED432E800528873 /* WTRAppDelegate.m in Sources */,
-				D2C85D851ED4319B00528873 /* WTRZX.m in Sources */,
+				D2A5BF941ED5307900693D59 /* WTRImageListShow.m in Sources */,
+				D2C85D891ED432E800528873 /* WTRZAppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

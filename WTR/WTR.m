@@ -1,16 +1,17 @@
 //
-//  WTRZX.m
-//  PocketUniversity
+//  WTR.m
+//  WTRGitCs
 //
-//  Created by wangfuzhong on 15/7/16.
-//  Copyright (c) 2015年 CY. All rights reserved.
+//  Created by wfz on 2017/5/24.
+//  Copyright © 2017年 wfz. All rights reserved.
 //
 
-#import "WTRZX.h"
+#import "WTR.h"
 #include <ifaddrs.h>
 #include <arpa/inet.h>
-
 #import "WTRDefine.h"
+
+#import <CommonCrypto/CommonCrypto.h>
 
 @interface TextFieldLinkViewWTR : NSObject
 
@@ -23,19 +24,19 @@
 
 @end
 
-@interface WTRZX ()
+@interface WTR ()
 
 @property(nonatomic,strong)NSMutableArray *textfLinkArray;
 
 @end
 
 static id _s;
-@implementation WTRZX
+@implementation WTR
 {
     TextFieldLinkViewWTR *curinttf;
 }
 
-+(WTRZX *)shareinstence
++(WTR *)shareinstence
 {
     @synchronized(self){
         if (_s==nil) {
@@ -68,22 +69,22 @@ static id _s;
     if (!textfiledOrTextView||!view) {
         return;
     }
-   
+    
     TextFieldLinkViewWTR *one=[[TextFieldLinkViewWTR alloc]init];
     one.textfiled=textfiledOrTextView;
     one.transView=view;
-    [[WTRZX shareinstence].textfLinkArray addObject:one];
+    [[WTR shareinstence].textfLinkArray addObject:one];
 }
 +(void)removeKeyboardTransform:(UIView *)textfiledOrTextView
 {
-    for (int i=0; i<[WTRZX shareinstence].textfLinkArray.count; i++) {
-        TextFieldLinkViewWTR *one=[[WTRZX shareinstence].textfLinkArray objectAtIndex:i];
+    for (int i=0; i<[WTR shareinstence].textfLinkArray.count; i++) {
+        TextFieldLinkViewWTR *one=[[WTR shareinstence].textfLinkArray objectAtIndex:i];
         if (one.textfiled==textfiledOrTextView) {
             if ([one.textfiled isFirstResponder]) {
                 [one.textfiled resignFirstResponder];
                 one.transView.transform=CGAffineTransformIdentity;
             }
-            [[WTRZX shareinstence].textfLinkArray removeObjectAtIndex:i];
+            [[WTR shareinstence].textfLinkArray removeObjectAtIndex:i];
         }
     }
 }
@@ -91,8 +92,8 @@ static id _s;
 -(void)getcurintTfLink
 {
     curinttf=nil;
-    for (int i=0; i<[WTRZX shareinstence].textfLinkArray.count; i++) {
-        TextFieldLinkViewWTR *one=[[WTRZX shareinstence].textfLinkArray objectAtIndex:i];
+    for (int i=0; i<[WTR shareinstence].textfLinkArray.count; i++) {
+        TextFieldLinkViewWTR *one=[[WTR shareinstence].textfLinkArray objectAtIndex:i];
         if (one.textfiled&&[one.textfiled isKindOfClass:[UIView class]]&&one.textfiled.superview&&one.transView&&[one.textfiled isFirstResponder]) {
             curinttf=one;
         }
@@ -101,9 +102,9 @@ static id _s;
 }
 +(void)huishoujianpan
 {
-    [[WTRZX shareinstence] getcurintTfLink];
-    if ([WTRZX shareinstence]->curinttf) {
-        [[WTRZX shareinstence]->curinttf.textfiled resignFirstResponder];
+    [[WTR shareinstence] getcurintTfLink];
+    if ([WTR shareinstence]->curinttf) {
+        [[WTR shareinstence]->curinttf.textfiled resignFirstResponder];
     }
 }
 #pragma mark 键盘消息
@@ -119,7 +120,7 @@ static id _s;
     if (height<0.2) {
         return;
     }
-
+    
     WTRAppDelegate *delegate = (WTRAppDelegate *)[[UIApplication sharedApplication] delegate];
     
     CGRect rect=[curinttf.textfiled convertRect:curinttf.textfiled.bounds toView:delegate.window];
@@ -136,7 +137,7 @@ static id _s;
 }
 +(CGSize)getsizeOfStr:(NSString *)str Fontsize:(UIFont *)tyfont Width:(CGFloat )ww
 {
-    return [WTRZX getsizeOfStr:str Attributes:@{NSFontAttributeName:tyfont} Width:ww];
+    return [WTR getsizeOfStr:str Attributes:@{NSFontAttributeName:tyfont} Width:ww];
 }
 
 +(CGSize)getsizeOfStr:(NSString *)str Attributes:(NSDictionary *)attributes Width:(CGFloat )ww
@@ -162,22 +163,20 @@ static id _s;
     
     while (curintb<attrlength) {
         NSAttributedString *curtes=[attString attributedSubstringFromRange:NSMakeRange(curintb, attrlength-curintb)];
-        CGSize curtessize=[WTRZX getSizeOfStr:curtes Size:CGSizeMake(bbsize.width, 9000)];
+        CGSize curtessize=[WTR getSizeOfStr:curtes Size:CGSizeMake(bbsize.width, 9000)];
         
         while (curtessize.height>bbsize.height) {
             NSInteger curintle=curtes.length;
-//            NSLog(@"%d",curintle);
             if (curintle-1<=0) {
                 break;
             }
-            
             NSInteger leftnum=curintle-1;
             CGFloat bili=curtessize.height/bbsize.height;
             if (bili>1.1) {
                 leftnum=curtes.length/bili;
             }
             curtes=[curtes attributedSubstringFromRange:NSMakeRange(0,leftnum)];
-            curtessize=[WTRZX getSizeOfStr:curtes Size:CGSizeMake(bbsize.width, 9000)];
+            curtessize=[WTR getSizeOfStr:curtes Size:CGSizeMake(bbsize.width, 9000)];
         }
         if (curtes.length>0) {
             NSRange cra=NSMakeRange(curintb, curtes.length);
@@ -195,51 +194,6 @@ static id _s;
         NSLog(@"解析成功");
     }
     return muarr;
-}
-
-+(void)showmsge:(NSString *)msg
-{
-    [WTRZX showmsge:msg time:1];
-}
-+(void)showmsge:(NSString *)msg time:(NSTimeInterval )timint
-{
-    if (!msg||![msg isKindOfClass:[NSString class]]) {
-        return;
-    }
-    
-    UILabel *showmsgla=[UILabel new];
-    showmsgla.textColor=[UIColor whiteColor];//UIColorFromRGB(0x999999);
-    showmsgla.backgroundColor=[UIColor colorWithRed:0 green:0 blue:0 alpha:0.9];
-    showmsgla.textAlignment=NSTextAlignmentCenter;
-    showmsgla.text=msg;
-    showmsgla.numberOfLines=0;
-    showmsgla.font=[UIFont systemFontOfSize:15];
-    LayerMakeCorner(showmsgla, 5);
-    
-    WTRAppDelegate *delegate = (WTRAppDelegate *)[[UIApplication sharedApplication] delegate];
-    [delegate.window addSubview:showmsgla];
-    showmsgla.alpha=0;
-    
-    CGSize ss=[WTRZX getsizeOfStr:msg Fontsize:showmsgla.font Width:ScreenWidth-20];
-    
-    ss.height=ss.width;
-    if (ss.height>80) {
-        ss.height=80;
-    }
-    
-    CGFloat jww=(ScreenWidth-ss.width-20)/2.0,jhh=(ScreenHeight-ss.height-20)/2.0;
-    
-    showmsgla.frame=CGRectMake(jww, jhh-50, ss.width+20, ss.height+20);
-    
-    [UIView animateWithDuration:0.25 animations:^{
-        showmsgla.alpha=1;
-    }completion:^(BOOL finished) {
-        [UIView animateWithDuration:0.5 delay:timint options:UIViewAnimationOptionCurveEaseIn animations:^{
-            showmsgla.alpha=0.1;
-        } completion:^(BOOL finished) {
-            [showmsgla removeFromSuperview];
-        }];
-    }];
 }
 
 + (NSString *)timestringof:(NSDate *)date
@@ -434,9 +388,9 @@ static id _s;
 {
     NSFileManager* manager = [NSFileManager defaultManager];
     if (![manager fileExistsAtPath:folderPath]) return 0;
-
+    
     NSArray *arr=[manager subpathsAtPath:folderPath];
-
+    
     NSEnumerator *childFilesEnumerator = [arr objectEnumerator];//从前向后枚举器
     NSString* fileName;
     long long folderSize = 0;
@@ -474,4 +428,40 @@ static id _s;
     return 0;
 }
 
++(UIViewController *)curintViewController
+{
+    WTRAppDelegate *appdele=(WTRAppDelegate *)[UIApplication sharedApplication].delegate;
+    
+    UITabBarController *cutabc=(UITabBarController *)appdele.window.rootViewController;
+    
+    if ([cutabc isKindOfClass:[UITabBarController class]]) {
+        UINavigationController *rootnav=cutabc.viewControllers[cutabc.selectedIndex];
+        return [rootnav.viewControllers lastObject];
+    }
+    else if ([cutabc isKindOfClass:[UINavigationController class]]){
+        return [cutabc.viewControllers lastObject];
+    }
+    else
+        return cutabc;
+}
+
 @end
+
+
+@implementation NSData (WTRMDJiaMi)
+
+-(NSString *)md5jiami
+{
+    unsigned char result[CC_MD5_DIGEST_LENGTH];
+    
+    CC_MD5([self bytes], (CC_LONG)[self length], result);
+    
+    return [NSString stringWithFormat:@"%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X",
+            result[0], result[1], result[2], result[3],
+            result[4], result[5], result[6], result[7],
+            result[8], result[9], result[10], result[11],
+            result[12], result[13], result[14], result[15]
+            ]; //lowercaseString] 小写
+}
+@end
+

@@ -18,8 +18,15 @@
 #ifdef __OBJC__
 #import <UIKit/UIKit.h>
 #import <Foundation/Foundation.h>
-#import "WTRAppDelegate.h"
-#import "WTRZX.h"
+#import "WTRZAppDelegate.h"
+#import "WTR.h"
+#import "UIView+WTRFrame.h"
+#import "UIImage+WTRManager.h"
+#import "WTRFilePath.h"
+#import "WTRImageListShow.h"
+
+//#import "UIImageView+WTRLoad.h"
+//#import "WTRMutiDownloader.h"
 
 
 #define ISIOS8 ([UIDevice currentDevice].systemVersion.floatValue>=8.0)
@@ -60,6 +67,8 @@ blue: ((float)(rgbValue & 0xFF)) / 255.0 alpha : 1.0]
 //字体
 #define WJIACUZITI(x) [UIFont fontWithName:@"Helvetica-Bold" size:x] //加粗字体
 
+//自定义手势返回
+#define WGESTUREPUSH {self.navigationController.interactivePopGestureRecognizer.enabled = YES;self.navigationController.interactivePopGestureRecognizer.delegate = nil;}
 
 #endif
 
