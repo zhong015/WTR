@@ -7,6 +7,7 @@
 //
 
 #import "WTRDIYTransitions.h"
+#import "WTRDefine.h"
 
 @implementation pushTransitioningWWAl
 

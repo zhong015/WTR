@@ -9,7 +9,7 @@
 //自定义转场动画
 
 #import <Foundation/Foundation.h>
-
+#import <UIKit/UIKit.h>
 
 @interface pushTransitioningWWAl : NSObject<UIViewControllerAnimatedTransitioning>
 @end

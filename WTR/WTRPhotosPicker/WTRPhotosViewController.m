@@ -8,7 +8,7 @@
 
 #import "WTRPhotosViewController.h"
 #import "WTRPhotosAssetViewController.h"
-#import "AppDelegate.h"
+#import "WTRDefine.h"
 
 @interface WTRPhotosViewController ()<UITableViewDelegate,UITableViewDataSource,PHPhotoLibraryChangeObserver>
 
@@ -41,7 +41,7 @@
     photosvc.maxSelectNum=maxnum;
     photosvc.targetSize=targetSize;
     photosvc.contentMode=contentMode;
-    AppDelegate *app=(AppDelegate *)[UIApplication sharedApplication].delegate;
+    WTRAppDelegate *app=(WTRAppDelegate *)[UIApplication sharedApplication].delegate;
     [app.window.rootViewController presentViewController:[[UINavigationController alloc] initWithRootViewController:photosvc] animated:YES completion:nil];
 }
 -(void)backMethod
