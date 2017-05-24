@@ -7,7 +7,7 @@
 //
 
 #import "UIImageView+WTRLoad.h"
-#import "WTRDefine.h"
+#import "WTRBaseDefine.h"
 
 @interface WTRImageLoadOb : NSObject
 

@@ -7,7 +7,7 @@
 //
 
 #import "WTRMutiDownloader.h"
-#import "WTRDefine.h"
+#import "WTRBaseDefine.h"
 
 #define WTRMutiMaxfileSize 4  //下载单个文件最大大小 k
 #define WTRMutiMaxNum 5  //最多同步下载个数

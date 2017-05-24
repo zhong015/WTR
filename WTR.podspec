@@ -91,25 +91,39 @@ Pod::Spec.new do |s|
   #  Not including the public_header_files will make all headers public.
   #
 
-  s.source_files  = "WTR/*.{h,m}","WTR/*/*.{h,m}"
+  s.source_files  = "WTR/WTRDefine.h"
   # s.exclude_files = "Classes/Exclude"
   # s.public_header_files = "WTR/WTRDefine.h"
 
   s.subspec 'WTRBase' do |ss|
-    ss.source_files = 'WTR/WTRFilePath.{h,m}','WTR/UIView+WTRFrame.{h,m}','WTR/WTR.{h,m}','WTR/WTRZAppDelegate.{h,m}'
+    ss.source_files = 'WTR/WTRFilePath.{h,m}','WTR/UIView+WTRFrame.{h,m}','WTR/WTR.{h,m}','WTR/WTRZAppDelegate.{h,m}','WTR/WTRBaseDefine.h'
   end
 
   s.subspec 'WTRDIYTransitions' do |ss|
     ss.source_files = 'WTR/WTRDIYTransitions.{h,m}'
+    ss.dependency 'WTR/WTRBase'
   end
 
   s.subspec 'WTRPhotosPicker' do |ss|
     ss.source_files = 'WTR/PHIMCollectionViewCell.{h,m}','WTR/WTRPhotosAssetViewController.{h,m}','WTR/WTRPhotosShowViewController.{h,m}','WTR/WTRPhotosViewController.{h,m}'
+    ss.dependency 'WTR/WTRBase'
   end
 
   s.subspec 'WTRVideo' do |ss|
     ss.source_files = 'WTR/WTRVideoCut.{h,m}'
+    ss.dependency 'WTR/WTRBase'
   end
+
+  s.subspec 'WTRDownload' do |ss|
+    ss.source_files = 'WTR/WTRMultipartForm.{h,m}','WTR/WTRMutiDownloader.{h,m}',"WTR/UIImageView+WTRLoad.{h,m}"
+    ss.dependency 'WTR/WTRBase'
+  end
+
+  s.subspec 'WTRImageManager' do |ss|
+    ss.source_files = "WTR/UIImage+WTRManager.{h,m}",'WTR/WTRImageListShow.{h,m}'
+    ss.dependency 'WTR/WTRBase'
+  end
+
 
 
   # ――― Resources ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #

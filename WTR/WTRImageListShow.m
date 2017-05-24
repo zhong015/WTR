@@ -7,7 +7,7 @@
 //
 
 #import "WTRImageListShow.h"
-#import "WTRDefine.h"
+#import "WTRBaseDefine.h"
 #import "UIImageView+WTRLoad.h"
 
 @interface WTRImageListShow ()<UIActionSheetDelegate,UIScrollViewDelegate>

@@ -61,6 +61,7 @@
 		D26444841ED5740400190727 /* WTRDIYTransitions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WTRDIYTransitions.m; sourceTree = "<group>"; };
 		D26444861ED5740E00190727 /* WTRFilePath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WTRFilePath.h; sourceTree = "<group>"; };
 		D26444871ED5740E00190727 /* WTRFilePath.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WTRFilePath.m; sourceTree = "<group>"; };
+		D26444891ED5846700190727 /* WTRBaseDefine.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WTRBaseDefine.h; sourceTree = "<group>"; };
 		D2C85D661ED42E0800528873 /* WTRGitCs.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WTRGitCs.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D2C85D6A1ED42E0800528873 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		D2C85D6C1ED42E0800528873 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -88,6 +89,7 @@
 		D26444531ED5732400190727 /* WTRBase */ = {
 			isa = PBXGroup;
 			children = (
+				D26444891ED5846700190727 /* WTRBaseDefine.h */,
 				D26444861ED5740E00190727 /* WTRFilePath.h */,
 				D26444871ED5740E00190727 /* WTRFilePath.m */,
 				D26444541ED5733800190727 /* UIView+WTRFrame.h */,

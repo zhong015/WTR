@@ -9,7 +9,7 @@
 #import "WTR.h"
 #include <ifaddrs.h>
 #include <arpa/inet.h>
-#import "WTRDefine.h"
+#import "WTRBaseDefine.h"
 
 #import <CommonCrypto/CommonCrypto.h>
 
