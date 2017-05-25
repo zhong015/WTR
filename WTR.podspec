@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
   #
 
   s.name         = "WTR"
-  s.version      = "0.0.9"
+  s.version      = "0.0.10"
   s.summary      = "基本快捷方法"
 
   # This description is used to generate tags and improve search results.
@@ -125,7 +125,9 @@ Pod::Spec.new do |s|
     ss.dependency 'WTR/WTRDownload'
   end
 
-
+  s.subspec 'WTRHUD' do |ss|
+    ss.source_files = "WTR/WTRHUD.{h,m}",'WTR/SVIndefiniteAnimatedView2.{h,m}'
+  end
 
   # ――― Resources ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
   #
@@ -140,6 +142,7 @@ Pod::Spec.new do |s|
 
   # s.preserve_paths = "FilesToSave", "MoreFilesToSave"
 
+  s.resources    = 'WTR/WTRBundle.bundle'
 
   # ――― Project Linking ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
   #

@@ -7,7 +7,7 @@
 //
 
 #import "ViewController.h"
-
+#import "WTRHUD.h"
 @interface ViewController ()
 
 @end
@@ -18,6 +18,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     
+    [WTRHUD showHUDBInView:self.view];
 }
 
 
