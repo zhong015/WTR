@@ -17,10 +17,12 @@
  
     .layer.masksToBounds=YES;//键盘弹起，切掉超出部分
  */
-+(void)addKeyboardTransform:(UIView *)textfiledOrTextView TransView:(UIView *)view;//监听键盘高度 自动调整view
-+(void)removeKeyboardTransform:(UIView *)textfiledOrTextView; //移除监听
++(void)addKeyboardTransform:(UIView <UIKeyInput>*)textfiledOrTextView TransView:(UIView *)view;//监听键盘高度 自动调整view
++(void)addKeyboardTransform:(UIView <UIKeyInput>*)textfiledOrTextView TransView:(UIView *)view addHeight:(CGFloat )adh; //adh 多增加的高度
 
-+(void)huishoujianpan;//回收监听的键盘
++(void)removeKeyboardTransform:(UIView <UIKeyInput>*)textfiledOrTextView; //移除监听
+
++(void)huishoujianpan;//回收当前监听的键盘
 
 
 //获取字符串所占区域大小

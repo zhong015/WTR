@@ -15,8 +15,9 @@
 
 @interface TextFieldLinkViewWTR : NSObject
 
-@property(nonatomic,weak)UIView *textfiled;
+@property(nonatomic,weak)UIView <UIKeyInput>* textfiled;
 @property(nonatomic,weak)UIView *transView;
+@property(nonatomic,assign)CGFloat adh;
 
 @end
 
@@ -64,18 +65,22 @@ static id _s;
     return self;
 }
 
-+(void)addKeyboardTransform:(UIView *)textfiledOrTextView TransView:(UIView *)view
++(void)addKeyboardTransform:(UIView <UIKeyInput>*)textfiledOrTextView TransView:(UIView *)view
+{
+    [self addKeyboardTransform:textfiledOrTextView TransView:view addHeight:0.0];
+}
++(void)addKeyboardTransform:(UIView <UIKeyInput>*)textfiledOrTextView TransView:(UIView *)view addHeight:(CGFloat )adh
 {
     if (!textfiledOrTextView||!view) {
         return;
     }
-    
     TextFieldLinkViewWTR *one=[[TextFieldLinkViewWTR alloc]init];
     one.textfiled=textfiledOrTextView;
     one.transView=view;
+    one.adh=adh;
     [[WTR shareinstence].textfLinkArray addObject:one];
 }
-+(void)removeKeyboardTransform:(UIView *)textfiledOrTextView
++(void)removeKeyboardTransform:(id <UIKeyInput>)textfiledOrTextView
 {
     for (int i=0; i<[WTR shareinstence].textfLinkArray.count; i++) {
         TextFieldLinkViewWTR *one=[[WTR shareinstence].textfLinkArray objectAtIndex:i];
@@ -88,7 +93,6 @@ static id _s;
         }
     }
 }
-
 -(void)getcurintTfLink
 {
     curinttf=nil;
@@ -121,6 +125,8 @@ static id _s;
         return;
     }
     
+    height=height+curinttf.adh;
+    
     WTRAppDelegate *delegate = (WTRAppDelegate *)[[UIApplication sharedApplication] delegate];
     
     CGRect rect=[curinttf.textfiled convertRect:curinttf.textfiled.bounds toView:delegate.window];
@@ -135,22 +141,22 @@ static id _s;
     [self getcurintTfLink];
     curinttf=nil;
 }
+
+#pragma mark 计算文字大小
 +(CGSize)getsizeOfStr:(NSString *)str Fontsize:(UIFont *)tyfont Width:(CGFloat )ww
 {
     return [WTR getsizeOfStr:str Attributes:@{NSFontAttributeName:tyfont} Width:ww];
 }
-
 +(CGSize)getsizeOfStr:(NSString *)str Attributes:(NSDictionary *)attributes Width:(CGFloat )ww
 {
     return [str boundingRectWithSize:CGSizeMake(ww,4000) options:NSStringDrawingUsesFontLeading|NSStringDrawingTruncatesLastVisibleLine|NSStringDrawingUsesLineFragmentOrigin attributes:attributes context:nil].size;
 }
-#pragma mark 计算文字栏
-
 +(CGSize)getSizeOfStr:(NSAttributedString *)attString Size:(CGSize)size
 {
     return [attString boundingRectWithSize:size options:NSStringDrawingUsesFontLeading|NSStringDrawingTruncatesLastVisibleLine|NSStringDrawingUsesLineFragmentOrigin context:nil].size;
 }
 
+#pragma mark 计算文字栏
 +(NSArray *)getPagesAttributedString:(NSAttributedString *)attString size:(CGSize)bbsize
 {
     if (!attString||![attString isKindOfClass:[NSAttributedString class]]||attString.length==0) {
