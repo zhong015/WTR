@@ -48,7 +48,7 @@
 +(NSString *)AllCachesSize; //所有缓存大小
 
 
-+(UIViewController *)curintViewController;
++(UIViewController *)curintViewController;//当前ViewController
 
 @end
 

@@ -19,10 +19,12 @@
 
 #import "WTRImageListShow.h"
 #import "UIImage+WTRManager.h"
-#import "UIImageView+WTRLoad.h"
 #import "WTRMutiDownloader.h"
 #import "WTRPhotosViewController.h"
 #import "WTRImageListShow.h"
 #import "WTRVideoCut.h"
+#import "WTRHUD.h"
+
+//#import "UIImageView+WTRLoad.h"
 
 #endif /* Define_h */

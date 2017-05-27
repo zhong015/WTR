@@ -7,7 +7,7 @@
 //
 
 #import "ViewController.h"
-#import "WTRHUD.h"
+#import "WTRDefine.h"
 @interface ViewController ()
 
 @end
@@ -18,9 +18,13 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     
-    [WTRHUD showHUDBInView:self.view];
+    self.view.backgroundColor=UIColorFromRGB_A(0xff00ff, 1);
+    
 }
-
+-(void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

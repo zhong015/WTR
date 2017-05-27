@@ -41,6 +41,12 @@ colorWithRed: ((float)((rgbValue & 0xFF0000) >> 16)) / 255.0 \
 green: ((float)((rgbValue & 0xFF00) >> 8)) / 255.0           \
 blue: ((float)(rgbValue & 0xFF)) / 255.0 alpha : 1.0]
 
+#define UIColorFromRGB_A(rgbValue,a) [UIColor                    \
+colorWithRed: ((float)((rgbValue & 0xFF0000) >> 16)) / 255.0 \
+green: ((float)((rgbValue & 0xFF00) >> 8)) / 255.0           \
+blue: ((float)(rgbValue & 0xFF)) / 255.0 alpha : a]
+
+
 //创造圆角
 #define LayerMakeCorner(view,radius) {(view).layer.cornerRadius=(radius);(view).layer.masksToBounds=YES;}
 #define LayerMakeBorder(view,_borderWidth,_borderColor) {(view).layer.borderWidth=(_borderWidth);(view).layer.borderColor=(_borderColor);}
@@ -50,6 +56,7 @@ blue: ((float)(rgbValue & 0xFF)) / 255.0 alpha : 1.0]
 #define ISString(str) (str&&[str isKindOfClass:[NSString class]]&&str.length>0)
 #define ISNumberStr(str) (str&&([str isKindOfClass:[NSString class]]||[str isKindOfClass:[NSNumber class]]))
 #define ISArray(arr) (arr&&[arr isKindOfClass:[NSArray class]])
+#define ISDictionary(dic) (dic&&[dic isKindOfClass:[NSDictionary class]])
 
 
 #define __WEAKSelf __weak typeof(self) weakSelf = self;

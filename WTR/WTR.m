@@ -431,18 +431,23 @@ static id _s;
 +(UIViewController *)curintViewController
 {
     WTRAppDelegate *appdele=(WTRAppDelegate *)[UIApplication sharedApplication].delegate;
-    
-    UITabBarController *cutabc=(UITabBarController *)appdele.window.rootViewController;
-    
+  
+    return [self curintViewControllerWith:appdele.window.rootViewController];
+}
++(UIViewController *)curintViewControllerWith:(UIViewController *)viewController
+{
+    UITabBarController *cutabc=(UITabBarController *)viewController;
     if ([cutabc isKindOfClass:[UITabBarController class]]) {
-        UINavigationController *rootnav=cutabc.viewControllers[cutabc.selectedIndex];
-        return [rootnav.viewControllers lastObject];
+        return [self curintViewControllerWith:cutabc.viewControllers[cutabc.selectedIndex]];
     }
     else if ([cutabc isKindOfClass:[UINavigationController class]]){
-        return [cutabc.viewControllers lastObject];
+        return [self curintViewControllerWith:[cutabc.viewControllers lastObject]];
     }
-    else
+    else if(cutabc.presentedViewController){
+        return [self curintViewControllerWith:cutabc.presentedViewController];
+    }else {
         return cutabc;
+    }
 }
 
 @end
