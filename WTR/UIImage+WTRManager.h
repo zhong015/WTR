@@ -17,6 +17,11 @@
 
 - (UIImage *)fixOrientation;//纠正系统相机照出来的图片方向
 
+
++ (UIImage *)imageWithWTRCIImage:(CIImage *)ciimage;
+
+- (CIImage *)WTRCIImage;
+
 - (UIImage *)boxblurImageWithBlur:(CGFloat)blur;//模糊
 
 /*

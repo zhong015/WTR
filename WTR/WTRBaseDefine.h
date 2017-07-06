@@ -22,8 +22,12 @@
 #define ISIOS8 ([UIDevice currentDevice].systemVersion.floatValue>=8.0)
 #define ISIOS9 ([UIDevice currentDevice].systemVersion.floatValue>=9.0)
 #define ISIOS10 ([UIDevice currentDevice].systemVersion.floatValue>=10.0)
+#define ISIOS11 ([UIDevice currentDevice].systemVersion.floatValue>=11.0)
+#define ISIOS12 ([UIDevice currentDevice].systemVersion.floatValue>=12.0)
+
 #define ScreenWidth  (((WTRAppDelegate *)[UIApplication sharedApplication].delegate).window.bounds.size.width)
 #define ScreenHeight  (((WTRAppDelegate *)[UIApplication sharedApplication].delegate).window.bounds.size.height)
+#define ScreenBounds  (((WTRAppDelegate *)[UIApplication sharedApplication].delegate).window.bounds)
 
 // 是否iPad
 #define isPad (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)

@@ -28,6 +28,7 @@
 //获取字符串所占区域大小
 +(CGSize)getsizeOfStr:(NSString *)str Fontsize:(UIFont *)tyfont Width:(CGFloat )ww;
 +(CGSize)getsizeOfStr:(NSString *)str Attributes:(NSDictionary *)attributes Width:(CGFloat )ww;
++(CGSize)getSizeOfStr:(NSAttributedString *)attString Size:(CGSize)size;
 
 +(NSArray *)getPagesAttributedString:(NSAttributedString *)attString size:(CGSize)bbsize;//分页
 

@@ -216,11 +216,18 @@ static id _s;
     
     NSTimeInterval timeinterv=ABS([[NSDate date] timeIntervalSinceDate:date]);
     
-    if (timeinterv>60*60*24*7||day>6) {
+    if (timeinterv>60*60*24*364||day>364) {
         NSDateFormatter *fmt3=[[NSDateFormatter alloc]init];
         [fmt3 setLocale:locale];
         [fmt3 setTimeZone:timezone];
-        [fmt3 setDateFormat:@"dd/MM/yy"];
+        [fmt3 setDateFormat:@"yyyy年M月d日"];
+        return [fmt3 stringFromDate:date];
+    }
+    else if (timeinterv>60*60*24*7||day>6) {
+        NSDateFormatter *fmt3=[[NSDateFormatter alloc]init];
+        [fmt3 setLocale:locale];
+        [fmt3 setTimeZone:timezone];
+        [fmt3 setDateFormat:@"M月d日"];
         return [fmt3 stringFromDate:date];
     }
     else if(timeinterv>60*60*24*2||day>=2)
@@ -363,6 +370,10 @@ static id _s;
 #pragma mark 清除缓存
 +(void)clearAllCaches
 {
+    
+//    [[UIImageView sharedImageDownloader].imageCache removeAllImages]; //AF
+    [[NSURLCache sharedURLCache] removeAllCachedResponses];
+    
     NSFileManager *manager=[NSFileManager defaultManager];
     NSString * cachespath=[NSHomeDirectory() stringByAppendingString:@"/Library/Caches"];
     NSArray * array2=[manager subpathsAtPath:cachespath];
@@ -449,7 +460,7 @@ static id _s;
     else if ([cutabc isKindOfClass:[UINavigationController class]]){
         return [self curintViewControllerWith:[cutabc.viewControllers lastObject]];
     }
-    else if(cutabc.presentedViewController){
+    else if(cutabc.presentedViewController&&![cutabc.presentedViewController isKindOfClass:[UIAlertController class]]){
         return [self curintViewControllerWith:cutabc.presentedViewController];
     }else {
         return cutabc;

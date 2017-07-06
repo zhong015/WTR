@@ -11,6 +11,21 @@
 
 @implementation UIImage (WTRManager)
 
+- (CIImage *)WTRCIImage
+{
+    return [[CIImage alloc] initWithImage:self];
+}
++ (UIImage *)imageWithWTRCIImage:(CIImage *)ciimage
+{
+    if (!ciimage) {
+        return nil;
+    }
+    CIContext *context = [CIContext contextWithOptions:nil];
+    CGImageRef cgimg = [context createCGImage:ciimage fromRect:[ciimage extent]];
+    UIImage *newImage = [UIImage imageWithCGImage:cgimg];
+    CGImageRelease(cgimg);
+    return newImage;
+}
 + (UIImage *)imageWithColor:(UIColor *)color size:(CGSize)size
 {
     CGRect rect = CGRectMake(0, 0, size.width, size.height);
