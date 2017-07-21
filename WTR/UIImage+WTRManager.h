@@ -13,7 +13,8 @@
 
 + (UIImage *)imageWithColor:(UIColor *)color size:(CGSize)size;
 
-- (UIImage *)imageCutWith:(CGSize)size;//改变分辨率
+- (UIImage *)imageCutWith:(CGSize)size;//改变分辨率 透明部分变白
+- (UIImage *)imageCutNoOpaqueWith:(CGSize)size;//改变分辨率 透明部分透明
 
 - (UIImage *)fixOrientation;//纠正系统相机照出来的图片方向
 

@@ -63,7 +63,7 @@
         y=-(hh-size.height)/2;
     }
     
-    UIGraphicsBeginImageContextWithOptions(size, NO, 1.0);
+    UIGraphicsBeginImageContext(size);
     
     [image drawInRect:CGRectMake(x,y,ww,hh)];
     
@@ -72,6 +72,43 @@
     
     return viewImage;
 }
+
+- (UIImage *)imageCutNoOpaqueWith:(CGSize)size
+{
+    size.width=roundf(size.width);
+    size.height=roundf(size.height);
+    
+    UIImage *image=self;
+    CGFloat ww,hh,x=0,y=0,imb,sib;
+    imb=image.size.width/image.size.height;
+    sib=size.width/size.height;
+    
+    if (imb>sib) {
+        y=0;
+        hh=size.height;
+        ww=image.size.width/image.size.height*hh;
+        x=-(ww-size.width)/2;
+    }
+    else
+    {
+        x=0;
+        ww=size.width;
+        hh=image.size.height/image.size.width*ww;
+        y=-(hh-size.height)/2;
+    }
+    
+    UIGraphicsBeginImageContextWithOptions(size, NO, 1.0);
+    CGContextRef context=UIGraphicsGetCurrentContext();
+    CGContextClearRect(context, CGRectMake(0, 0, size.width, size.height));
+    
+    [image drawInRect:CGRectMake(x,y,ww,hh)];
+    
+    UIImage *viewImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    return viewImage;
+}
+
 
 - (UIImage *)fixOrientation {
     
