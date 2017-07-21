@@ -41,6 +41,9 @@
 }
 - (UIImage *)imageCutWith:(CGSize)size
 {
+    size.width=roundf(size.width);
+    size.height=roundf(size.height);
+    
     UIImage *image=self;
     CGFloat ww,hh,x=0,y=0,imb,sib;
     imb=image.size.width/image.size.height;
@@ -60,7 +63,7 @@
         y=-(hh-size.height)/2;
     }
     
-    UIGraphicsBeginImageContext(size);
+    UIGraphicsBeginImageContextWithOptions(size, NO, 1.0);
     
     [image drawInRect:CGRectMake(x,y,ww,hh)];
     
@@ -369,5 +372,20 @@
     return outputImage;
 }
 
+#pragma mark 照片mask提取
+- (UIImage*)maskImageWithMask:(UIImage *)maskImage {
+    
+    CGImageRef maskRef = maskImage.CGImage;
+    
+    CGImageRef mask = CGImageMaskCreate(CGImageGetWidth(maskRef),
+                                        CGImageGetHeight(maskRef),
+                                        CGImageGetBitsPerComponent(maskRef),
+                                        CGImageGetBitsPerPixel(maskRef),
+                                        CGImageGetBytesPerRow(maskRef),
+                                        CGImageGetDataProvider(maskRef), NULL, false);
+    
+    CGImageRef masked = CGImageCreateWithMask([self CGImage], mask);
+    return [UIImage imageWithCGImage:masked];
+}
 
 @end

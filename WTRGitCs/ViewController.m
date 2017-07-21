@@ -8,6 +8,8 @@
 
 #import "ViewController.h"
 #import "WTRDefine.h"
+#import <CoreText/CoreText.h>
+
 @interface ViewController ()
 
 @end
@@ -19,6 +21,9 @@
     // Do any additional setup after loading the view, typically from a nib.
     
     self.view.backgroundColor=UIColorFromRGB_A(0xff00ff, 1);
+    
+    
+    
     
 }
 -(void)viewDidAppear:(BOOL)animated

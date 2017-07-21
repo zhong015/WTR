@@ -17,6 +17,7 @@
 
 - (UIImage *)fixOrientation;//纠正系统相机照出来的图片方向
 
+- (UIImage*)maskImageWithMask:(UIImage *)maskImage;//照片mask提取
 
 + (UIImage *)imageWithWTRCIImage:(CIImage *)ciimage;
 
@@ -33,5 +34,6 @@
  
  */
 - (UIImage *)applyWBlurWithRadius:(CGFloat)blurRadius tintColor:(UIColor *)tintColor saturationDeltaFactor:(CGFloat)saturationDeltaFactor maskImage:(UIImage *)maskImage;////模糊半径、饱和度、以及可选的掩盖图片
+
 
 @end
