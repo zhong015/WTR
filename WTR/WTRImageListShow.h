@@ -9,6 +9,10 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
+/*
+    图片点击放大
+ */
+
 @interface WTRImageListShow : UIView
 
 //imArry 图片链接 Index 选中的图片  tapv 点击的ImageView

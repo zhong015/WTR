@@ -16,6 +16,6 @@
 
 - (void)CancelWTRLoadCurintImageLoad;//取消当前加载的图片 后台也会取消当前图片加载，别的地方如果有相同的图片添加到后台也不会加载出来
 
-+(void)clearImageWTRLoadCacheWithURLStr:(NSString *)imageURLStr;//清楚某一张图片缓存
++(void)clearImageWTRLoadCacheWithURLStr:(NSString *)imageURLStr;//清除某一张图片缓存
 
 @end
