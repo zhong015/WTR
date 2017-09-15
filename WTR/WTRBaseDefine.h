@@ -33,8 +33,8 @@
 #define isPad (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
 
 //IOS8后 旋转屏幕 ScreenWidth与ScreenHeight会调换 下面是绝对的
-#define ScreenWidthD (([UIScreen mainScreen].bounds.size.width<[UIScreen mainScreen].bounds.size.height)?[UIScreen mainScreen].bounds.size.width:[UIScreen mainScreen].bounds.size.height)
-#define ScreenHeightD (([UIScreen mainScreen].bounds.size.width>[UIScreen mainScreen].bounds.size.height)?[UIScreen mainScreen].bounds.size.width:[UIScreen mainScreen].bounds.size.height)
+#define ScreenWidthD ((ScreenWidth<ScreenHeight)?ScreenWidth:ScreenHeight)
+#define ScreenHeightD ((ScreenWidth>ScreenHeight)?ScreenWidth:ScreenHeight)
 
 //颜色
 #define RANDOMF (arc4random()%1000/1000.0)
@@ -44,6 +44,11 @@
 colorWithRed: ((float)((rgbValue & 0xFF0000) >> 16)) / 255.0 \
 green: ((float)((rgbValue & 0xFF00) >> 8)) / 255.0           \
 blue: ((float)(rgbValue & 0xFF)) / 255.0 alpha : 1.0]
+
+#define UIColorFromRGB0x(rgbValue) [UIColor \
+colorWithRed:((float)((0x##rgbValue & 0xFF0000) >> 16))/255.0 \
+green:((float)((0x##rgbValue & 0xFF00) >> 8))/255.0 \
+blue:((float)(0x##rgbValue & 0xFF))/255.0 alpha:1.0]
 
 #define UIColorFromRGB_A(rgbValue,a) [UIColor                    \
 colorWithRed: ((float)((rgbValue & 0xFF0000) >> 16)) / 255.0 \

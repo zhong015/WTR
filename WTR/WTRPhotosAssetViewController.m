@@ -44,7 +44,7 @@
     
     if (!self.fetchResult) {
         PHFetchOptions *allPhotosOptions=[[PHFetchOptions alloc] init];
-        allPhotosOptions.sortDescriptors=@[[NSSortDescriptor sortDescriptorWithKey:@"creationDate" ascending:YES]];
+        allPhotosOptions.sortDescriptors=@[[NSSortDescriptor sortDescriptorWithKey:@"creationDate" ascending:NO]];
         self.fetchResult=[PHAsset fetchAssetsWithOptions:allPhotosOptions];
     }
 #if ShowLivePhotoOnly

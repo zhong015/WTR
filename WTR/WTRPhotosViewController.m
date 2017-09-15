@@ -70,7 +70,7 @@
 #endif
     
     PHFetchOptions *allPhotosOptions=[[PHFetchOptions alloc] init];
-    allPhotosOptions.sortDescriptors=@[[NSSortDescriptor sortDescriptorWithKey:@"creationDate" ascending:YES]];
+    allPhotosOptions.sortDescriptors=@[[NSSortDescriptor sortDescriptorWithKey:@"creationDate" ascending:NO]];
 //    allPhotos=[PHAsset fetchAssetsWithOptions:allPhotosOptions];//包活视频
     allPhotos=[PHAsset fetchAssetsWithMediaType:PHAssetMediaTypeImage options:allPhotosOptions]; //不包括视频
 

@@ -24,6 +24,8 @@
 
 - (CIImage *)WTRCIImage;
 
+-(UIImage *)imagemultiplyByR:(CGFloat)r g:(CGFloat)g b:(CGFloat)b a:(CGFloat)a;//图片像素值乘 对应系数 全写1返回原图片
+
 - (UIImage *)boxblurImageWithBlur:(CGFloat)blur;//模糊
 
 /*

@@ -11,6 +11,24 @@
 
 @implementation UIImage (WTRManager)
 
+-(UIImage *)imagemultiplyByR:(CGFloat)r g:(CGFloat)g b:(CGFloat)b a:(CGFloat)a
+{
+    CIImage *image=[self WTRCIImage];
+
+    CIFilter *msbf=[CIFilter filterWithName:@"CIColorMatrix"];
+    [msbf setValue:image forKey:@"inputImage"];
+    [msbf setValue:[CIVector vectorWithX:r Y:0 Z:0 W:0] forKey:@"inputRVector"];
+    [msbf setValue:[CIVector vectorWithX:0 Y:g Z:0 W:0] forKey:@"inputGVector"];
+    [msbf setValue:[CIVector vectorWithX:0 Y:0 Z:b W:0] forKey:@"inputBVector"];
+    [msbf setValue:[CIVector vectorWithX:0 Y:0 Z:0 W:a] forKey:@"inputAVector"];
+    
+//    [msbf setValue:[CIVector vectorWithX:0 Y:0 Z:0 W:0] forKey:@"inputBiasVector"];
+    
+    image=msbf.outputImage;
+    
+    return [UIImage imageWithWTRCIImage:image];
+}
+
 - (CIImage *)WTRCIImage
 {
     return [[CIImage alloc] initWithImage:self];

@@ -370,8 +370,11 @@ static id _s;
 #pragma mark 清除缓存
 +(void)clearAllCaches
 {
-    
-//    [[UIImageView sharedImageDownloader].imageCache removeAllImages]; //AF
+    /*
+     AF 需要提前运行这两个
+     [[UIImageView sharedImageDownloader].imageCache removeAllImages];
+     [[UIImageView sharedImageDownloader].sessionManager.session.configuration.URLCache removeAllCachedResponses];  //单个移除不管用从iOS8.0之后
+     */
     [[NSURLCache sharedURLCache] removeAllCachedResponses];
     
     NSFileManager *manager=[NSFileManager defaultManager];
