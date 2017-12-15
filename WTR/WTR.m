@@ -333,6 +333,68 @@ static id _s;
     NSPredicate *emailTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", emailRegex];
     return [emailTest evaluateWithObject:email];
 }
++(BOOL)isNeedURLEncoding:(NSString *)inurlstr
+{
+    /*
+     RFC 3986                   URI Generic Syntax               January 2005
+     
+     reserved    = gen-delims / sub-delims
+     
+     gen-delims  = ":" / "/" / "?" / "#" / "[" / "]" / "@"
+     
+     sub-delims  = "!" / "$" / "&" / "'" / "(" / ")"
+     / "*" / "+" / "," / ";" / "="
+     
+     uric           | unreserved / pct-encoded / ";" / "?" / ":"       |
+     |                |  / "@" / "&" / "=" / "+" / "$" / "," / "/"       |
+     |                |                                                  |
+     | uric_no_slash  | unreserved / pct-encoded / ";" / "?" / ":"       |
+     |                |  / "@" / "&" / "=" / "+" / "$" / ","             |
+     |                |                                                  |
+     | mark           | "-" / "_" / "." / "!" / "~" / "*" / "'"          |
+     |                |  / "(" / ")"
+     
+     
+     ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_.~!*'();:@&=+$,/?#[] //允许的字符
+     
+     */
+    if (!inurlstr||![inurlstr isKindOfClass:[NSString class]]||inurlstr.length==0) {
+        NSLog(@"inurlstr 输入错误");
+        return NO;
+    }
+    NSString *yxstr=@"-_.~!*'();:@&=+$,/?#[]";//允许的特殊字符
+    BOOL isneed=NO;
+    for (int i=0; i<inurlstr.length; i++) {
+        unichar c=[inurlstr characterAtIndex:i];
+        if ((c>='A'&&c<='Z')||(c>='a'&&c<='z')||(c>='0'&&c<='9')) {
+            continue;
+        }
+        BOOL istsyz=NO;
+        for (int j=0; j<yxstr.length; j++) {
+            unichar yc=[yxstr characterAtIndex:j];
+            if (yc==c) {
+                istsyz=YES;
+                break;
+            }
+        }
+        if (istsyz) {
+            continue;
+        }
+        if (c=='%') {
+            if (i+2<inurlstr.length) {
+                unichar c1=[inurlstr characterAtIndex:i+1];
+                unichar c2=[inurlstr characterAtIndex:i+2];
+                if (((c1>='0'&&c1<='9')||(c1>='A'&&c1<='F')||(c1>='a'&&c1<='f'))&&((c2>='0'&&c2<='9')||(c2>='A'&&c2<='F')||(c2>='a'&&c2<='f'))) {
+                    continue;
+                }
+            }
+        }
+        isneed=YES;
+        break;
+    }
+    return isneed;
+}
+
 + (NSString *)getIPAddress
 {
     NSString *address = @"error";
@@ -450,25 +512,44 @@ static id _s;
 
 +(UIViewController *)curintViewController
 {
-    WTRAppDelegate *appdele=(WTRAppDelegate *)[UIApplication sharedApplication].delegate;
-  
-    return [self curintViewControllerWith:appdele.window.rootViewController];
+    UIWindow *window = [[UIApplication sharedApplication].delegate window];
+    UIViewController *topViewController = [window rootViewController];
+    while (true) {
+        if (topViewController.presentedViewController&&![topViewController.presentedViewController isKindOfClass:[UIAlertController class]]) {
+            topViewController = topViewController.presentedViewController;
+        } else if ([topViewController isKindOfClass:[UINavigationController class]] && [(UINavigationController*)topViewController topViewController]) {
+            topViewController = [(UINavigationController *)topViewController topViewController];
+        } else if ([topViewController isKindOfClass:[UITabBarController class]]) {
+            UITabBarController *tab = (UITabBarController *)topViewController;
+            topViewController = tab.selectedViewController;
+        } else {
+            break;
+        }
+    }
+    return topViewController;
 }
-+(UIViewController *)curintViewControllerWith:(UIViewController *)viewController
-{
-    UITabBarController *cutabc=(UITabBarController *)viewController;
-    if ([cutabc isKindOfClass:[UITabBarController class]]) {
-        return [self curintViewControllerWith:cutabc.viewControllers[cutabc.selectedIndex]];
-    }
-    else if ([cutabc isKindOfClass:[UINavigationController class]]){
-        return [self curintViewControllerWith:[cutabc.viewControllers lastObject]];
-    }
-    else if(cutabc.presentedViewController&&![cutabc.presentedViewController isKindOfClass:[UIAlertController class]]){
-        return [self curintViewControllerWith:cutabc.presentedViewController];
-    }else {
-        return cutabc;
-    }
-}
+
+//+(UIViewController *)curintViewController
+//{
+//    WTRAppDelegate *appdele=(WTRAppDelegate *)[UIApplication sharedApplication].delegate;
+//
+//    return [self curintViewControllerWith:appdele.window.rootViewController];
+//}
+//+(UIViewController *)curintViewControllerWith:(UIViewController *)viewController
+//{
+//    UITabBarController *cutabc=(UITabBarController *)viewController;
+//    if ([cutabc isKindOfClass:[UITabBarController class]]) {
+//        return [self curintViewControllerWith:cutabc.viewControllers[cutabc.selectedIndex]];
+//    }
+//    else if ([cutabc isKindOfClass:[UINavigationController class]]){
+//        return [self curintViewControllerWith:[cutabc.viewControllers lastObject]];
+//    }
+//    else if(cutabc.presentedViewController&&![cutabc.presentedViewController isKindOfClass:[UIAlertController class]]){
+//        return [self curintViewControllerWith:cutabc.presentedViewController];
+//    }else {
+//        return cutabc;
+//    }
+//}
 
 @end
 

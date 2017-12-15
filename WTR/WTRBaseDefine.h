@@ -32,6 +32,8 @@
 // 是否iPad
 #define isPad (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
 
+#define ISIPhoneX ((ScreenHeightD==812)&&(ScreenWidthD==375))
+
 //IOS8后 旋转屏幕 ScreenWidth与ScreenHeight会调换 下面是绝对的
 #define ScreenWidthD ((ScreenWidth<ScreenHeight)?ScreenWidth:ScreenHeight)
 #define ScreenHeightD ((ScreenWidth>ScreenHeight)?ScreenWidth:ScreenHeight)

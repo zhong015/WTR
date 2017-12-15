@@ -18,13 +18,15 @@
 
 - (UIImage *)fixOrientation;//纠正系统相机照出来的图片方向
 
-- (UIImage*)maskImageWithMask:(UIImage *)maskImage;//照片mask提取
+- (UIImage *)maskImageWithMask:(UIImage *)maskImage;//照片mask提取
+
+- (UIImage *)yincangtupianWithImage:(UIImage *)img;//白色 黑色 背景隐藏图片 黑色背景显示img 白色显示self
 
 + (UIImage *)imageWithWTRCIImage:(CIImage *)ciimage;
 
 - (CIImage *)WTRCIImage;
 
--(UIImage *)imagemultiplyByR:(CGFloat)r g:(CGFloat)g b:(CGFloat)b a:(CGFloat)a;//图片像素值乘 对应系数 全写1返回原图片
+- (UIImage *)imagemultiplyByR:(CGFloat)r g:(CGFloat)g b:(CGFloat)b a:(CGFloat)a;//图片像素值乘 对应系数 全写1返回原图片
 
 - (UIImage *)boxblurImageWithBlur:(CGFloat)blur;//模糊
 

@@ -9,13 +9,13 @@
 #ifndef WTRDefine_h
 #define WTRDefine_h
 
+#import "WTRBaseDefine.h"
+
 #ifndef DEBUG
 
 #define NSLog(...) {}
 
 #endif
-
-#import "WTRBaseDefine.h"
 
 #import "WTRImageListShow.h"
 #import "UIImage+WTRManager.h"

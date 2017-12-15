@@ -8,6 +8,31 @@
 
 #import "UIImage+WTRManager.h"
 #import <Accelerate/Accelerate.h>
+#import <CommonCrypto/CommonCryptor.h>
+
+typedef struct ColorC {
+    uint8_t b;
+    uint8_t g;
+    uint8_t r;
+    uint8_t a;
+} ColorC;
+
+ColorC getColorCWithDa(char *da,long width,int i,int j)
+{
+    ColorC onec;
+    onec.b=da[i*width*4+j*4+0];
+    onec.g=da[i*width*4+j*4+1];
+    onec.r=da[i*width*4+j*4+2];
+    onec.a=da[i*width*4+j*4+3];
+    return onec;
+}
+void SetColorCWithDa(char *da,long width,int i,int j,ColorC onec)
+{
+    da[i*width*4+j*4+0]=onec.b;
+    da[i*width*4+j*4+1]=onec.g;
+    da[i*width*4+j*4+2]=onec.r;
+    da[i*width*4+j*4+3]=onec.a;
+}
 
 @implementation UIImage (WTRManager)
 
@@ -442,5 +467,110 @@
     CGImageRef masked = CGImageCreateWithMask([self CGImage], mask);
     return [UIImage imageWithCGImage:masked];
 }
+
+- (UIImage *)yincangtupianWithImage:(UIImage *)img
+{
+    CIImage *imgci1=[[CIImage alloc] initWithImage:self];
+    CIImage *imgci2=[[CIImage alloc] initWithImage:img];
+    
+    CIFilter *Monoft=[CIFilter filterWithName:@"CIPhotoEffectMono"];
+    CIFilter *Invertft=[CIFilter filterWithName:@"CIColorInvert"];
+    CIFilter *Alphaft=[CIFilter filterWithName:@"CIMaskToAlpha"];
+    
+    [Monoft setValue:imgci1 forKey:@"inputImage"];
+    imgci1=Monoft.outputImage;
+    
+    [Monoft setValue:imgci2 forKey:@"inputImage"];
+    imgci2=Monoft.outputImage;
+    
+    //1
+    [Invertft setValue:imgci1 forKey:@"inputImage"];
+    imgci1=Invertft.outputImage;
+    
+    [Alphaft setValue:imgci1 forKey:@"inputImage"];
+    imgci1=Alphaft.outputImage;
+    
+    [Invertft setValue:imgci1 forKey:@"inputImage"];
+    imgci1=Invertft.outputImage;
+    
+    //2
+    [Alphaft setValue:imgci2 forKey:@"inputImage"];
+    imgci2=Alphaft.outputImage;
+    
+    UIImage *im1=[UIImage imageWithWTRCIImage:imgci1];
+    UIImage *im2=[UIImage imageWithWTRCIImage:imgci2];
+    
+    //合成
+    UIImage *hcim=[UIImage dianhechengimage1:im1 image2:im2];
+    
+    return hcim;
+}
+
+//点 合成 图片
++(UIImage *)dianhechengimage1:(UIImage *)image1 image2:(UIImage *)image2
+{
+    CGSize size=image1.size;
+    CGRect rect = CGRectMake(0, 0, size.width, size.height);
+    
+    UIGraphicsBeginImageContextWithOptions(size, NO, 1.0);
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    CGContextClearRect(context, rect);
+    
+    [image1 drawInRect:CGRectMake(0, 0, size.width, size.height)];
+    char *da1=CGBitmapContextGetData(context);
+    
+    size_t width=CGBitmapContextGetWidth(context);
+    size_t heigth=CGBitmapContextGetHeight(context);
+    
+    size_t BitsPerComponent=CGBitmapContextGetBitsPerComponent(context);
+    
+    size_t BitsPerPixel=CGBitmapContextGetBitsPerPixel(context);
+    
+    size_t BytesPerRow=CGBitmapContextGetBytesPerRow(context);
+    
+    
+    char *imda1=malloc(width*heigth*BitsPerPixel);
+    memcpy(imda1, da1, width*heigth*4);
+    
+    CGContextClearRect(context, rect);
+    [image2 drawInRect:CGRectMake(0, 0, size.width, size.height)];
+    char *da2=CGBitmapContextGetData(context);
+    
+    char *imda2=malloc(width*heigth*BitsPerPixel);
+    memcpy(imda2, da2, width*heigth*4);
+    
+    
+    if (BitsPerPixel!=(4*8)) {
+        NSLog(@"格式错误");
+    }
+    
+    //像素点填充
+    for (int i=0; i<heigth; i++) {
+        for (int j=0; j<width; j++) {
+            if (j%2==1||i%2==1) {
+                ColorC onec=getColorCWithDa(imda2,width,i,j);
+                SetColorCWithDa(imda1, width, i, j, onec);
+            }
+        }
+    }
+    
+    CGColorSpaceRef colorspaceref=CGBitmapContextGetColorSpace(context);//CGColorSpaceCreateDeviceRGB();
+    CGBitmapInfo info=CGBitmapContextGetBitmapInfo(context);//1
+    
+    UIGraphicsEndImageContext();
+    
+    CGContextRef bitmapcontext=CGBitmapContextCreate(imda1, width, heigth, BitsPerComponent,BytesPerRow, colorspaceref, info);
+    CGImageRef imagr=CGBitmapContextCreateImage(bitmapcontext);
+    UIImage *retim=[[UIImage alloc]initWithCGImage:imagr];
+    CGImageRelease(imagr);
+    CGColorSpaceRelease(colorspaceref);
+    CGContextRelease(bitmapcontext);
+    
+    free(imda1);
+    free(imda2);
+    
+    return retim;
+}
+
 
 @end

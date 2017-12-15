@@ -41,6 +41,7 @@
 + (BOOL)isQQNum:(NSString *)QQNum;
 + (BOOL)isPhoneNum:(NSString *)phoneNum;//验证手机号
 + (BOOL)isEmail:(NSString *)email;
++ (BOOL)isNeedURLEncoding:(NSString *)inurlstr;//是否需要URLEncoding
 
 + (NSString *)getIPAddress; //获得ipv4的IP 如果是ipv6网络返回error  或者 [ipstr hasPrefix:@"169.254."]
 

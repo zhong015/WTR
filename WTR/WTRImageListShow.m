@@ -278,7 +278,17 @@
         }
         UIImageView *imv=(UIImageView *)recognizer.view;
         curintim=imv.image;
-        [[WTR curintViewController] presentViewController:actionContr animated:YES completion:nil];
+        
+        if(isPad){
+            CGPoint po=[recognizer locationInView:recognizer.view];
+            UIPopoverPresentationController *popPresenter=[actionContr popoverPresentationController];
+            popPresenter.sourceView=recognizer.view;
+            popPresenter.sourceRect=CGRectMake(po.x, po.y, 20, 20);
+            [[WTR curintViewController] presentViewController:actionContr animated:YES completion:nil];
+        }else{
+            [[WTR curintViewController] presentViewController:actionContr animated:YES completion:nil];
+        }
+        
     }
 }
 

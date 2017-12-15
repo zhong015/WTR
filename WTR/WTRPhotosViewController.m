@@ -220,13 +220,13 @@
 }
 -(void)openSettingApp
 {
-    if (ISIOS10) {
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString] options:@{UIApplicationOpenURLOptionUniversalLinksOnly:[NSNumber numberWithBool:YES]} completionHandler:nil];
-    }
-    else
-    {
+//    if (ISIOS10) {
+//        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString] options:@{UIApplicationOpenURLOptionUniversalLinksOnly:[NSNumber numberWithBool:YES]} completionHandler:nil];
+//    }
+//    else
+//    {
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
-    }
+//    }
 }
 
 - (void)didReceiveMemoryWarning {
