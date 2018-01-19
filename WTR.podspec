@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
   #
 
   s.name         = "WTR"
-  s.version      = "0.0.17"
+  s.version      = "0.0.18"
   s.summary      = "WTR基本快捷方法"
 
   # This description is used to generate tags and improve search results.
@@ -105,7 +105,7 @@ Pod::Spec.new do |s|
   end
 
   s.subspec 'WTRPhotosPicker' do |ss|
-    ss.source_files = 'WTR/PHIMCollectionViewCell.{h,m}','WTR/WTRPhotosAssetViewController.{h,m}','WTR/WTRPhotosShowViewController.{h,m}','WTR/WTRPhotosViewController.{h,m}'
+    ss.source_files = 'WTR/WTRImageCutView.{h,m}','WTR/PHIMCollectionViewCell.{h,m}','WTR/WTRPhotosAssetViewController.{h,m}','WTR/WTRPhotosShowViewController.{h,m}','WTR/WTRPhotosViewController.{h,m}'
     ss.dependency 'WTR/WTRBase'
   end
 

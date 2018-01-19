@@ -9,6 +9,8 @@
 #ifndef WTRDefine_h
 #define WTRDefine_h
 
+#ifdef __OBJC__
+
 #import "WTRBaseDefine.h"
 
 #ifndef DEBUG
@@ -26,5 +28,7 @@
 #import "WTRHUD.h"
 
 //#import "UIImageView+WTRLoad.h"
+
+#endif
 
 #endif /* Define_h */

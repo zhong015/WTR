@@ -8,28 +8,59 @@
 
 #import "ViewController.h"
 #import "WTRDefine.h"
-#import <CoreText/CoreText.h>
+#import "SLImageSelectViewController.h"
 
-@interface ViewController ()
+@interface ViewController ()<UITableViewDelegate,UITableViewDataSource>
 
 @end
 
 @implementation ViewController
-
+{
+    NSArray *nameArray;
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     
-    self.view.backgroundColor=UIColorFromRGB_A(0xff00ff, 1);
+    nameArray=@[@"图片选取剪切"];
     
+    UITableView *tablev=[[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
+    tablev.dataSource=self;
+    tablev.delegate=self;
+    [self.view addSubview:tablev];
     
+    tablev.contentInset=UIEdgeInsetsMake(ISIPhoneX?44:20, 0, ISIPhoneX?40:20, 0);
     
+    [tablev registerClass:[UITableViewCell class] forCellReuseIdentifier:@"cell"];
     
 }
--(void)viewDidAppear:(BOOL)animated
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    [super viewDidAppear:animated];
+    return nameArray.count;
 }
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
+    
+    cell.textLabel.text=nameArray[indexPath.row];
+    
+    return cell;
+}
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    switch (indexPath.row) {
+        case 0:
+            {
+                SLImageSelectViewController *scvc=[SLImageSelectViewController new];
+                [self.navigationController pushViewController:scvc animated:YES];
+            }
+            break;
+            
+        default:
+            break;
+    }
+}
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

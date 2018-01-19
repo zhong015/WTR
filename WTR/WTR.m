@@ -9,6 +9,7 @@
 #import "WTR.h"
 #include <ifaddrs.h>
 #include <arpa/inet.h>
+#include <net/if.h>
 #import "WTRBaseDefine.h"
 
 #import <CommonCrypto/CommonCrypto.h>
@@ -395,39 +396,122 @@ static id _s;
     return isneed;
 }
 
-+ (NSString *)getIPAddress
+//搭个服务器，以php为例，输出 $_SERVER['REMOTE_ADDR'] 就是用户的外网IP了（如果要考虑代理服务器的情况就稍微麻烦点）
++(NSString *)getIPAddress
 {
-    NSString *address = @"error";
-    struct ifaddrs *interfaces = NULL;
-    struct ifaddrs *temp_addr = NULL;
-    int success = 0;
-    // retrieve the current interfaces - returns 0 on success
-    success = getifaddrs(&interfaces);
-    if (success == 0)
-    {
-        // Loop through linked list of interfaces
-        temp_addr = interfaces;
-        while (temp_addr != NULL)
-        {
-            if (temp_addr->ifa_addr->sa_family == AF_INET)
-            {
-                // Check if interface is en0 which is the wifi connection on the iPhone
-                NSString *interfaceName = [NSString stringWithUTF8String:temp_addr->ifa_name];
-                if ([interfaceName isEqualToString:@"en0"] || [interfaceName isEqualToString:@"en1"])
-                {
-                    // Get NSString from C String
-                    address = [NSString stringWithUTF8String:inet_ntoa(((struct sockaddr_in *)temp_addr->ifa_addr)->sin_addr)];
-                }
+    NSDictionary *addresses = [self getIPAddresses];
+    NSLog(@"addresses: %@", addresses);
+    
+    NSString *address=nil;
+    
+    //ipv6
+    for (NSString *key in addresses.allKeys) {
+        NSString *ipdz=addresses[key];
+        if ([key hasPrefix:@"en"]&&[key rangeOfString:@"ipv6"].length>0) {
+            if ([ipdz hasPrefix:@"fe80"]) {
+                continue;
             }
-            
-            temp_addr = temp_addr->ifa_next;
+            address=ipdz;
+            break;
+        }
+    }
+    if (address) {
+        return address;
+    }
+    
+    //ipv4
+    for (NSString *key in addresses.allKeys) {
+        NSString *ipdz=addresses[key];
+        if ([key hasPrefix:@"en"]&&[ipdz hasPrefix:@"192.168"]) {
+            address=ipdz;
+            break;
         }
     }
     
-    // Free memory
-    freeifaddrs(interfaces);
+    if (address) {
+        return address;
+    }
+    
+    for (NSString *key in addresses.allKeys) {
+        NSString *ipdz=addresses[key];
+        if ([ipdz hasPrefix:@"192.168"]) {
+            address=ipdz;
+            break;
+        }
+    }
+    if (address) {
+        return address;
+    }
+    
+    for (NSString *key in addresses.allKeys) {
+        NSString *ipdz=addresses[key];
+        if ([key rangeOfString:@"ipv4"].length>0) {
+            if ([ipdz isEqualToString:@"127.0.0.1"]||[ipdz hasPrefix:@"169.254"]) {
+                continue;
+            }
+            address=ipdz;
+            break;
+        }
+    }
+    if (address) {
+        return address;
+    }
+    
+    //ipv6
+    for (NSString *key in addresses.allKeys) {
+        NSString *ipdz=addresses[key];
+        if ([key rangeOfString:@"ipv6"].length>0) {
+            if ([ipdz hasPrefix:@"fe80"]) {
+                continue;
+            }
+            address=ipdz;
+            break;
+        }
+    }
+    
     return address;
 }
+
++(NSDictionary *)getIPAddresses
+{
+    NSMutableDictionary *addresses = [NSMutableDictionary dictionaryWithCapacity:8];
+    
+    // retrieve the current interfaces - returns 0 on success
+    struct ifaddrs *interfaces;
+    if(!getifaddrs(&interfaces)) {
+        // Loop through linked list of interfaces
+        struct ifaddrs *interface;
+        for(interface=interfaces; interface; interface=interface->ifa_next) {
+            if(!(interface->ifa_flags & IFF_UP) /* || (interface->ifa_flags & IFF_LOOPBACK) */ ) {
+                continue; // deeply nested code harder to read
+            }
+            const struct sockaddr_in *addr = (const struct sockaddr_in*)interface->ifa_addr;
+            char addrBuf[ MAX(INET_ADDRSTRLEN, INET6_ADDRSTRLEN) ];
+            if(addr && (addr->sin_family==AF_INET || addr->sin_family==AF_INET6)) {
+                NSString *name = [NSString stringWithUTF8String:interface->ifa_name];
+                NSString *type;
+                if(addr->sin_family == AF_INET) {
+                    if(inet_ntop(AF_INET, &addr->sin_addr, addrBuf, INET_ADDRSTRLEN)) {
+                        type = @"ipv4";
+                    }
+                } else {
+                    const struct sockaddr_in6 *addr6 = (const struct sockaddr_in6*)interface->ifa_addr;
+                    if(inet_ntop(AF_INET6, &addr6->sin6_addr, addrBuf, INET6_ADDRSTRLEN)) {
+                        type = @"ipv6";
+                    }
+                }
+                if(type) {
+                    NSString *key = [NSString stringWithFormat:@"%@/%@", name, type];
+                    addresses[key] = [NSString stringWithUTF8String:addrBuf];
+                }
+            }
+        }
+        // Free memory
+        freeifaddrs(interfaces);
+    }
+    return [addresses count] ? addresses : nil;
+}
+
 
 #pragma mark 清除缓存
 +(void)clearAllCaches

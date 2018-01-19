@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D2207C4C20109E09002E10C6 /* WTRImageCutView.m in Sources */ = {isa = PBXBuildFile; fileRef = D2207C4B20109E09002E10C6 /* WTRImageCutView.m */; };
+		D2389D9C2011736800179CEA /* ImageCutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D2389D9A2011736800179CEA /* ImageCutViewController.m */; };
+		D2389D9F2011739700179CEA /* SLImageSelectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D2389D9E2011739700179CEA /* SLImageSelectViewController.m */; };
 		D24D18D81ED65BE400AB1583 /* WTRBundle.bundle in Resources */ = {isa = PBXBuildFile; fileRef = D24D18D71ED65BE400AB1583 /* WTRBundle.bundle */; };
 		D24D18DB1ED65C6B00AB1583 /* SVIndefiniteAnimatedView2.m in Sources */ = {isa = PBXBuildFile; fileRef = D24D18DA1ED65C6B00AB1583 /* SVIndefiniteAnimatedView2.m */; };
 		D24D18DE1ED65D8600AB1583 /* WTRHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = D24D18DD1ED65D8600AB1583 /* WTRHUD.m */; };
@@ -28,12 +31,18 @@
 		D2C85D6B1ED42E0800528873 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D2C85D6A1ED42E0800528873 /* main.m */; };
 		D2C85D6E1ED42E0800528873 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D2C85D6D1ED42E0800528873 /* AppDelegate.m */; };
 		D2C85D711ED42E0800528873 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D2C85D701ED42E0800528873 /* ViewController.m */; };
-		D2C85D741ED42E0800528873 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D2C85D721ED42E0800528873 /* Main.storyboard */; };
 		D2C85D761ED42E0800528873 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D2C85D751ED42E0800528873 /* Assets.xcassets */; };
 		D2C85D791ED42E0800528873 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D2C85D771ED42E0800528873 /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		D2207C4A20109E09002E10C6 /* WTRImageCutView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WTRImageCutView.h; sourceTree = "<group>"; };
+		D2207C4B20109E09002E10C6 /* WTRImageCutView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WTRImageCutView.m; sourceTree = "<group>"; };
+		D2389D9A2011736800179CEA /* ImageCutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageCutViewController.m; sourceTree = "<group>"; };
+		D2389D9B2011736800179CEA /* ImageCutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageCutViewController.h; sourceTree = "<group>"; };
+		D2389D9D2011739700179CEA /* SLImageSelectViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SLImageSelectViewController.h; sourceTree = "<group>"; };
+		D2389D9E2011739700179CEA /* SLImageSelectViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SLImageSelectViewController.m; sourceTree = "<group>"; };
+		D2389DA02011755800179CEA /* Define.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Define.h; sourceTree = "<group>"; };
 		D24D18D71ED65BE400AB1583 /* WTRBundle.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = WTRBundle.bundle; sourceTree = "<group>"; };
 		D24D18D91ED65C6B00AB1583 /* SVIndefiniteAnimatedView2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVIndefiniteAnimatedView2.h; sourceTree = "<group>"; };
 		D24D18DA1ED65C6B00AB1583 /* SVIndefiniteAnimatedView2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVIndefiniteAnimatedView2.m; sourceTree = "<group>"; };
@@ -76,7 +85,6 @@
 		D2C85D6D1ED42E0800528873 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		D2C85D6F1ED42E0800528873 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		D2C85D701ED42E0800528873 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
-		D2C85D731ED42E0800528873 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		D2C85D751ED42E0800528873 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D2C85D781ED42E0800528873 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D2C85D7A1ED42E0800528873 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -94,6 +102,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		D2389D992011736800179CEA /* 图片选取剪切 */ = {
+			isa = PBXGroup;
+			children = (
+				D2389D9D2011739700179CEA /* SLImageSelectViewController.h */,
+				D2389D9E2011739700179CEA /* SLImageSelectViewController.m */,
+				D2389D9B2011736800179CEA /* ImageCutViewController.h */,
+				D2389D9A2011736800179CEA /* ImageCutViewController.m */,
+			);
+			path = "图片选取剪切";
+			sourceTree = "<group>";
+		};
 		D24D18D61ED65BAC00AB1583 /* WTRHUD */ = {
 			isa = PBXGroup;
 			children = (
@@ -149,6 +168,8 @@
 		D264446E1ED573B800190727 /* WTRPhotosPicker */ = {
 			isa = PBXGroup;
 			children = (
+				D2207C4A20109E09002E10C6 /* WTRImageCutView.h */,
+				D2207C4B20109E09002E10C6 /* WTRImageCutView.m */,
 				D264446F1ED573CE00190727 /* PHIMCollectionViewCell.h */,
 				D26444701ED573CE00190727 /* PHIMCollectionViewCell.m */,
 				D26444711ED573CE00190727 /* WTRPhotosAssetViewController.h */,
@@ -182,6 +203,7 @@
 		D2A5BF951ED5353900693D59 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				D2389D992011736800179CEA /* 图片选取剪切 */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -189,6 +211,7 @@
 		D2C85D5D1ED42E0800528873 = {
 			isa = PBXGroup;
 			children = (
+				D2389DA02011755800179CEA /* Define.h */,
 				D2C85D801ED4319B00528873 /* WTR */,
 				D2A5BF951ED5353900693D59 /* UI */,
 				D2C85D681ED42E0800528873 /* WTRGitCs */,
@@ -211,7 +234,6 @@
 				D2C85D6D1ED42E0800528873 /* AppDelegate.m */,
 				D2C85D6F1ED42E0800528873 /* ViewController.h */,
 				D2C85D701ED42E0800528873 /* ViewController.m */,
-				D2C85D721ED42E0800528873 /* Main.storyboard */,
 				D2C85D751ED42E0800528873 /* Assets.xcassets */,
 				D2C85D771ED42E0800528873 /* LaunchScreen.storyboard */,
 				D2C85D7A1ED42E0800528873 /* Info.plist */,
@@ -231,8 +253,8 @@
 		D2C85D801ED4319B00528873 /* WTR */ = {
 			isa = PBXGroup;
 			children = (
-				D24D18D61ED65BAC00AB1583 /* WTRHUD */,
 				D2C85D861ED431C200528873 /* WTRDefine.h */,
+				D24D18D61ED65BAC00AB1583 /* WTRHUD */,
 				D26444821ED573FD00190727 /* WTRDIYTransitions */,
 				D264447B1ED573DC00190727 /* WTRVideo */,
 				D264446E1ED573B800190727 /* WTRPhotosPicker */,
@@ -304,7 +326,6 @@
 			files = (
 				D2C85D791ED42E0800528873 /* LaunchScreen.storyboard in Resources */,
 				D2C85D761ED42E0800528873 /* Assets.xcassets in Resources */,
-				D2C85D741ED42E0800528873 /* Main.storyboard in Resources */,
 				D24D18D81ED65BE400AB1583 /* WTRBundle.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -317,6 +338,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D26444651ED5735A00190727 /* WTRMultipartForm.m in Sources */,
+				D2389D9C2011736800179CEA /* ImageCutViewController.m in Sources */,
 				D26444851ED5740400190727 /* WTRDIYTransitions.m in Sources */,
 				D24D18DB1ED65C6B00AB1583 /* SVIndefiniteAnimatedView2.m in Sources */,
 				D26444881ED5740E00190727 /* WTRFilePath.m in Sources */,
@@ -329,6 +351,8 @@
 				D26444641ED5735A00190727 /* UIImageView+WTRLoad.m in Sources */,
 				D2C85D6E1ED42E0800528873 /* AppDelegate.m in Sources */,
 				D264445A1ED5733800190727 /* UIView+WTRFrame.m in Sources */,
+				D2207C4C20109E09002E10C6 /* WTRImageCutView.m in Sources */,
+				D2389D9F2011739700179CEA /* SLImageSelectViewController.m in Sources */,
 				D26444781ED573CE00190727 /* WTRPhotosAssetViewController.m in Sources */,
 				D2C85D6B1ED42E0800528873 /* main.m in Sources */,
 				D264445B1ED5733800190727 /* WTR.m in Sources */,
@@ -342,14 +366,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		D2C85D721ED42E0800528873 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				D2C85D731ED42E0800528873 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		D2C85D771ED42E0800528873 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -458,7 +474,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = ED6U86NK2U;
-				GCC_PREFIX_HEADER = "";
+				GCC_PREFIX_HEADER = Define.h;
 				INFOPLIST_FILE = WTRGitCs/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -472,7 +488,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = ED6U86NK2U;
-				GCC_PREFIX_HEADER = "";
+				GCC_PREFIX_HEADER = Define.h;
 				INFOPLIST_FILE = WTRGitCs/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

@@ -43,8 +43,7 @@
 + (BOOL)isEmail:(NSString *)email;
 + (BOOL)isNeedURLEncoding:(NSString *)inurlstr;//是否需要URLEncoding
 
-+ (NSString *)getIPAddress; //获得ipv4的IP 如果是ipv6网络返回error  或者 [ipstr hasPrefix:@"169.254."]
-
++ (NSString *)getIPAddress;
 
 + (CGFloat)getFileSize:(NSString *)path; //此方法可以获取文件的大小，返回的是单位是M。
 

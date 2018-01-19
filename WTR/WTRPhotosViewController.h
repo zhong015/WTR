@@ -16,7 +16,7 @@
 #define WTRPhotoImageHeight 80 //图片显示高
 
 #define ShowLivePhotoOnly 0    //只显示Live图片
-#define ISYShowLivePhoto 1     //是否有点击预览Live图片按钮
+#define ISYShowLivePhoto 0     //是否有点击预览Live图片按钮
 
 #define IsShowAddAlbumBu 0     //是否显示添加相册集按钮 
 
