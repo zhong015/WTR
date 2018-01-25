@@ -7,7 +7,7 @@ Podfile
 platform :ios, '8.0'
 
 target 'TargetName' do
-pod 'WTR', '~> 0.0.17'
+pod 'WTR', '~> 0.0.19'
 end
 ```
 

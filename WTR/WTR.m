@@ -134,7 +134,12 @@ static id _s;
     
     CGFloat hh=ScreenHeight-rect.origin.y-rect.size.height;
     if (hh<height) {
-        curinttf.transView.transform=CGAffineTransformMakeTranslation(0, -(height-hh+20));
+        if ([curinttf.transView isKindOfClass:[UIScrollView class]]) {
+            UIScrollView *scrolv=(UIScrollView *)curinttf.transView;
+            [scrolv setContentOffset:CGPointMake(0, scrolv.contentOffset.y+(height-hh+20)) animated:YES];
+        }else{
+            curinttf.transView.transform=CGAffineTransformMakeTranslation(0, -(height-hh+20));
+        }
     }
 }
 -(void)keyboardwillhide:(NSNotification *)noti
@@ -201,6 +206,22 @@ static id _s;
         NSLog(@"解析成功");
     }
     return muarr;
+}
+
++ (NSDate *)dateWithISOFormatString:(NSString *)dateString {
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    formatter.timeZone = [NSTimeZone timeZoneForSecondsFromGMT:0];
+    formatter.locale = [[NSLocale alloc] initWithLocaleIdentifier:@"en_US_POSIX"];
+    formatter.dateFormat = @"yyyy-MM-dd'T'HH:mm:ss";
+    return [formatter dateFromString:dateString];
+}
+
++ (NSDate *)dateWithISOFormatStringZ:(NSString *)dateString {
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    formatter.timeZone = [NSTimeZone timeZoneForSecondsFromGMT:0];
+    formatter.locale = [[NSLocale alloc] initWithLocaleIdentifier:@"en_US_POSIX"];
+    formatter.dateFormat = @"yyyy-MM-dd'T'HH:mm:ssZ";
+    return [formatter dateFromString:dateString];
 }
 
 + (NSString *)timestringof:(NSDate *)date

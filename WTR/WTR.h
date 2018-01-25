@@ -32,6 +32,9 @@
 
 +(NSArray *)getPagesAttributedString:(NSAttributedString *)attString size:(CGSize)bbsize;//分页
 
++ (NSDate *)dateWithISOFormatString:(NSString *)dateString;
++ (NSDate *)dateWithISOFormatStringZ:(NSString *)dateString;
+
 + (NSString *)timestringof:(NSDate *)date; //时间显示
 
 + (BOOL)isContainsEmoji:(NSString *)string; //是否包含表情
