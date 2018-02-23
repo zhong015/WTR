@@ -18,6 +18,9 @@
 @property(nonatomic,assign)CGSize targetSize;
 @property(nonatomic,assign)PHImageContentMode contentMode;
 
+@property(nonatomic,strong) UIColor *barTintColor;
+@property(nonatomic,strong) UIColor *tintColor;
+@property(nonatomic,assign) BOOL StatusBarIsBlack;//状态栏文字是否是黑色 默认NO (修改的时候 推荐 写在界面init方法里,可以提前改变状态)
 
 @end
 
@@ -32,18 +35,46 @@
 }
 +(void)showWTRPhotosViewControllerWithDelegate:(id <WTRPhotosViewControllerDelegate> )delegate MaxSelectNum:(NSInteger)maxnum
 {
-    [self showWTRPhotosViewControllerWithDelegate:delegate MaxSelectNum:maxnum targetSize:CGSizeMake(200, 200) contentMode:PHImageContentModeAspectFill];
+    [self showWTRPhotosViewControllerWithDelegate:delegate MaxSelectNum:maxnum targetSize:CGSizeMake(200, 200) contentMode:PHImageContentModeAspectFill barTintColor:nil tintColor:nil statusBarIsBlack:YES];
 }
-+(void)showWTRPhotosViewControllerWithDelegate:(id <WTRPhotosViewControllerDelegate> )delegate MaxSelectNum:(NSInteger)maxnum targetSize:(CGSize)targetSize contentMode:(PHImageContentMode)contentMode
++(void)showWTRPhotosViewControllerWithDelegate:(id <WTRPhotosViewControllerDelegate> )delegate MaxSelectNum:(NSInteger)maxnum barTintColor:(UIColor *)barTintColor tintColor:(UIColor *)tintColor statusBarIsBlack:(BOOL)statusBarIsBlack
+{
+    [self showWTRPhotosViewControllerWithDelegate:delegate MaxSelectNum:maxnum targetSize:CGSizeMake(200, 200) contentMode:PHImageContentModeAspectFill barTintColor:barTintColor tintColor:tintColor statusBarIsBlack:statusBarIsBlack];
+}
++(void)showWTRPhotosViewControllerWithDelegate:(id <WTRPhotosViewControllerDelegate> )delegate MaxSelectNum:(NSInteger)maxnum targetSize:(CGSize)targetSize contentMode:(PHImageContentMode)contentMode barTintColor:(UIColor *)barTintColor tintColor:(UIColor *)tintColor statusBarIsBlack:(BOOL)statusBarIsBlack
 {
     WTRPhotosViewController *photosvc=[[WTRPhotosViewController alloc] init];
+    photosvc.StatusBarIsBlack=statusBarIsBlack;
     photosvc.delegate=delegate;
     photosvc.maxSelectNum=maxnum;
     photosvc.targetSize=targetSize;
     photosvc.contentMode=contentMode;
-    WTRAppDelegate *app=(WTRAppDelegate *)[UIApplication sharedApplication].delegate;
-    [app.window.rootViewController presentViewController:[[UINavigationController alloc] initWithRootViewController:photosvc] animated:YES completion:nil];
+    photosvc.barTintColor=barTintColor;
+    photosvc.tintColor=tintColor;
+    
+    UINavigationController *nav=[[UINavigationController alloc] initWithRootViewController:photosvc];
+    nav.navigationBar.barTintColor=barTintColor;
+    nav.navigationBar.tintColor=tintColor;
+    [[WTR curintViewController] presentViewController:nav animated:YES completion:nil];
 }
+
+-(id)init
+{
+    self=[super init];
+    if (self) {
+        self.StatusBarIsBlack=NO;
+    }
+    return self;
+}
+
+-(UIStatusBarStyle)preferredStatusBarStyle
+{
+    if (self.StatusBarIsBlack) {
+        return UIStatusBarStyleDefault;
+    }
+    return UIStatusBarStyleLightContent;
+}
+
 -(void)backMethod
 {
     if (self.navigationController&&(self.navigationController.viewControllers.count>1)) {
@@ -169,6 +200,7 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     WTRPhotosAssetViewController *assetvc=[[WTRPhotosAssetViewController alloc] init];
+    assetvc.StatusBarIsBlack=self.StatusBarIsBlack;
     
     PHAssetCollection *collection=nil;
     

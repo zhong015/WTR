@@ -25,7 +25,27 @@
     
     NSMutableArray *_dataArray;
     BOOL isneedReload;
+    
+    BOOL iswancheng;
 }
+
+-(id)init
+{
+    self=[super init];
+    if (self) {
+        self.StatusBarIsBlack=NO;
+    }
+    return self;
+}
+
+-(UIStatusBarStyle)preferredStatusBarStyle
+{
+    if (self.StatusBarIsBlack) {
+        return UIStatusBarStyleDefault;
+    }
+    return UIStatusBarStyleLightContent;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor=[UIColor whiteColor];
@@ -75,6 +95,9 @@
     _collection.autoresizingMask=UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
   
     [[PHPhotoLibrary sharedPhotoLibrary] registerChangeObserver:self];
+    
+    iswancheng=NO;
+    self.navigationItem.rightBarButtonItem =[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(wancheng)];
 }
 -(void)showmsg
 {
@@ -262,10 +285,21 @@
     [collectionView reloadItemsAtIndexPaths:@[indexPath]];
     [self updataSelectState];
 }
+
+-(void)wancheng
+{
+    if (selectArray.count==0) {
+        [self dismissMethod];
+    }else{
+        iswancheng=YES;
+        [self updataSelectState];
+    }
+}
 -(void)updataSelectState
 {
-    if (selectArray.count>=self.maxSelectNum) {
-         loadnum=0;
+    if (selectArray.count>=self.maxSelectNum||iswancheng) {
+        iswancheng=NO;
+        loadnum=0;
         if (self.delegate&&[self.delegate respondsToSelector:@selector(selectWTRImageArray:)]) {
             
             BOOL isRetLivePhoto=[self.delegate respondsToSelector:@selector(selectWTRLivePhotoJPGAndMovPathArray:)];
@@ -362,6 +396,7 @@
     
     WTRPhotosShowViewController *showvc=[[WTRPhotosShowViewController alloc]init];
     showvc.asset=asset;
+    showvc.StatusBarIsBlack=self.StatusBarIsBlack;
     [self.navigationController pushViewController:showvc animated:YES];
 }
 -(void)viewDidAppear:(BOOL)animated

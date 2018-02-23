@@ -39,6 +39,8 @@
 
 +(void)showWTRPhotosViewControllerWithDelegate:(id <WTRPhotosViewControllerDelegate> )delegate MaxSelectNum:(NSInteger)maxnum;
 
-+(void)showWTRPhotosViewControllerWithDelegate:(id <WTRPhotosViewControllerDelegate> )delegate MaxSelectNum:(NSInteger)maxnum targetSize:(CGSize)targetSize contentMode:(PHImageContentMode)contentMode;
++(void)showWTRPhotosViewControllerWithDelegate:(id <WTRPhotosViewControllerDelegate> )delegate MaxSelectNum:(NSInteger)maxnum barTintColor:(UIColor *)barTintColor tintColor:(UIColor *)tintColor statusBarIsBlack:(BOOL)statusBarIsBlack;
+
++(void)showWTRPhotosViewControllerWithDelegate:(id <WTRPhotosViewControllerDelegate> )delegate MaxSelectNum:(NSInteger)maxnum targetSize:(CGSize)targetSize contentMode:(PHImageContentMode)contentMode barTintColor:(UIColor *)barTintColor tintColor:(UIColor *)tintColor statusBarIsBlack:(BOOL)statusBarIsBlack;
 
 @end

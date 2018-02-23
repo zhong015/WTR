@@ -10,12 +10,30 @@
 
 @interface WTRPhotosShowViewController ()
 
+
 @end
 
 @implementation WTRPhotosShowViewController
 {
     PHImageRequestID reqid;
     PHLivePhotoView *liveview;
+}
+
+-(id)init
+{
+    self=[super init];
+    if (self) {
+        self.StatusBarIsBlack=NO;
+    }
+    return self;
+}
+
+-(UIStatusBarStyle)preferredStatusBarStyle
+{
+    if (self.StatusBarIsBlack) {
+        return UIStatusBarStyleDefault;
+    }
+    return UIStatusBarStyleLightContent;
 }
 
 -(void)backMethod

@@ -22,6 +22,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    self.view.backgroundColor=[UIColor whiteColor];
     
     UIButton *bu=[UIButton new];
     
@@ -34,10 +35,9 @@
 }
 
 
-
 -(void)selectimage
 {
-    [WTRPhotosViewController showWTRPhotosViewControllerWithDelegate:self];
+    [WTRPhotosViewController showWTRPhotosViewControllerWithDelegate:self MaxSelectNum:3 barTintColor:[UIColor blueColor] tintColor:[UIColor whiteColor] statusBarIsBlack:NO];
 }
 -(void)selectWTRImageArray:(NSArray <UIImage *> *)imageArray
 {
