@@ -28,6 +28,7 @@
 		D264447E1ED573E600190727 /* WTRVideoCut.m in Sources */ = {isa = PBXBuildFile; fileRef = D264447D1ED573E600190727 /* WTRVideoCut.m */; };
 		D26444851ED5740400190727 /* WTRDIYTransitions.m in Sources */ = {isa = PBXBuildFile; fileRef = D26444841ED5740400190727 /* WTRDIYTransitions.m */; };
 		D26444881ED5740E00190727 /* WTRFilePath.m in Sources */ = {isa = PBXBuildFile; fileRef = D26444871ED5740E00190727 /* WTRFilePath.m */; };
+		D2A91208203FA74900B41AD0 /* WTRSTBarNavViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D2A91207203FA74900B41AD0 /* WTRSTBarNavViewController.m */; };
 		D2C85D6B1ED42E0800528873 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D2C85D6A1ED42E0800528873 /* main.m */; };
 		D2C85D6E1ED42E0800528873 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D2C85D6D1ED42E0800528873 /* AppDelegate.m */; };
 		D2C85D711ED42E0800528873 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D2C85D701ED42E0800528873 /* ViewController.m */; };
@@ -79,6 +80,8 @@
 		D26444861ED5740E00190727 /* WTRFilePath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WTRFilePath.h; sourceTree = "<group>"; };
 		D26444871ED5740E00190727 /* WTRFilePath.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WTRFilePath.m; sourceTree = "<group>"; };
 		D26444891ED5846700190727 /* WTRBaseDefine.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WTRBaseDefine.h; sourceTree = "<group>"; };
+		D2A91206203FA74900B41AD0 /* WTRSTBarNavViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WTRSTBarNavViewController.h; sourceTree = "<group>"; };
+		D2A91207203FA74900B41AD0 /* WTRSTBarNavViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WTRSTBarNavViewController.m; sourceTree = "<group>"; };
 		D2C85D661ED42E0800528873 /* WTRGitCs.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WTRGitCs.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D2C85D6A1ED42E0800528873 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		D2C85D6C1ED42E0800528873 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -137,6 +140,8 @@
 				D26444571ED5733800190727 /* WTR.m */,
 				D26444581ED5733800190727 /* WTRZAppDelegate.h */,
 				D26444591ED5733800190727 /* WTRZAppDelegate.m */,
+				D2A91206203FA74900B41AD0 /* WTRSTBarNavViewController.h */,
+				D2A91207203FA74900B41AD0 /* WTRSTBarNavViewController.m */,
 			);
 			name = WTRBase;
 			sourceTree = "<group>";
@@ -340,6 +345,7 @@
 				D26444651ED5735A00190727 /* WTRMultipartForm.m in Sources */,
 				D2389D9C2011736800179CEA /* ImageCutViewController.m in Sources */,
 				D26444851ED5740400190727 /* WTRDIYTransitions.m in Sources */,
+				D2A91208203FA74900B41AD0 /* WTRSTBarNavViewController.m in Sources */,
 				D24D18DB1ED65C6B00AB1583 /* SVIndefiniteAnimatedView2.m in Sources */,
 				D26444881ED5740E00190727 /* WTRFilePath.m in Sources */,
 				D264447A1ED573CE00190727 /* WTRPhotosViewController.m in Sources */,

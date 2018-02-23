@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
   #
 
   s.name         = "WTR"
-  s.version      = "0.0.20"
+  s.version      = "0.0.21"
   s.summary      = "WTR基本快捷方法"
 
   # This description is used to generate tags and improve search results.
@@ -96,7 +96,7 @@ Pod::Spec.new do |s|
   # s.public_header_files = "WTR/WTRDefine.h"
 
   s.subspec 'WTRBase' do |ss|
-    ss.source_files = 'WTR/WTRFilePath.{h,m}','WTR/UIView+WTRFrame.{h,m}','WTR/WTR.{h,m}','WTR/WTRZAppDelegate.{h,m}','WTR/WTRBaseDefine.h'
+    ss.source_files = 'WTR/WTRSTBarNavViewController.{h,m}','WTR/WTRFilePath.{h,m}','WTR/UIView+WTRFrame.{h,m}','WTR/WTR.{h,m}','WTR/WTRZAppDelegate.{h,m}','WTR/WTRBaseDefine.h'
   end
 
   s.subspec 'WTRDIYTransitions' do |ss|

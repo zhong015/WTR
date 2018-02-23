@@ -9,6 +9,7 @@
 #import "WTRPhotosViewController.h"
 #import "WTRPhotosAssetViewController.h"
 #import "WTRBaseDefine.h"
+#import "WTRSTBarNavViewController.h"
 
 @interface WTRPhotosViewController ()<UITableViewDelegate,UITableViewDataSource,PHPhotoLibraryChangeObserver>
 
@@ -52,9 +53,10 @@
     photosvc.barTintColor=barTintColor;
     photosvc.tintColor=tintColor;
     
-    UINavigationController *nav=[[UINavigationController alloc] initWithRootViewController:photosvc];
+    WTRSTBarNavViewController *nav=[[WTRSTBarNavViewController alloc] initWithRootViewController:photosvc];
     nav.navigationBar.barTintColor=barTintColor;
     nav.navigationBar.tintColor=tintColor;
+    nav.StatusBarIsBlack=statusBarIsBlack;
     [[WTR curintViewController] presentViewController:nav animated:YES completion:nil];
 }
 
