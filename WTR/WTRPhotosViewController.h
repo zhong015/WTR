@@ -12,21 +12,13 @@
 #import <Photos/Photos.h>
 #import <PhotosUI/PhotosUI.h>
 
-#define WTRPhotoImageWidth 80  //图片显示宽
-#define WTRPhotoImageHeight 80 //图片显示高
-
-#define ShowLivePhotoOnly 0    //只显示Live图片
-#define ISYShowLivePhoto 0     //是否有点击预览Live图片按钮
-
-#define IsShowAddAlbumBu 0     //是否显示添加相册集按钮 
-
 @protocol WTRPhotosViewControllerDelegate <NSObject>
 
--(void)selectWTRImageArray:(NSArray <UIImage *> *)imageArray;
+-(void)selectImageArray:(NSArray <UIImage *> *)imageArray;
 
 @optional
 
--(void)selectWTRLivePhotoJPGAndMovPathArray:(NSArray <NSString *> *)jpgAndMovPathArray;
+-(void)selectMovPathArray:(NSArray <NSString *> *)movPathArray;//视频选取回调
 
 //用于选择图片后处理ViewController Push 默认YES
 -(BOOL)dismissMethodShouldAction:(UINavigationController *)WTRPhotoNav;
@@ -37,10 +29,13 @@
 
 +(void)showWTRPhotosViewControllerWithDelegate:(id <WTRPhotosViewControllerDelegate> )delegate;
 
-+(void)showWTRPhotosViewControllerWithDelegate:(id <WTRPhotosViewControllerDelegate> )delegate MaxSelectNum:(NSInteger)maxnum;
++(void)showWTRPhotosViewControllerWithDelegate:(id <WTRPhotosViewControllerDelegate> )delegate MaxSelectImageNum:(NSInteger)imageNum videoNum:(NSInteger)videoNum;
 
-+(void)showWTRPhotosViewControllerWithDelegate:(id <WTRPhotosViewControllerDelegate> )delegate MaxSelectNum:(NSInteger)maxnum barTintColor:(UIColor *)barTintColor tintColor:(UIColor *)tintColor statusBarIsBlack:(BOOL)statusBarIsBlack;
-
-+(void)showWTRPhotosViewControllerWithDelegate:(id <WTRPhotosViewControllerDelegate> )delegate MaxSelectNum:(NSInteger)maxnum targetSize:(CGSize)targetSize contentMode:(PHImageContentMode)contentMode barTintColor:(UIColor *)barTintColor tintColor:(UIColor *)tintColor statusBarIsBlack:(BOOL)statusBarIsBlack;
+/*
+ imageNum:  最大选择图片的数量
+ videoNum： 最大选择视频的数量
+ duration:  可选择视频最大时长 (秒)  0 未限制
+ */
++(void)showWTRPhotosViewControllerWithDelegate:(id <WTRPhotosViewControllerDelegate> )delegate MaxSelectImageNum:(NSInteger)imageNum videoNum:(NSInteger)videoNum MaxDuration:(NSInteger)maxDuration barTintColor:(UIColor *)barTintColor tintColor:(UIColor *)tintColor statusBarIsBlack:(BOOL)statusBarIsBlack;
 
 @end

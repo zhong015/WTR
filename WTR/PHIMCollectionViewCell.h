@@ -10,9 +10,10 @@
 
 @interface PHIMCollectionViewCell : UICollectionViewCell
 
-@property(nonatomic,strong)UIImageView *imageView,*livePhotoBadgeImageView;
+@property(nonatomic,strong)UIImageView *imageView;
 @property(nonatomic,copy)NSString *tagstr;
 
-@property(nonatomic,assign)BOOL isSelectImage;
+
+-(void)setIsImage:(BOOL)isImage MovDuration:(NSTimeInterval)duration maxDuration:(NSInteger)maxDuration SelectType:(int)SelectType Num:(NSInteger)num;
 
 @end

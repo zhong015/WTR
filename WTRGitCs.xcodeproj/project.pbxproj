@@ -23,7 +23,6 @@
 		D264446D1ED573AE00190727 /* WTRImageListShow.m in Sources */ = {isa = PBXBuildFile; fileRef = D264446B1ED573AE00190727 /* WTRImageListShow.m */; };
 		D26444771ED573CE00190727 /* PHIMCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D26444701ED573CE00190727 /* PHIMCollectionViewCell.m */; };
 		D26444781ED573CE00190727 /* WTRPhotosAssetViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D26444721ED573CE00190727 /* WTRPhotosAssetViewController.m */; };
-		D26444791ED573CE00190727 /* WTRPhotosShowViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D26444741ED573CE00190727 /* WTRPhotosShowViewController.m */; };
 		D264447A1ED573CE00190727 /* WTRPhotosViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D26444761ED573CE00190727 /* WTRPhotosViewController.m */; };
 		D264447E1ED573E600190727 /* WTRVideoCut.m in Sources */ = {isa = PBXBuildFile; fileRef = D264447D1ED573E600190727 /* WTRVideoCut.m */; };
 		D26444851ED5740400190727 /* WTRDIYTransitions.m in Sources */ = {isa = PBXBuildFile; fileRef = D26444841ED5740400190727 /* WTRDIYTransitions.m */; };
@@ -69,8 +68,6 @@
 		D26444701ED573CE00190727 /* PHIMCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHIMCollectionViewCell.m; sourceTree = "<group>"; };
 		D26444711ED573CE00190727 /* WTRPhotosAssetViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WTRPhotosAssetViewController.h; sourceTree = "<group>"; };
 		D26444721ED573CE00190727 /* WTRPhotosAssetViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WTRPhotosAssetViewController.m; sourceTree = "<group>"; };
-		D26444731ED573CE00190727 /* WTRPhotosShowViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WTRPhotosShowViewController.h; sourceTree = "<group>"; };
-		D26444741ED573CE00190727 /* WTRPhotosShowViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WTRPhotosShowViewController.m; sourceTree = "<group>"; };
 		D26444751ED573CE00190727 /* WTRPhotosViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WTRPhotosViewController.h; sourceTree = "<group>"; };
 		D26444761ED573CE00190727 /* WTRPhotosViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WTRPhotosViewController.m; sourceTree = "<group>"; };
 		D264447C1ED573E600190727 /* WTRVideoCut.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WTRVideoCut.h; sourceTree = "<group>"; };
@@ -123,7 +120,6 @@
 				D24D18DD1ED65D8600AB1583 /* WTRHUD.m */,
 				D24D18D91ED65C6B00AB1583 /* SVIndefiniteAnimatedView2.h */,
 				D24D18DA1ED65C6B00AB1583 /* SVIndefiniteAnimatedView2.m */,
-				D24D18D71ED65BE400AB1583 /* WTRBundle.bundle */,
 			);
 			name = WTRHUD;
 			sourceTree = "<group>";
@@ -175,14 +171,12 @@
 			children = (
 				D2207C4A20109E09002E10C6 /* WTRImageCutView.h */,
 				D2207C4B20109E09002E10C6 /* WTRImageCutView.m */,
+				D26444751ED573CE00190727 /* WTRPhotosViewController.h */,
+				D26444761ED573CE00190727 /* WTRPhotosViewController.m */,
 				D264446F1ED573CE00190727 /* PHIMCollectionViewCell.h */,
 				D26444701ED573CE00190727 /* PHIMCollectionViewCell.m */,
 				D26444711ED573CE00190727 /* WTRPhotosAssetViewController.h */,
 				D26444721ED573CE00190727 /* WTRPhotosAssetViewController.m */,
-				D26444731ED573CE00190727 /* WTRPhotosShowViewController.h */,
-				D26444741ED573CE00190727 /* WTRPhotosShowViewController.m */,
-				D26444751ED573CE00190727 /* WTRPhotosViewController.h */,
-				D26444761ED573CE00190727 /* WTRPhotosViewController.m */,
 			);
 			name = WTRPhotosPicker;
 			sourceTree = "<group>";
@@ -259,6 +253,7 @@
 			isa = PBXGroup;
 			children = (
 				D2C85D861ED431C200528873 /* WTRDefine.h */,
+				D24D18D71ED65BE400AB1583 /* WTRBundle.bundle */,
 				D24D18D61ED65BAC00AB1583 /* WTRHUD */,
 				D26444821ED573FD00190727 /* WTRDIYTransitions */,
 				D264447B1ED573DC00190727 /* WTRVideo */,
@@ -296,7 +291,7 @@
 		D2C85D5E1ED42E0800528873 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0830;
+				LastUpgradeCheck = 0920;
 				ORGANIZATIONNAME = wfz;
 				TargetAttributes = {
 					D2C85D651ED42E0800528873 = {
@@ -351,7 +346,6 @@
 				D264447A1ED573CE00190727 /* WTRPhotosViewController.m in Sources */,
 				D24D18DE1ED65D8600AB1583 /* WTRHUD.m in Sources */,
 				D26444661ED5735A00190727 /* WTRMutiDownloader.m in Sources */,
-				D26444791ED573CE00190727 /* WTRPhotosShowViewController.m in Sources */,
 				D264446C1ED573AE00190727 /* UIImage+WTRManager.m in Sources */,
 				D2C85D711ED42E0800528873 /* ViewController.m in Sources */,
 				D26444641ED5735A00190727 /* UIImageView+WTRLoad.m in Sources */,
@@ -393,7 +387,9 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
@@ -401,7 +397,11 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -442,7 +442,9 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
@@ -450,7 +452,11 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;

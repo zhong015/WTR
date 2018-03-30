@@ -56,6 +56,9 @@
 
 +(UIViewController *)curintViewController;//当前ViewController
 
+//获取数据库一个表的所有数据
++(NSArray *)GetAllDataWithDbPath:(NSString *)path tablename:(NSString *)tablename columnArray:(NSArray <NSString *>*)columnArray;
+
 @end
 
 

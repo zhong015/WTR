@@ -13,6 +13,6 @@
 
 @property (strong, nonatomic) UIWindow *window;
 
-@property (copy) void (^backgroundSessionCompletionHandler)();
+@property (copy) void (^backgroundSessionCompletionHandler)(void);
 
 @end

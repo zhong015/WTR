@@ -8,16 +8,15 @@
 
 #import "WTRPhotosViewController.h"
 #import "WTRPhotosAssetViewController.h"
-#import "WTRBaseDefine.h"
 #import "WTRSTBarNavViewController.h"
+#import "WTRBaseDefine.h"
 
 @interface WTRPhotosViewController ()<UITableViewDelegate,UITableViewDataSource,PHPhotoLibraryChangeObserver>
 
 @property(nonatomic,assign)id <WTRPhotosViewControllerDelegate> delegate;
-@property(nonatomic,assign)NSInteger maxSelectNum;
-
-@property(nonatomic,assign)CGSize targetSize;
-@property(nonatomic,assign)PHImageContentMode contentMode;
+@property(nonatomic,assign)NSInteger maxSelectImageNum;//最大选择的照片个数  默认1个
+@property(nonatomic,assign)NSInteger maxSelectVideoNum;//最大选择的视频个数  默认1个
+@property(nonatomic,assign)NSInteger maxDuration;
 
 @property(nonatomic,strong) UIColor *barTintColor;
 @property(nonatomic,strong) UIColor *tintColor;
@@ -32,24 +31,20 @@
 }
 +(void)showWTRPhotosViewControllerWithDelegate:(id <WTRPhotosViewControllerDelegate> )delegate
 {
-    [self showWTRPhotosViewControllerWithDelegate:delegate MaxSelectNum:1];
+    [self showWTRPhotosViewControllerWithDelegate:delegate MaxSelectImageNum:1 videoNum:1];
 }
-+(void)showWTRPhotosViewControllerWithDelegate:(id <WTRPhotosViewControllerDelegate> )delegate MaxSelectNum:(NSInteger)maxnum
++(void)showWTRPhotosViewControllerWithDelegate:(id <WTRPhotosViewControllerDelegate> )delegate MaxSelectImageNum:(NSInteger)imageNum videoNum:(NSInteger)videoNum
 {
-    [self showWTRPhotosViewControllerWithDelegate:delegate MaxSelectNum:maxnum targetSize:CGSizeMake(200, 200) contentMode:PHImageContentModeAspectFill barTintColor:nil tintColor:nil statusBarIsBlack:YES];
+    [self showWTRPhotosViewControllerWithDelegate:delegate MaxSelectImageNum:imageNum videoNum:videoNum MaxDuration:0 barTintColor:nil tintColor:nil statusBarIsBlack:YES];
 }
-+(void)showWTRPhotosViewControllerWithDelegate:(id <WTRPhotosViewControllerDelegate> )delegate MaxSelectNum:(NSInteger)maxnum barTintColor:(UIColor *)barTintColor tintColor:(UIColor *)tintColor statusBarIsBlack:(BOOL)statusBarIsBlack
-{
-    [self showWTRPhotosViewControllerWithDelegate:delegate MaxSelectNum:maxnum targetSize:CGSizeMake(200, 200) contentMode:PHImageContentModeAspectFill barTintColor:barTintColor tintColor:tintColor statusBarIsBlack:statusBarIsBlack];
-}
-+(void)showWTRPhotosViewControllerWithDelegate:(id <WTRPhotosViewControllerDelegate> )delegate MaxSelectNum:(NSInteger)maxnum targetSize:(CGSize)targetSize contentMode:(PHImageContentMode)contentMode barTintColor:(UIColor *)barTintColor tintColor:(UIColor *)tintColor statusBarIsBlack:(BOOL)statusBarIsBlack
++(void)showWTRPhotosViewControllerWithDelegate:(id <WTRPhotosViewControllerDelegate> )delegate MaxSelectImageNum:(NSInteger)imageNum videoNum:(NSInteger)videoNum MaxDuration:(NSInteger)maxDuration barTintColor:(UIColor *)barTintColor tintColor:(UIColor *)tintColor statusBarIsBlack:(BOOL)statusBarIsBlack
 {
     WTRPhotosViewController *photosvc=[[WTRPhotosViewController alloc] init];
     photosvc.StatusBarIsBlack=statusBarIsBlack;
     photosvc.delegate=delegate;
-    photosvc.maxSelectNum=maxnum;
-    photosvc.targetSize=targetSize;
-    photosvc.contentMode=contentMode;
+    photosvc.maxSelectImageNum=imageNum;
+    photosvc.maxSelectVideoNum=videoNum;
+    photosvc.maxDuration=maxDuration;
     photosvc.barTintColor=barTintColor;
     photosvc.tintColor=tintColor;
     
@@ -98,15 +93,58 @@
 
     self.navigationItem.leftBarButtonItem=[[UIBarButtonItem alloc] initWithTitle:@"取消" style:UIBarButtonItemStylePlain target:self action:@selector(backMethod)];
     
-#if IsShowAddAlbumBu
-    self.navigationItem.rightBarButtonItem =[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addAlbum)];
-#endif
+    UILabel *la=[UILabel new];
+    la.text=@"照片";
+    la.textColor=[UIColor whiteColor];
+    la.textAlignment=NSTextAlignmentCenter;
+    la.font=[UIFont systemFontOfSize:18];
+    [la sizeToFit];
+    self.navigationItem.titleView=la;
     
+    [self checkAuthorization];
+}
+
+-(void)checkAuthorization
+{
+    PHAuthorizationStatus  status = [PHPhotoLibrary authorizationStatus];
+    /*
+     PHAuthorizationStatusNotDetermined   用户还没有关于这个应用程序做出了选择
+     PHAuthorizationStatusRestricted      这个应用程序未被授权访问图片数据 , 用户不能更改该应用程序的状态,可能由于活跃的限制
+     PHAuthorizationStatusDenied          用户已经明确否认了这个应用程序访问图片数据。
+     PHAuthorizationStatusAuthorized      用户授权此应用程序访问图片数据
+     */
+    if (status == PHAuthorizationStatusDenied)
+    {
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"请打开相册授权" message:@"设置->隐私->照片->本应用" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+            [self backMethod];
+        }];
+        [alert addAction:cancel];
+        UIAlertAction *skip = [UIAlertAction actionWithTitle:@"设置" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            [self performSelector:@selector(openSettingApp) withObject:nil afterDelay:0.1];
+        }];
+        [alert addAction:skip];
+        [self presentViewController:alert animated:YES completion:nil];
+    }else{
+        [PHPhotoLibrary requestAuthorization:^(PHAuthorizationStatus status) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                if (status==PHAuthorizationStatusAuthorized) {
+                    [self loadUI];
+                }else{
+                    [self backMethod];
+                }
+            });
+        }];
+    }
+}
+-(void)loadUI
+{
     PHFetchOptions *allPhotosOptions=[[PHFetchOptions alloc] init];
     allPhotosOptions.sortDescriptors=@[[NSSortDescriptor sortDescriptorWithKey:@"creationDate" ascending:NO]];
-//    allPhotos=[PHAsset fetchAssetsWithOptions:allPhotosOptions];//包活视频
-    allPhotos=[PHAsset fetchAssetsWithMediaType:PHAssetMediaTypeImage options:allPhotosOptions]; //不包括视频
-
+    
+    allPhotos=[PHAsset fetchAssetsWithOptions:allPhotosOptions];//包活视频
+//    allPhotos=[PHAsset fetchAssetsWithMediaType:PHAssetMediaTypeImage options:allPhotosOptions]; //不包括视频
+    
     smartAlbums=[PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeSmartAlbum subtype:PHAssetCollectionSubtypeAlbumRegular options:nil];
     userCollections=[PHCollectionList fetchTopLevelUserCollectionsWithOptions:nil];
     
@@ -150,25 +188,6 @@
         }
     });
 }
--(void)addAlbum
-{
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"新建相册集" message:nil preferredStyle:UIAlertControllerStyleAlert];
-    [alert addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
-        textField.placeholder=@"请输入相册集名字";
-    }];
-    [alert addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil]];
-    [alert addAction:[UIAlertAction actionWithTitle:@"创建" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        UITextField *textField=alert.textFields.firstObject;
-        NSString *title=textField.text;
-        if (title&&title.length>0) {
-            [[PHPhotoLibrary sharedPhotoLibrary] performChanges:^{
-                [PHAssetCollectionChangeRequest creationRequestForAssetCollectionWithTitle:title];
-            } completionHandler:^(BOOL success, NSError * _Nullable error) {
-            }];
-        }
-    }]];
-    [self presentViewController:alert animated:YES completion:nil];
-}
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
@@ -182,11 +201,7 @@
     cell.selectionStyle=UITableViewCellSelectionStyleNone;
     
     if (indexPath.row==0) {
-#if ShowLivePhotoOnly
-        cell.textLabel.text=@"全部Live图片";
-#else
-        cell.textLabel.text=@"全部图片";
-#endif
+        cell.textLabel.text=@"全部";
     }else if (indexPath.row>0&&indexPath.row<userCollections.count+1){
         PHCollection *collection=[userCollections objectAtIndex:indexPath.row-1];
         cell.textLabel.text = collection.localizedTitle;
@@ -208,59 +223,31 @@
     
     if (indexPath.row==0) {
         assetvc.fetchResult=allPhotos;
+        assetvc.xcName=@"全部";
     }else if (indexPath.row>0&&indexPath.row<userCollections.count+1){
         collection=[userCollections objectAtIndex:indexPath.row-1];
+        assetvc.xcName= collection.localizedTitle;
     }else if(indexPath.row>userCollections.count&&indexPath.row<1+userCollections.count+smartAlbums.count){
         collection=[smartAlbums objectAtIndex:indexPath.row-1-userCollections.count];
+        assetvc.xcName= collection.localizedTitle;
     }
     
     if (collection&&[collection isKindOfClass:[PHAssetCollection class]]) {
         assetvc.fetchResult=[PHAsset fetchAssetsInAssetCollection:collection options:nil];
     }
     assetvc.delegate=self.delegate;
-    assetvc.targetSize=self.targetSize;
-    assetvc.maxSelectNum=self.maxSelectNum;
-    assetvc.contentMode=self.contentMode;
+    assetvc.maxSelectImageNum=self.maxSelectImageNum;
+    assetvc.maxSelectVideoNum=self.maxSelectVideoNum;
+    assetvc.maxDuration=self.maxDuration;
     [self.navigationController pushViewController:assetvc animated:YES];
 }
 
--(void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-    [self checkAuthorization];
-}
--(void)checkAuthorization
-{
-    PHAuthorizationStatus  status = [PHPhotoLibrary authorizationStatus];
-    /*
-     PHAuthorizationStatusNotDetermined   用户还没有关于这个应用程序做出了选择
-     PHAuthorizationStatusRestricted      这个应用程序未被授权访问图片数据 , 用户不能更改该应用程序的状态,可能由于活跃的限制
-     PHAuthorizationStatusDenied          用户已经明确否认了这个应用程序访问图片数据。
-     PHAuthorizationStatusAuthorized      用户授权此应用程序访问图片数据
-     */
-    if (status == PHAuthorizationStatusDenied)
-    {
-        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"请打开相册授权" message:@"设置->隐私->照片->本应用" preferredStyle:UIAlertControllerStyleAlert];
-        UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-            [self backMethod];
-        }];
-        [alert addAction:cancel];
-        UIAlertAction *skip = [UIAlertAction actionWithTitle:@"设置" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-            [self performSelector:@selector(openSettingApp) withObject:nil afterDelay:0.1];
-        }];
-        [alert addAction:skip];
-        [self presentViewController:alert animated:YES completion:nil];
-    }
-}
+
+
 -(void)openSettingApp
 {
-//    if (ISIOS10) {
-//        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString] options:@{UIApplicationOpenURLOptionUniversalLinksOnly:[NSNumber numberWithBool:YES]} completionHandler:nil];
-//    }
-//    else
-//    {
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
-//    }
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
+    [self backMethod];
 }
 
 - (void)didReceiveMemoryWarning {

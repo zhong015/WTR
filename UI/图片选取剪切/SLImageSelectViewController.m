@@ -37,9 +37,9 @@
 
 -(void)selectimage
 {
-    [WTRPhotosViewController showWTRPhotosViewControllerWithDelegate:self MaxSelectNum:3 barTintColor:[UIColor blueColor] tintColor:[UIColor whiteColor] statusBarIsBlack:NO];
+    [WTRPhotosViewController showWTRPhotosViewControllerWithDelegate:self MaxSelectImageNum:3 videoNum:0 MaxDuration:10 barTintColor:[UIColor blueColor] tintColor:[UIColor whiteColor] statusBarIsBlack:NO];
 }
--(void)selectWTRImageArray:(NSArray <UIImage *> *)imageArray
+-(void)selectImageArray:(NSArray <UIImage *> *)imageArray;
 {
     if (imageArray.count>0) {
         _selectim=imageArray.firstObject;

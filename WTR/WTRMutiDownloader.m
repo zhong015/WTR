@@ -92,7 +92,7 @@ static id _s;
     if ([appDelegate respondsToSelector:@selector(backgroundSessionCompletionHandler)]) {
         if (appDelegate.backgroundSessionCompletionHandler) {
             
-            void (^completionHandler)() = appDelegate.backgroundSessionCompletionHandler;
+            void (^completionHandler)(void) = appDelegate.backgroundSessionCompletionHandler;
             
             appDelegate.backgroundSessionCompletionHandler = nil;
             

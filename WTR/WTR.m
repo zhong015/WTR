@@ -11,6 +11,7 @@
 #include <arpa/inet.h>
 #include <net/if.h>
 #import "WTRBaseDefine.h"
+#import <sqlite3.h>
 
 #import <CommonCrypto/CommonCrypto.h>
 
@@ -634,27 +635,49 @@ static id _s;
     return topViewController;
 }
 
-//+(UIViewController *)curintViewController
-//{
-//    WTRAppDelegate *appdele=(WTRAppDelegate *)[UIApplication sharedApplication].delegate;
-//
-//    return [self curintViewControllerWith:appdele.window.rootViewController];
-//}
-//+(UIViewController *)curintViewControllerWith:(UIViewController *)viewController
-//{
-//    UITabBarController *cutabc=(UITabBarController *)viewController;
-//    if ([cutabc isKindOfClass:[UITabBarController class]]) {
-//        return [self curintViewControllerWith:cutabc.viewControllers[cutabc.selectedIndex]];
-//    }
-//    else if ([cutabc isKindOfClass:[UINavigationController class]]){
-//        return [self curintViewControllerWith:[cutabc.viewControllers lastObject]];
-//    }
-//    else if(cutabc.presentedViewController&&![cutabc.presentedViewController isKindOfClass:[UIAlertController class]]){
-//        return [self curintViewControllerWith:cutabc.presentedViewController];
-//    }else {
-//        return cutabc;
-//    }
-//}
+
++(NSArray *)GetAllDataWithDbPath:(NSString *)path tablename:(NSString *)tablename columnArray:(NSArray <NSString *>*)columnArray
+{
+    sqlite3 *_dbHandle;
+    NSMutableArray *marr=[NSMutableArray array];
+    
+    if (sqlite3_open([path UTF8String],&_dbHandle)==SQLITE_OK) {
+        NSString *sql=[NSString stringWithFormat:@"select * from %@;",tablename];
+        
+        sqlite3_stmt *statment;
+        if (sqlite3_prepare_v2(_dbHandle, [sql UTF8String], -1, &statment, NULL)==SQLITE_OK) {
+            
+            while(sqlite3_step(statment) == SQLITE_ROW) {
+                
+                NSMutableDictionary *mudic=[NSMutableDictionary dictionary];
+                
+                for (int i=0; i<columnArray.count; i++) {
+                    NSString *column=[columnArray objectAtIndex:i];
+                    if (sqlite3_column_type(statment, i)!= SQLITE_NULL) {
+                        const unsigned char *cName = sqlite3_column_text(statment, i);
+                        NSString *strValue=[NSString stringWithCString:(const char *)cName encoding:NSUTF8StringEncoding];
+                        if (strValue) {
+                            [mudic setObject:strValue forKey:column];
+                        }else{
+                            NSNumber *num=[NSNumber numberWithInt:sqlite3_column_int(statment, i)];
+                            if (num) {
+                                [mudic setObject:num forKey:column];
+                            }
+                        }
+                    }
+                }
+                
+                [marr addObject:mudic];
+            }
+            
+            sqlite3_finalize(statment);
+            sqlite3_close(_dbHandle);
+        }else{
+            sqlite3_close(_dbHandle);
+        }
+    }
+    return marr;
+}
 
 @end
 

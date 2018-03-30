@@ -8,7 +8,7 @@
 
 #import "WTRPhotosAssetViewController.h"
 #import "PHIMCollectionViewCell.h"
-#import "WTRPhotosShowViewController.h"
+#import "WTRBaseDefine.h"
 
 @interface WTRPhotosAssetViewController ()<UICollectionViewDelegate,UICollectionViewDataSource,PHPhotoLibraryChangeObserver>
 
@@ -20,13 +20,18 @@
     PHCachingImageManager *manager;
     CGRect previousPreheatRect;
     
+    int selectType;//0 都可以选  1选择图片 2选择视频
     NSInteger loadnum;
     NSMutableArray *selectArray;
     
-    NSMutableArray *_dataArray;
     BOOL isneedReload;
     
     BOOL iswancheng;
+    
+    CGFloat ww,hh;
+    CGFloat jiange;
+    
+    UICollectionViewFlowLayout *laout;
 }
 
 -(id)init
@@ -45,19 +50,23 @@
     }
     return UIStatusBarStyleLightContent;
 }
-
+-(void)updatecellSizeWWHH
+{
+    int nh=4;
+    jiange=4;
+    
+    ww=(self.view.width-jiange*(nh+1))/nh;
+    hh=ww;
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor=[UIColor whiteColor];
-    
-    if (self.maxSelectNum<=0) {
-        self.maxSelectNum=1;
+  
+    if (self.maxSelectImageNum<=0&&self.maxSelectVideoNum<=0) {
+        self.maxSelectImageNum=1;
     }
-    if (self.targetSize.width<=0.1||self.targetSize.height<0.1) {
-        self.targetSize=CGSizeMake(200, 200);
-        self.contentMode=PHImageContentModeAspectFill;
-    }
-    
+    [self resetSelectType];
+
     selectArray=[NSMutableArray array];
     
     manager=[[PHCachingImageManager alloc] init];
@@ -67,37 +76,64 @@
         allPhotosOptions.sortDescriptors=@[[NSSortDescriptor sortDescriptorWithKey:@"creationDate" ascending:NO]];
         self.fetchResult=[PHAsset fetchAssetsWithOptions:allPhotosOptions];
     }
-#if ShowLivePhotoOnly
-    [self ShowLivePhotoOnlyAction];
-    if (_dataArray.count==0) {
-        [self showmsg];
-        return;
-    }
-#else
     if (self.fetchResult.count==0) {
         [self showmsg];
         return;
     }
-#endif
     
-    UICollectionViewFlowLayout *laout=[[UICollectionViewFlowLayout alloc] init];
-    laout.itemSize=CGSizeMake(WTRPhotoImageWidth, WTRPhotoImageHeight);
+    if (self.xcName) {
+        UILabel *la=[UILabel new];
+        la.text=self.xcName;
+        la.textColor=[UIColor whiteColor];
+        la.textAlignment=NSTextAlignmentCenter;
+        la.font=[UIFont systemFontOfSize:18];
+        [la sizeToFit];
+        self.navigationItem.titleView=la;
+    }
+
+    [self updatecellSizeWWHH];
+    
+    laout=[[UICollectionViewFlowLayout alloc] init];
+    laout.itemSize=CGSizeMake(ww, hh);
+    laout.minimumLineSpacing=jiange;
+    laout.minimumInteritemSpacing=jiange;
+    laout.sectionInset=UIEdgeInsetsMake(jiange, jiange, jiange, jiange);
     
     _collection=[[UICollectionView alloc]initWithFrame:self.view.bounds collectionViewLayout:laout];
     _collection.delegate=self;
     _collection.dataSource=self;
     [self.view addSubview:_collection];
-    _collection.contentInset=UIEdgeInsetsMake(10, 10, 10, 10);
+    _collection.contentInset=UIEdgeInsetsZero;
     _collection.alwaysBounceVertical=YES;
     
     [_collection registerClass:[PHIMCollectionViewCell class] forCellWithReuseIdentifier:@"cell"];
     _collection.backgroundColor=[UIColor whiteColor];
     _collection.autoresizingMask=UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
-  
+    
     [[PHPhotoLibrary sharedPhotoLibrary] registerChangeObserver:self];
     
     iswancheng=NO;
     self.navigationItem.rightBarButtonItem =[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(wancheng)];
+}
+-(void)resetSelectType
+{
+    selectType=0;
+    if (self.maxSelectImageNum>0&&self.maxSelectVideoNum<=0) {
+        selectType=1;
+    }
+    if (self.maxSelectImageNum<=0&&self.maxSelectVideoNum>0) {
+        selectType=2;
+    }
+}
+-(void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator
+{
+    [coordinator animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext>  _Nonnull context) {
+        
+    } completion:^(id<UIViewControllerTransitionCoordinatorContext>  _Nonnull context) {
+        [self updatecellSizeWWHH];
+        laout.itemSize=CGSizeMake(ww, hh);
+        [_collection reloadData];
+    }];
 }
 -(void)showmsg
 {
@@ -107,27 +143,10 @@
     [self.view addSubview:la];
     la.autoresizingMask=UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
     la.font=[UIFont systemFontOfSize:16];
-#if ShowLivePhotoOnly
-    la.text=@"没有Live图片";
-#else
     la.text=@"没有图片";
-#endif
-
-}
--(void)ShowLivePhotoOnlyAction
-{
-    _dataArray=[NSMutableArray array];
-    [self.fetchResult enumerateObjectsUsingBlock:^(PHAsset *asset, NSUInteger idx, BOOL * _Nonnull stop) {
-        if (asset.mediaSubtypes==PHAssetMediaSubtypePhotoLive) {
-            [_dataArray addObject:asset];
-        }
-    }];
 }
 -(PHAsset *)assetWithIndex:(NSInteger )row
 {
-    if (ShowLivePhotoOnly) {
-        return [_dataArray objectAtIndex:row];
-    }
     return [self.fetchResult objectAtIndex:row];
 }
 - (void)dealloc
@@ -143,10 +162,6 @@
         if (resultChangeDetails) {
             self.fetchResult=[resultChangeDetails fetchResultAfterChanges];
             
-#if ShowLivePhotoOnly
-            [self ShowLivePhotoOnlyAction];
-            [_collection reloadData];
-#else
             if ([resultChangeDetails hasIncrementalChanges]) {
                 if (resultChangeDetails.removedIndexes&&resultChangeDetails.removedIndexes.count>0) {
                     NSMutableArray *muarr=[NSMutableArray array];
@@ -177,7 +192,6 @@
             {
                 [_collection reloadData];
             }
-#endif
             
         }
     });
@@ -185,9 +199,6 @@
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    if (ShowLivePhotoOnly) {
-        return _dataArray.count;
-    }
     return self.fetchResult.count;
 }
 
@@ -197,34 +208,37 @@
     
     PHAsset *asset=[self assetWithIndex:indexPath.row];
     
-#if ISYShowLivePhoto
-    if ([UIDevice currentDevice].systemVersion.floatValue>=9.1&&asset.mediaSubtypes&PHAssetMediaSubtypePhotoLive) {
-       cell.livePhotoBadgeImageView.image=[PHLivePhotoView livePhotoBadgeImageWithOptions:PHLivePhotoBadgeOptionsOverContent];
-        if (!cell.livePhotoBadgeImageView.gestureRecognizers||cell.livePhotoBadgeImageView.gestureRecognizers.count==0) {
-            UITapGestureRecognizer *tap=[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(livePhotoClick:)];
-            [cell.livePhotoBadgeImageView addGestureRecognizer:tap];
-            cell.livePhotoBadgeImageView.userInteractionEnabled=YES;
-        }
-        cell.livePhotoBadgeImageView.tag=indexPath.row;
-    }
-#endif
-    
     cell.tagstr=asset.localIdentifier;
     PHImageRequestOptions *option=[[PHImageRequestOptions alloc]init];
     option.deliveryMode=PHImageRequestOptionsDeliveryModeHighQualityFormat;
     option.resizeMode=PHImageRequestOptionsResizeModeFast;
-    [manager requestImageForAsset:asset targetSize:CGSizeMake([UIScreen mainScreen].scale*WTRPhotoImageWidth, [UIScreen mainScreen].scale*WTRPhotoImageHeight) contentMode:PHImageContentModeAspectFill options:option resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
+    [manager requestImageForAsset:asset targetSize:CGSizeMake([UIScreen mainScreen].scale*ww, [UIScreen mainScreen].scale*hh) contentMode:PHImageContentModeAspectFill options:option resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
         if ([cell.tagstr isEqualToString:asset.localIdentifier]) {
             cell.imageView.image = result;
         }
     }];
     
-    for (NSString *numstr in selectArray) {
+    BOOL isSelect=NO;
+    int i=0;
+    for (; i<selectArray.count; i++) {
+        NSString *numstr=selectArray[i];
         if (numstr.integerValue==indexPath.row) {
-            cell.isSelectImage=YES;
+            isSelect=YES;
             break;
         }
     }
+    if (!isSelect) {
+        i=0;
+    }else{
+        i++;
+    }
+    
+    if (asset.mediaType==PHAssetMediaTypeVideo) {
+        [cell setIsImage:NO MovDuration:asset.duration maxDuration:self.maxDuration SelectType:selectType Num:i];
+    }else{
+        [cell setIsImage:YES MovDuration:0 maxDuration:self.maxDuration SelectType:selectType Num:i];
+    }
+    
     return cell;
 }
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView
@@ -254,8 +268,8 @@
     NSArray *addedAssets=[self AssetsForElementsin:addedRects];
     NSArray *removedAssets=[self AssetsForElementsin:removedRects];
     
-    [manager startCachingImagesForAssets:addedAssets targetSize:CGSizeMake([UIScreen mainScreen].scale*WTRPhotoImageWidth, [UIScreen mainScreen].scale*WTRPhotoImageHeight) contentMode:PHImageContentModeAspectFill options:nil];
-    [manager stopCachingImagesForAssets:removedAssets targetSize:CGSizeMake([UIScreen mainScreen].scale*WTRPhotoImageWidth, [UIScreen mainScreen].scale*WTRPhotoImageHeight) contentMode:PHImageContentModeAspectFill options:nil];
+    [manager startCachingImagesForAssets:addedAssets targetSize:CGSizeMake([UIScreen mainScreen].scale*ww, [UIScreen mainScreen].scale*hh) contentMode:PHImageContentModeAspectFill options:nil];
+    [manager stopCachingImagesForAssets:removedAssets targetSize:CGSizeMake([UIScreen mainScreen].scale*ww, [UIScreen mainScreen].scale*hh) contentMode:PHImageContentModeAspectFill options:nil];
     
     previousPreheatRect=preheatRect;
 }
@@ -272,20 +286,52 @@
 #pragma mark 选择
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
+    PHAsset *asset=[self assetWithIndex:indexPath.row];
+    if (selectType>0) {
+        if (((asset.mediaType==PHAssetMediaTypeImage)&&selectType==2)||((asset.mediaType==PHAssetMediaTypeVideo)&&selectType==1)) {
+            return;
+        }
+    }
+    if ((asset.mediaType==PHAssetMediaTypeVideo)&&self.maxDuration>0&&(asset.duration>self.maxDuration)) {
+//        NSString *msg=[NSString stringWithFormat:@"请选择%d秒之内的视频",(int)self.maxDuration];
+//        [SVProgressHUD showInfoWithStatus:msg];
+        return;
+    }
+    
     for (int i=0; i<selectArray.count; i++) {
         NSString *numstr=[selectArray objectAtIndex:i];
         if (numstr.integerValue==indexPath.row) {
             [selectArray removeObjectAtIndex:i];
-            [collectionView reloadItemsAtIndexPaths:@[indexPath]];
+            if (selectArray.count==0) {
+                if (self.maxSelectImageNum>0&&self.maxSelectVideoNum>0) {
+                    selectType=0;
+                }
+            }
+            [collectionView reloadData];
             [self updataSelectState];
             return;
         }
     }
+    
+    if (selectArray.count==0) {
+        if (self.maxSelectImageNum>0&&self.maxSelectVideoNum>0) {
+            PHAsset *asset=[self assetWithIndex:indexPath.row];
+            if (asset.mediaType==PHAssetMediaTypeVideo) {
+                selectType=2;
+            }else{
+                selectType=1;
+            }
+        }
+    }
+    
     [selectArray addObject:[NSString stringWithFormat:@"%ld",(long)indexPath.row]];
-    [collectionView reloadItemsAtIndexPaths:@[indexPath]];
+    if (selectArray.count==1) {
+        [collectionView reloadData];
+    }else{
+        [collectionView reloadItemsAtIndexPaths:@[indexPath]];
+    }
     [self updataSelectState];
 }
-
 -(void)wancheng
 {
     if (selectArray.count==0) {
@@ -297,82 +343,111 @@
 }
 -(void)updataSelectState
 {
-    if (selectArray.count>=self.maxSelectNum||iswancheng) {
+    BOOL isfh=NO;
+    if (selectArray.count>0) {
+        if (selectType==1) {
+            if (selectArray.count>=self.maxSelectImageNum||iswancheng) {
+                isfh=YES;
+            }
+        }else if (selectType==2) {
+            if (selectArray.count>=self.maxSelectVideoNum||iswancheng) {
+                isfh=YES;
+            }
+        }
+    }
+    if (isfh) {
         iswancheng=NO;
         loadnum=0;
-        if (self.delegate&&[self.delegate respondsToSelector:@selector(selectWTRImageArray:)]) {
-            
-            BOOL isRetLivePhoto=[self.delegate respondsToSelector:@selector(selectWTRLivePhotoJPGAndMovPathArray:)];
-            
+        if (self.delegate&&[self.delegate respondsToSelector:@selector(selectImageArray:)]) {
             NSMutableArray *muarr=[NSMutableArray array];
-            NSMutableArray *muarrJpgMov=[NSMutableArray array];
+            NSMutableArray *movMuarray=[NSMutableArray array];
             NSString *tmpPath=[NSHomeDirectory() stringByAppendingPathComponent:@"tmp/"];
+            
+            BOOL isRetMov=[self.delegate respondsToSelector:@selector(selectMovPathArray:)];
             
             for (NSString *numstr in selectArray) {
                 
                 PHAsset *asset=[self assetWithIndex:numstr.integerValue];
                 
-                if (isRetLivePhoto&&[UIDevice currentDevice].systemVersion.floatValue>=9.1&&asset.mediaSubtypes&PHAssetMediaSubtypePhotoLive) {
-                    loadnum++;
-                    NSArray *arr=[PHAssetResource assetResourcesForAsset:asset];
-                    for (PHAssetResource *res in arr) {
-                        NSLog(@"%@",res.originalFilename);
-                        
-                        NSString *filepath=[tmpPath stringByAppendingPathComponent:res.originalFilename];
-                        
-                        [[PHAssetResourceManager defaultManager] writeDataForAssetResource:res toFile:[NSURL fileURLWithPath:filepath] options:nil completionHandler:^(NSError * _Nullable error) {
-                            [muarrJpgMov addObject:filepath];
-                        }];
-                    }
+                if (asset.mediaType==PHAssetMediaTypeVideo) {
                     
-                    if (selectArray.count==loadnum) {
-                        [self.delegate selectWTRImageArray:muarr];
-                        if (isRetLivePhoto) {
-                            [self.delegate selectWTRLivePhotoJPGAndMovPathArray:muarrJpgMov];
+                    loadnum++;
+                    if (isRetMov) {
+                        NSArray *arr=[PHAssetResource assetResourcesForAsset:asset];
+                        
+                        __block int allarrnum=0;
+                        
+                        for (int i=0; i<arr.count; i++) {
+                            PHAssetResource *res=arr[i];
+                            NSLog(@"%@",res.originalFilename);
+                            
+                            NSString *filepath=[tmpPath stringByAppendingPathComponent:res.originalFilename];
+                            [[NSFileManager defaultManager]removeItemAtPath:filepath error:nil];
+                            [[PHAssetResourceManager defaultManager] writeDataForAssetResource:res toFile:[NSURL fileURLWithPath:filepath] options:nil completionHandler:^(NSError * _Nullable error) {
+                                [movMuarray addObject:filepath];
+                                allarrnum++;
+                                if (allarrnum==arr.count) {
+                                    [self wanchengjiance:muarr movMuarray:movMuarray];
+                                }
+                            }];
                         }
-                        if ([self.delegate respondsToSelector:@selector(dismissMethodShouldAction:)]) {
-                            if (![self.delegate dismissMethodShouldAction:self.navigationController]) {
-                                [self clearAllSelctState];
-                                return ;
-                            }
-                        }
-                        [self dismissMethod];
+                    }else{
+                        NSLog(@"没有写视频回调代理");
                     }
-                }
-                else
-                {
-                    CGSize targetSize=CGSizeMake([UIScreen mainScreen].scale*self.targetSize.width, [UIScreen mainScreen].scale*self.targetSize.height);
+                }else{
+                    
+                    CGSize targetSize=CGSizeMake(asset.pixelWidth, asset.pixelHeight);
+                    if (targetSize.width>1000||targetSize.height>1000) {
+                        CGFloat bili=targetSize.width/targetSize.height;
+                        if (bili>1) {
+                            targetSize.width=ScreenWidthD*2.0;
+                            targetSize.height=roundf(targetSize.width/bili);
+                        }else{
+                            targetSize.height=ScreenWidthD*2.0;
+                            targetSize.width=roundf(targetSize.height*bili);
+                        }
+                    }
                     
                     PHImageRequestOptions *option=[[PHImageRequestOptions alloc]init];
                     option.deliveryMode=PHImageRequestOptionsDeliveryModeHighQualityFormat;
                     option.resizeMode=PHImageRequestOptionsResizeModeFast;
                     option.networkAccessAllowed=YES;
-                    [manager requestImageForAsset:asset targetSize:targetSize contentMode:self.contentMode options:option resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
+                    [manager requestImageForAsset:asset targetSize:targetSize contentMode:PHImageContentModeAspectFit options:option resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
                         loadnum++;
                         NSLog(@"scale:%.2f,  %.2f, %.2f",result.scale,result.size.width,result.size.height);
                         if (result) {
                             [muarr addObject:result];
                         }
-                        if (selectArray.count==loadnum) {
-                            [self.delegate selectWTRImageArray:muarr];
-                            if (isRetLivePhoto) {
-                                [self.delegate selectWTRLivePhotoJPGAndMovPathArray:muarrJpgMov];
-                            }
-                            if ([self.delegate respondsToSelector:@selector(dismissMethodShouldAction:)]) {
-                                if (![self.delegate dismissMethodShouldAction:self.navigationController]) {
-                                    [self clearAllSelctState];
-                                    return ;
-                                }
-                            }
-                            [self dismissMethod];
-                        }
+                        [self wanchengjiance:muarr movMuarray:movMuarray];
                     }];
                 }
-
             }
         }
     }
 }
+-(void)wanchengjiance:(NSArray *)muarr movMuarray:(NSArray *)movMuarray
+{
+    
+    if (selectArray.count==loadnum) {
+        
+        if (muarr.count>0) {
+            [self.delegate selectImageArray:muarr];
+        }
+
+        if (movMuarray.count>0) {
+            [self.delegate selectMovPathArray:movMuarray];
+        }
+        
+        if ([self.delegate respondsToSelector:@selector(dismissMethodShouldAction:)]) {
+            if (![self.delegate dismissMethodShouldAction:self.navigationController]) {
+                [self clearAllSelctState];
+                return ;
+            }
+        }
+        [self dismissMethod];
+    }
+}
+
 -(void)clearAllSelctState
 {
     [selectArray removeAllObjects];
@@ -388,16 +463,6 @@
     {
         [self dismissViewControllerAnimated:YES completion:nil];
     }
-}
-#pragma mark 查看
--(void)livePhotoClick:(UITapGestureRecognizer *)tap
-{
-    PHAsset *asset=[self assetWithIndex:tap.view.tag];
-    
-    WTRPhotosShowViewController *showvc=[[WTRPhotosShowViewController alloc]init];
-    showvc.asset=asset;
-    showvc.StatusBarIsBlack=self.StatusBarIsBlack;
-    [self.navigationController pushViewController:showvc animated:YES];
 }
 -(void)viewDidAppear:(BOOL)animated
 {
