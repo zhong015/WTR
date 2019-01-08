@@ -41,4 +41,7 @@
 - (UIImage *)applyWBlurWithRadius:(CGFloat)blurRadius tintColor:(UIColor *)tintColor saturationDeltaFactor:(CGFloat)saturationDeltaFactor maskImage:(UIImage *)maskImage;////模糊半径、饱和度、以及可选的掩盖图片
 
 
+-(UIColor *)mainColorWtr;   //提取图片主要颜色 特殊颜色 (平均值算法)
+-(UIColor *)mainColorWtr2;  //最多颜色算法
+
 @end

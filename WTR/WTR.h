@@ -22,7 +22,7 @@
 
 +(void)removeKeyboardTransform:(UIView <UIKeyInput>*)textfiledOrTextView; //移除监听
 
-+(void)huishoujianpan;//回收当前监听的键盘
++(BOOL)huishoujianpan;//回收当前监听的键盘
 
 
 //获取字符串所占区域大小
@@ -47,6 +47,8 @@
 + (BOOL)isNeedURLEncoding:(NSString *)inurlstr;//是否需要URLEncoding
 
 + (NSString *)getIPAddress;
+
++(NSString *)SortedJsonStr:(id)dicOrArr; //得到排序JSON字符串
 
 + (CGFloat)getFileSize:(NSString *)path; //此方法可以获取文件的大小，返回的是单位是M。
 

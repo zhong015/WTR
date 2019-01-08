@@ -11,26 +11,26 @@
 #import <CommonCrypto/CommonCryptor.h>
 
 typedef struct ColorC {
-    uint8_t b;
-    uint8_t g;
     uint8_t r;
+    uint8_t g;
+    uint8_t b;
     uint8_t a;
 } ColorC;
 
 ColorC getColorCWithDa(char *da,long width,int i,int j)
 {
     ColorC onec;
-    onec.b=da[i*width*4+j*4+0];
+    onec.r=da[i*width*4+j*4+0];
     onec.g=da[i*width*4+j*4+1];
-    onec.r=da[i*width*4+j*4+2];
+    onec.b=da[i*width*4+j*4+2];
     onec.a=da[i*width*4+j*4+3];
     return onec;
 }
 void SetColorCWithDa(char *da,long width,int i,int j,ColorC onec)
 {
-    da[i*width*4+j*4+0]=onec.b;
+    da[i*width*4+j*4+0]=onec.r;
     da[i*width*4+j*4+1]=onec.g;
-    da[i*width*4+j*4+2]=onec.r;
+    da[i*width*4+j*4+2]=onec.b;
     da[i*width*4+j*4+3]=onec.a;
 }
 
@@ -572,5 +572,158 @@ void SetColorCWithDa(char *da,long width,int i,int j,ColorC onec)
     return retim;
 }
 
+
+-(UIColor *)mainColorWtr
+{
+    //取像素
+    int imagewidth=self.size.width*self.scale;
+    int imageheght=self.size.height*self.scale;
+    CGColorSpaceRef colorspace=CGColorSpaceCreateDeviceRGB();
+
+    void *imagedata=NULL;
+    imagedata=malloc(imagewidth*imageheght*4);
+
+    CGContextRef bmpcontext=CGBitmapContextCreate(imagedata, imagewidth, imageheght, 8, imagewidth*4, colorspace, 1);
+
+    CGContextDrawImage(bmpcontext, CGRectMake(0, 0, imagewidth, imageheght), self.CGImage);
+
+    void *data=CGBitmapContextGetData(bmpcontext);
+
+    unsigned long long zr=0,zg=0,zb=0,zs=0;
+
+    //像素点提取
+    int jump=2;//跳跃取点
+    for (int i=0; i<imageheght; i+=jump) {
+        for (int j=0; j<imagewidth; j+=jump) {
+            ColorC onec=getColorCWithDa(data,imagewidth,i,j);
+            if (onec.a>10) {//不是透明的
+                if ((onec.r>240)&&(onec.g>240)&&(onec.b>240)) {
+                    continue;//白色继续 不是特殊颜色
+                }
+                if ((onec.r<20)&&(onec.g<20)&&(onec.b<20)) {
+                    continue;//黑色继续 不是特殊颜色
+                }
+                zr+=onec.r;
+                zg+=onec.g;
+                zb+=onec.b;
+                zs++;
+            }
+        }
+    }
+    CGColorSpaceRelease(colorspace);
+    CGContextRelease(bmpcontext);
+
+    double dr=zr*1.0/zs/255;
+    double dg=zg*1.0/zs/255;
+    double db=zb*1.0/zs/255;
+
+    if (dr<0) {
+        dr=0;
+    }
+    if (dr>1) {
+        dr=1;
+    }
+
+    if (dg<0) {
+        dg=0;
+    }
+    if (dg>1) {
+        dg=1;
+    }
+
+    if (db<0) {
+        db=0;
+    }
+    if (db>1) {
+        db=1;
+    }
+
+    return [UIColor colorWithRed:dr green:dg blue:db alpha:1];
+}
+
+-(UIColor *)mainColorWtr2
+{
+    //取像素
+    int imagewidth=self.size.width*self.scale;
+    int imageheght=self.size.height*self.scale;
+    CGColorSpaceRef colorspace=CGColorSpaceCreateDeviceRGB();
+
+    void *imagedata=NULL;
+    imagedata=malloc(imagewidth*imageheght*4);
+
+    CGContextRef bmpcontext=CGBitmapContextCreate(imagedata, imagewidth, imageheght, 8, imagewidth*4, colorspace, 1);
+
+    CGContextDrawImage(bmpcontext, CGRectMake(0, 0, imagewidth, imageheght), self.CGImage);
+
+    void *data=CGBitmapContextGetData(bmpcontext);
+
+    int jump=2;//跳跃取点
+
+    // num 255 255 255
+    unsigned long long *parr=malloc(sizeof(unsigned long long)*imageheght*imagewidth/jump);
+
+    unsigned long clen=0;
+
+    //像素点提取
+    for (int i=0; i<imageheght; i+=jump) {
+        for (int j=0; j<imagewidth; j+=jump) {
+            ColorC onec=getColorCWithDa(data,imagewidth,i,j);
+            if (onec.a>10) {//不是透明的
+                if ((onec.r>240)&&(onec.g>240)&&(onec.b>240)) {
+                    continue;//白色继续 不是特殊颜色
+                }
+                if ((onec.r<20)&&(onec.g<20)&&(onec.b<20)) {
+                    continue;//黑色继续 不是特殊颜色
+                }
+                unsigned long long cr=onec.r;
+                unsigned long long cg=onec.g;
+                unsigned long long cb=onec.b;
+
+                unsigned long long dy=(cr<<16)+(cg<<8)+cb;
+
+                BOOL isin=NO;
+                for (int i=0; i<clen; i++) {
+                    unsigned long long cnum=parr[i];
+                    cnum&=0xFFFFFF;
+                    if (cnum==dy) {
+                        parr[i]+=(1<<24);
+                        isin=YES;
+                    }
+                }
+                if (!isin) {
+                    parr[clen]=dy;
+                    clen++;
+                }
+            }
+        }
+    }
+    CGColorSpaceRelease(colorspace);
+    CGContextRelease(bmpcontext);
+
+    unsigned long maxindex=0;
+    unsigned long long maxnum=0;
+
+    for (int i=0; i<clen; i++) {
+        unsigned long long cnum=parr[i];
+        cnum&=0xFFFF000000;
+        if (cnum>maxnum) {
+            maxnum=cnum;
+            maxindex=i;
+        }
+    }
+
+    unsigned long long cnum=parr[maxindex];
+    unsigned long long cr=(cnum>>16)&0xFF;
+    unsigned long long cg=(cnum>>8)&0xFF;
+    unsigned long long cb=cnum&0xFF;
+
+    double dr=cr*1.0/255;
+    double dg=cg*1.0/255;
+    double db=cb*1.0/255;
+
+    free(parr);
+
+    return [UIColor colorWithRed:dr green:dg blue:db alpha:1];
+}
 
 @end

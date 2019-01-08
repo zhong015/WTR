@@ -9,6 +9,7 @@
 #import "ViewController.h"
 #import "WTRDefine.h"
 #import "SLImageSelectViewController.h"
+#import "UIImage+WTRManager.h"
 
 @interface ViewController ()<UITableViewDelegate,UITableViewDataSource>
 
@@ -20,20 +21,19 @@
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view, typically from a nib.
-    
+
     nameArray=@[@"图片选取剪切"];
-    
+
     UITableView *tablev=[[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
     tablev.dataSource=self;
     tablev.delegate=self;
     [self.view addSubview:tablev];
-    
+
     tablev.contentInset=UIEdgeInsetsMake(ISIPhoneX?44:20, 0, ISIPhoneX?40:20, 0);
-    
+
     [tablev registerClass:[UITableViewCell class] forCellReuseIdentifier:@"cell"];
-    
 }
+
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     return nameArray.count;

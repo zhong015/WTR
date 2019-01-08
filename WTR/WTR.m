@@ -106,12 +106,16 @@ static id _s;
         one.transView.transform=CGAffineTransformIdentity;
     }
 }
-+(void)huishoujianpan
++(BOOL)huishoujianpan
 {
     [[WTR shareinstence] getcurintTfLink];
     if ([WTR shareinstence]->curinttf) {
-        [[WTR shareinstence]->curinttf.textfiled resignFirstResponder];
+        if ([[WTR shareinstence]->curinttf.textfiled isFirstResponder]) {
+            [[WTR shareinstence]->curinttf.textfiled resignFirstResponder];
+            return YES;
+        }
     }
+    return NO;
 }
 #pragma mark 键盘消息
 -(void)keyboardwillshow:(NSNotification *)noti
@@ -342,7 +346,7 @@ static id _s;
         return NO;
     }
     
-    NSString *CM= @"^1[3|4|5|7|8][0-9]{9}$";
+    NSString *CM= @"^1[0-9]{10}$";
     NSPredicate *pred = [NSPredicate predicateWithFormat:@"SELF MATCHES %@",CM];
     BOOL isMatch = [pred evaluateWithObject:phoneNum];
     return isMatch;
@@ -533,7 +537,74 @@ static id _s;
     }
     return [addresses count] ? addresses : nil;
 }
-
++(NSString *)SortedJsonStr:(id)dicOrArr
+{
+    if ([dicOrArr isKindOfClass:[NSDictionary class]]) {
+        NSDictionary *dic=dicOrArr;
+        
+        NSMutableString *mustr=[NSMutableString string];
+        
+        NSArray *allkey=[dic.allKeys sortedArrayUsingSelector:@selector(compare:)];
+        for (int i=0; i<allkey.count; i++) {
+            NSString *key=allkey[i];
+            NSString *value=[dic objectForKey:key];
+            
+            BOOL isda=NO;
+            
+            if ([value isKindOfClass:[NSDictionary class]]||[value isKindOfClass:[NSArray class]]) {
+                value=[self SortedJsonStr:value];
+                isda=YES;
+            }
+            if (isda) {
+                if (mustr.length==0) {
+                    [mustr appendFormat:@"{\"%@\":%@",key,value];
+                }else{
+                    [mustr appendFormat:@",\"%@\":%@",key,value];
+                }
+            }else{
+                if (mustr.length==0) {
+                    [mustr appendFormat:@"{\"%@\":\"%@\"",key,value];
+                }else{
+                    [mustr appendFormat:@",\"%@\":\"%@\"",key,value];
+                }
+            }
+        }
+        [mustr appendString:@"}"];
+        return mustr;
+    }else if ([dicOrArr isKindOfClass:[NSArray class]]){
+        
+        NSArray *arr=dicOrArr;
+        
+        NSMutableString *mustr=[NSMutableString string];
+        
+        for (int i=0; i<arr.count; i++) {
+            NSString *value=arr[i];
+            
+            BOOL isda=NO;
+            
+            if ([value isKindOfClass:[NSDictionary class]]||[value isKindOfClass:[NSArray class]]) {
+                value=[self SortedJsonStr:value];
+                isda=YES;
+            }
+            if (isda) {
+                if (mustr.length==0) {
+                    [mustr appendFormat:@"[%@",value];
+                }else{
+                    [mustr appendFormat:@",%@",value];
+                }
+            }else{
+                if (mustr.length==0) {
+                    [mustr appendFormat:@"[\"%@\"",value];
+                }else{
+                    [mustr appendFormat:@",\"%@\"",value];
+                }
+            }
+        }
+        [mustr appendString:@"]"];
+        return mustr;
+    }
+    return @"";
+}
 
 #pragma mark 清除缓存
 +(void)clearAllCaches
