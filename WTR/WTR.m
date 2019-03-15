@@ -750,6 +750,91 @@ static id _s;
     return marr;
 }
 
+//Keychain操作
+- (NSMutableDictionary *)newkSecDictionary:(NSString *)identifier Account:(NSString *)Account Group:(NSString *)Group
+{
+    NSMutableDictionary *searchDictionary = [NSMutableDictionary dictionary];
+    //指定item的类型为GenericPassword
+    [searchDictionary setObject:(id)kSecClassGenericPassword forKey:(id)kSecClass];
+
+    //id
+    [searchDictionary setObject:identifier forKey:(id)kSecAttrService];
+
+    //账户名
+    [searchDictionary setObject:Account forKey:(id)kSecAttrAccount];
+
+    /*
+     公用组名 要保证真机 并且Capabilities下打开工程的Keychain Sharing按钮 并在开发者网站id中配置 证书
+     accessGroup = "[YOUR APP ID PREFIX].com.example.apple-samplecode.GenericKeychainShared"
+
+     For information on App ID prefixes, see:
+     https://developer.apple.com/library/ios/documentation/General/Conceptual/DevPedia-CocoaCore/AppID.html
+     and:
+     https://developer.apple.com/library/ios/technotes/tn2311/_index.html
+     */
+    //例子 "ED6U86NK2U.wfz.asd.asdasd"
+    //[searchDictionary setObject:Group forKey:(id)kSecAttrAccessGroup];
+
+    return searchDictionary;
+}
+
+-(NSData *)readKeychainId:(NSString *)identifier
+{
+    return [self readKeychainId:identifier Account:identifier Group:identifier];
+}
+-(NSData *)readKeychainId:(NSString *)identifier Account:(NSString *)Account Group:(NSString *)Group
+{
+    NSMutableDictionary *searchDictionary=[self newkSecDictionary:identifier Account:Account Group:Group];
+    [searchDictionary setObject:(id)kSecMatchLimitOne forKey:(id)kSecMatchLimit];
+    [searchDictionary setObject:(id)kCFBooleanTrue forKey:(id)kSecReturnData];
+
+    CFTypeRef outdata = nil;
+
+    if (SecItemCopyMatching((CFDictionaryRef)searchDictionary,&outdata)==errSecSuccess) {
+        NSData *ret = [NSData dataWithData:(__bridge NSData *)outdata];
+        if (outdata) {
+            CFRelease(outdata);
+            return ret;
+        }
+    };
+    return nil;
+}
+-(BOOL)writeData:(NSData *)data KeychainId:(NSString *)identifier
+{
+    return [self writeData:data KeychainId:identifier Account:identifier Group:identifier];
+}
+-(BOOL)writeData:(NSData *)data KeychainId:(NSString *)identifier Account:(NSString *)Account Group:(NSString *)Group
+{
+    NSMutableDictionary *searchDictionary=[self newkSecDictionary:identifier Account:Account Group:Group];
+
+    if ([self readKeychainId:identifier Account:Account Group:Group]) {
+        NSMutableDictionary *attributesToUpdate=[NSMutableDictionary dictionary];
+        [attributesToUpdate setObject:data forKey:(id)kSecValueData];
+
+        if (SecItemUpdate((CFDictionaryRef)searchDictionary, (CFDictionaryRef)attributesToUpdate)==errSecSuccess) {
+            return YES;
+        }
+    }else{
+        [searchDictionary setObject:data forKey:(id)kSecValueData];
+        if (SecItemAdd((CFDictionaryRef)searchDictionary, nil)==errSecSuccess) {
+            return YES;
+        }
+    }
+    return NO;
+}
+-(BOOL)deleteKeychainId:(NSString *)identifier
+{
+    return [self deleteKeychainId:identifier Account:identifier Group:identifier];
+}
+-(BOOL)deleteKeychainId:(NSString *)identifier Account:(NSString *)Account Group:(NSString *)Group
+{
+    NSMutableDictionary *searchDictionary=[self newkSecDictionary:identifier Account:Account Group:Group];
+    if (SecItemDelete((CFDictionaryRef)searchDictionary)==errSecSuccess) {
+        return YES;
+    }
+    return NO;
+}
+
 @end
 
 

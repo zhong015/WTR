@@ -613,6 +613,8 @@ void SetColorCWithDa(char *da,long width,int i,int j,ColorC onec)
     CGColorSpaceRelease(colorspace);
     CGContextRelease(bmpcontext);
 
+    free(imagedata);
+
     double dr=zr*1.0/zs/255;
     double dg=zg*1.0/zs/255;
     double db=zb*1.0/zs/255;
@@ -659,7 +661,7 @@ void SetColorCWithDa(char *da,long width,int i,int j,ColorC onec)
 
     int jump=2;//跳跃取点
 
-    // num 255 255 255
+    // num 255 255 255  //使用四个字节  第一个存个数  后三个存颜色
     unsigned long long *parr=malloc(sizeof(unsigned long long)*imageheght*imagewidth/jump);
 
     unsigned long clen=0;
@@ -699,6 +701,8 @@ void SetColorCWithDa(char *da,long width,int i,int j,ColorC onec)
     }
     CGColorSpaceRelease(colorspace);
     CGContextRelease(bmpcontext);
+
+    free(imagedata);
 
     unsigned long maxindex=0;
     unsigned long long maxnum=0;

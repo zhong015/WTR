@@ -61,6 +61,15 @@
 //获取数据库一个表的所有数据
 +(NSArray *)GetAllDataWithDbPath:(NSString *)path tablename:(NSString *)tablename columnArray:(NSArray <NSString *>*)columnArray;
 
+
+//Keychain操作
+-(NSData *)readKeychainId:(NSString *)identifier; //读取数据
+-(NSData *)readKeychainId:(NSString *)identifier Account:(NSString *)Account Group:(NSString *)Group;
+-(BOOL)writeData:(NSData *)data KeychainId:(NSString *)identifier; //写入数据
+-(BOOL)writeData:(NSData *)data KeychainId:(NSString *)identifier Account:(NSString *)Account Group:(NSString *)Group;
+-(BOOL)deleteKeychainId:(NSString *)identifier; //删除数据
+-(BOOL)deleteKeychainId:(NSString *)identifier Account:(NSString *)Account Group:(NSString *)Group;
+
 @end
 
 
