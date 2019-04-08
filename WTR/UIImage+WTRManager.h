@@ -44,4 +44,6 @@
 -(UIColor *)mainColorWtr;   //提取图片主要颜色 特殊颜色 (平均值算法)
 -(UIColor *)mainColorWtr2;  //最多颜色算法
 
++(UIColor *)colorHeCheng:(UIColor *)color1 co:(UIColor *)color2;//颜色合成 相当于两个颜色覆盖
+
 @end

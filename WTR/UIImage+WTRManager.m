@@ -589,10 +589,14 @@ void SetColorCWithDa(char *da,long width,int i,int j,ColorC onec)
 
     void *data=CGBitmapContextGetData(bmpcontext);
 
-    unsigned long long zr=0,zg=0,zb=0,zs=0;
+    uint32_t zr=0,zg=0,zb=0,zs=0;
 
     //像素点提取
-    int jump=2;//跳跃取点
+    int jump=MAX(imagewidth, imageheght)/160;//跳跃取点
+    if (jump<2) {
+        jump=2;
+    }
+    
     for (int i=0; i<imageheght; i+=jump) {
         for (int j=0; j<imagewidth; j+=jump) {
             ColorC onec=getColorCWithDa(data,imagewidth,i,j);
@@ -659,12 +663,15 @@ void SetColorCWithDa(char *da,long width,int i,int j,ColorC onec)
 
     void *data=CGBitmapContextGetData(bmpcontext);
 
-    int jump=2;//跳跃取点
+    int jump=MAX(imagewidth, imageheght)/160;//跳跃取点
+    if (jump<2) {
+        jump=2;
+    }
 
-    // num 255 255 255  //使用四个字节  第一个存个数  后三个存颜色
-    unsigned long long *parr=malloc(sizeof(unsigned long long)*imageheght*imagewidth/jump);
+    // num 255 255 255   //使用四个字节  第一个存个数  后三个存颜色
+    uint32_t *parr=malloc(sizeof(uint32_t)*imageheght*imagewidth/jump);
 
-    unsigned long clen=0;
+    uint32_t clen=0;
 
     //像素点提取
     for (int i=0; i<imageheght; i+=jump) {
@@ -677,19 +684,20 @@ void SetColorCWithDa(char *da,long width,int i,int j,ColorC onec)
                 if ((onec.r<20)&&(onec.g<20)&&(onec.b<20)) {
                     continue;//黑色继续 不是特殊颜色
                 }
-                unsigned long long cr=onec.r;
-                unsigned long long cg=onec.g;
-                unsigned long long cb=onec.b;
+                uint32_t cr=onec.r;
+                uint32_t cg=onec.g;
+                uint32_t cb=onec.b;
 
-                unsigned long long dy=(cr<<16)+(cg<<8)+cb;
+                uint32_t dy=(cr<<16)+(cg<<8)+cb;
 
                 BOOL isin=NO;
                 for (int i=0; i<clen; i++) {
-                    unsigned long long cnum=parr[i];
+                    uint32_t cnum=parr[i];
                     cnum&=0xFFFFFF;
                     if (cnum==dy) {
                         parr[i]+=(1<<24);
                         isin=YES;
+                        break;
                     }
                 }
                 if (!isin) {
@@ -704,11 +712,11 @@ void SetColorCWithDa(char *da,long width,int i,int j,ColorC onec)
 
     free(imagedata);
 
-    unsigned long maxindex=0;
-    unsigned long long maxnum=0;
+    uint32_t maxindex=0;
+    uint32_t maxnum=0;
 
     for (int i=0; i<clen; i++) {
-        unsigned long long cnum=parr[i];
+        uint32_t cnum=parr[i];
         cnum&=0xFFFF000000;
         if (cnum>maxnum) {
             maxnum=cnum;
@@ -716,10 +724,10 @@ void SetColorCWithDa(char *da,long width,int i,int j,ColorC onec)
         }
     }
 
-    unsigned long long cnum=parr[maxindex];
-    unsigned long long cr=(cnum>>16)&0xFF;
-    unsigned long long cg=(cnum>>8)&0xFF;
-    unsigned long long cb=cnum&0xFF;
+    uint32_t cnum=parr[maxindex];
+    uint32_t cr=(cnum>>16)&0xFF;
+    uint32_t cg=(cnum>>8)&0xFF;
+    uint32_t cb=cnum&0xFF;
 
     double dr=cr*1.0/255;
     double dg=cg*1.0/255;
@@ -728,6 +736,29 @@ void SetColorCWithDa(char *da,long width,int i,int j,ColorC onec)
     free(parr);
 
     return [UIColor colorWithRed:dr green:dg blue:db alpha:1];
+}
+
++(UIColor *)colorHeCheng:(UIColor *)color1 co:(UIColor *)color2
+{
+    CGFloat c1r,c1g,c1b,c1a;
+    CGFloat c2r,c2g,c2b,c2a;
+    [color1 getRed:&c1r green:&c1g blue:&c1b alpha:&c1a];
+    [color2 getRed:&c2r green:&c2g blue:&c2b alpha:&c2a];
+
+    CGFloat bili=0;
+    if (c1a<1) {
+        bili=c1a;
+    }else{
+        bili=1-c2a;
+    }
+    if (bili<1) {
+        c1r=c1r*bili+c2r*(1-bili);
+        c1g=c1g*bili+c2g*(1-bili);
+        c1b=c1b*bili+c2b*(1-bili);
+        return [UIColor colorWithRed:c1r green:c1g blue:c1b alpha:1];
+    }
+    NSLog(@"出错，颜色没有一个半透明的");
+    return [UIColor clearColor];
 }
 
 @end
