@@ -757,7 +757,6 @@ void SetColorCWithDa(char *da,long width,int i,int j,ColorC onec)
         c1b=c1b*bili+c2b*(1-bili);
         return [UIColor colorWithRed:c1r green:c1g blue:c1b alpha:1];
     }
-    NSLog(@"出错，颜色没有一个半透明的");
     return [UIColor clearColor];
 }
 

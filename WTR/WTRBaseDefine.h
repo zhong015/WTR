@@ -24,6 +24,8 @@
 #define ISIOS10 ([UIDevice currentDevice].systemVersion.floatValue>=10.0)
 #define ISIOS11 ([UIDevice currentDevice].systemVersion.floatValue>=11.0)
 #define ISIOS12 ([UIDevice currentDevice].systemVersion.floatValue>=12.0)
+#define ISIOS13 ([UIDevice currentDevice].systemVersion.floatValue>=13.0)
+#define ISIOS14 ([UIDevice currentDevice].systemVersion.floatValue>=14.0)
 
 #define ScreenWidth  (((WTRAppDelegate *)[UIApplication sharedApplication].delegate).window.bounds.size.width)
 #define ScreenHeight  (((WTRAppDelegate *)[UIApplication sharedApplication].delegate).window.bounds.size.height)
@@ -32,9 +34,7 @@
 // 是否iPad
 #define isPad (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
 
-#define ISIPhoneX (ISIOS11&&(([UIApplication sharedApplication].windows[0].safeAreaInsets.top>20)||[UIApplication sharedApplication].windows[0].safeAreaInsets.left>20||[UIApplication sharedApplication].windows[0].safeAreaInsets.bottom>20||[UIApplication sharedApplication].windows[0].safeAreaInsets.right>20))//((ScreenHeightD==812)&&(ScreenWidthD==375))
-
-#define ISIPhoneXTop20 (ISIPhoneX?24:0)
+#define ISIPhoneX (^(void){if(@available(iOS 11.0, *)){return (([UIApplication sharedApplication].windows[0].safeAreaInsets.top>20)||[UIApplication sharedApplication].windows[0].safeAreaInsets.left>20||[UIApplication sharedApplication].windows[0].safeAreaInsets.bottom>20||[UIApplication sharedApplication].windows[0].safeAreaInsets.right>20);}else{return 0;}}())
 
 //IOS8后 旋转屏幕 ScreenWidth与ScreenHeight会调换 下面是绝对的
 #define ScreenWidthD ((ScreenWidth<ScreenHeight)?ScreenWidth:ScreenHeight)

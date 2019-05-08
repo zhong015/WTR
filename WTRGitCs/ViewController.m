@@ -22,6 +22,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+    if (ISIPhoneX) {
+        NSLog(@"呵呵呵");
+    }
     nameArray=@[@"图片选取剪切"];
 
     UITableView *tablev=[[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];

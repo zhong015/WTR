@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D200B2D92282B4340089EEE8 /* WTRCollectionLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = D200B2D72282B4340089EEE8 /* WTRCollectionLayout.m */; };
 		D2207C4C20109E09002E10C6 /* WTRImageCutView.m in Sources */ = {isa = PBXBuildFile; fileRef = D2207C4B20109E09002E10C6 /* WTRImageCutView.m */; };
 		D2389D9C2011736800179CEA /* ImageCutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D2389D9A2011736800179CEA /* ImageCutViewController.m */; };
 		D2389D9F2011739700179CEA /* SLImageSelectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D2389D9E2011739700179CEA /* SLImageSelectViewController.m */; };
@@ -36,6 +37,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		D200B2D72282B4340089EEE8 /* WTRCollectionLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WTRCollectionLayout.m; sourceTree = "<group>"; };
+		D200B2D82282B4340089EEE8 /* WTRCollectionLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WTRCollectionLayout.h; sourceTree = "<group>"; };
 		D2207C4A20109E09002E10C6 /* WTRImageCutView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WTRImageCutView.h; sourceTree = "<group>"; };
 		D2207C4B20109E09002E10C6 /* WTRImageCutView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WTRImageCutView.m; sourceTree = "<group>"; };
 		D2389D9A2011736800179CEA /* ImageCutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageCutViewController.m; sourceTree = "<group>"; };
@@ -102,6 +105,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		D200B2D62282B42B0089EEE8 /* WTRView */ = {
+			isa = PBXGroup;
+			children = (
+				D200B2D82282B4340089EEE8 /* WTRCollectionLayout.h */,
+				D200B2D72282B4340089EEE8 /* WTRCollectionLayout.m */,
+			);
+			name = WTRView;
+			sourceTree = "<group>";
+		};
 		D2389D992011736800179CEA /* 图片选取剪切 */ = {
 			isa = PBXGroup;
 			children = (
@@ -128,12 +140,12 @@
 			isa = PBXGroup;
 			children = (
 				D26444891ED5846700190727 /* WTRBaseDefine.h */,
+				D26444561ED5733800190727 /* WTR.h */,
+				D26444571ED5733800190727 /* WTR.m */,
 				D26444861ED5740E00190727 /* WTRFilePath.h */,
 				D26444871ED5740E00190727 /* WTRFilePath.m */,
 				D26444541ED5733800190727 /* UIView+WTRFrame.h */,
 				D26444551ED5733800190727 /* UIView+WTRFrame.m */,
-				D26444561ED5733800190727 /* WTR.h */,
-				D26444571ED5733800190727 /* WTR.m */,
 				D26444581ED5733800190727 /* WTRZAppDelegate.h */,
 				D26444591ED5733800190727 /* WTRZAppDelegate.m */,
 				D2A91206203FA74900B41AD0 /* WTRSTBarNavViewController.h */,
@@ -160,8 +172,6 @@
 			children = (
 				D26444681ED573AE00190727 /* UIImage+WTRManager.h */,
 				D26444691ED573AE00190727 /* UIImage+WTRManager.m */,
-				D264446A1ED573AE00190727 /* WTRImageListShow.h */,
-				D264446B1ED573AE00190727 /* WTRImageListShow.m */,
 			);
 			name = WTRImageManager;
 			sourceTree = "<group>";
@@ -179,6 +189,7 @@
 				D26444721ED573CE00190727 /* WTRPhotosAssetViewController.m */,
 			);
 			name = WTRPhotosPicker;
+			path = WTR;
 			sourceTree = "<group>";
 		};
 		D264447B1ED573DC00190727 /* WTRVideo */ = {
@@ -211,6 +222,9 @@
 			isa = PBXGroup;
 			children = (
 				D2389DA02011755800179CEA /* Define.h */,
+				D264446A1ED573AE00190727 /* WTRImageListShow.h */,
+				D264446B1ED573AE00190727 /* WTRImageListShow.m */,
+				D264446E1ED573B800190727 /* WTRPhotosPicker */,
 				D2C85D801ED4319B00528873 /* WTR */,
 				D2A5BF951ED5353900693D59 /* UI */,
 				D2C85D681ED42E0800528873 /* WTRGitCs */,
@@ -253,14 +267,14 @@
 			isa = PBXGroup;
 			children = (
 				D2C85D861ED431C200528873 /* WTRDefine.h */,
+				D26444531ED5732400190727 /* WTRBase */,
 				D24D18D71ED65BE400AB1583 /* WTRBundle.bundle */,
 				D24D18D61ED65BAC00AB1583 /* WTRHUD */,
+				D26444671ED5736000190727 /* WTRImageManager */,
 				D26444821ED573FD00190727 /* WTRDIYTransitions */,
 				D264447B1ED573DC00190727 /* WTRVideo */,
-				D264446E1ED573B800190727 /* WTRPhotosPicker */,
-				D26444671ED5736000190727 /* WTRImageManager */,
 				D264445D1ED5733F00190727 /* WTRDownload */,
-				D26444531ED5732400190727 /* WTRBase */,
+				D200B2D62282B42B0089EEE8 /* WTRView */,
 			);
 			path = WTR;
 			sourceTree = "<group>";
@@ -306,6 +320,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);
@@ -352,6 +367,7 @@
 				D2C85D6E1ED42E0800528873 /* AppDelegate.m in Sources */,
 				D264445A1ED5733800190727 /* UIView+WTRFrame.m in Sources */,
 				D2207C4C20109E09002E10C6 /* WTRImageCutView.m in Sources */,
+				D200B2D92282B4340089EEE8 /* WTRCollectionLayout.m in Sources */,
 				D2389D9F2011739700179CEA /* SLImageSelectViewController.m in Sources */,
 				D26444781ED573CE00190727 /* WTRPhotosAssetViewController.m in Sources */,
 				D2C85D6B1ED42E0800528873 /* main.m in Sources */,

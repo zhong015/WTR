@@ -106,6 +106,7 @@
     
     self.backgroundColor=[UIColor blackColor];
     self.alpha=0;
+    
     [UIView animateWithDuration:0.25 animations:^{
         self.alpha=0.8;
         crutapv.frame=CGRectMake((ScreenWidthD-faw)/2,(ScreenHeightD-fah)/2, faw, fah);

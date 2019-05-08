@@ -19,15 +19,12 @@
 
 #endif
 
-#import "WTRImageListShow.h"
-#import "UIImage+WTRManager.h"
-#import "WTRMutiDownloader.h"
-#import "WTRPhotosViewController.h"
-#import "WTRImageListShow.h"
-#import "WTRVideoCut.h"
 #import "WTRHUD.h"
-
+#import "UIImage+WTRManager.h"
+//#import "WTRMutiDownloader.h"
+//#import "WTRVideoCut.h"
 //#import "UIImageView+WTRLoad.h"
+//#import "WTRCollectionLayout.h"
 
 #endif
 
