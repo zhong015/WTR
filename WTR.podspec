@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
   #
 
   s.name         = "WTR"
-  s.version      = "0.1.0"
+  s.version      = "0.1.1"
   s.summary      = "WTR基本快捷方法"
 
   # This description is used to generate tags and improve search results.
@@ -25,7 +25,7 @@ Pod::Spec.new do |s|
   #   * Write the description between the DESC delimiters below.
   #   * Finally, don't worry about the indent, CocoaPods strips it!
   s.description  = <<-DESC
-        键盘弹起自动调整View、视频剪切、自定义转场动画、图片处理、自定义表单上传、文件分块下载、CollectionView的拖拽分组排序等基本快捷方法。
+        键盘弹起自动调整View、图片点击放大、自定义转场动画、图片处理、视频剪切、自定义表单上传、文件分块下载、CollectionView的拖拽分组排序等基本快捷方法。
                    DESC
 
   s.homepage     = "https://github.com/zhong015/WTR.git"
@@ -96,7 +96,7 @@ Pod::Spec.new do |s|
   # s.public_header_files = "WTR/WTRDefine.h"
 
   s.subspec 'WTRBase' do |ss|
-    ss.source_files = 'WTR/WTRSTBarNavViewController.{h,m}','WTR/WTRFilePath.{h,m}','WTR/UIView+WTRFrame.{h,m}','WTR/WTR.{h,m}','WTR/WTRZAppDelegate.{h,m}','WTR/WTRBaseDefine.h'
+    ss.source_files = 'WTR/WTRFilePath.{h,m}','WTR/UIView+WTRFrame.{h,m}','WTR/WTR.{h,m}','WTR/WTRBaseDefine.h'
   end
 
   s.subspec 'WTRDIYTransitions' do |ss|
@@ -121,12 +121,14 @@ Pod::Spec.new do |s|
   end
 
   s.subspec 'WTRHUD' do |ss|
-    ss.source_files = "WTR/WTRHUD.{h,m}",'WTR/SVIndefiniteAnimatedView2.{h,m}'
+    ss.source_files = "WTR/WTRHUD.{h,m}",'WTR/SVIndefiniteAnimatedView2.{h,m}','WTR/SVStatusShowView.{h,m}'
+    ss.dependency 'WTR/WTRBase'
   end
 
   s.subspec 'WTRView' do |ss|
-  ss.source_files = "WTR/WTRCollectionLayout.{h,m}"
-  ss.dependency 'WTR/WTRBase'
+    ss.source_files = "WTR/WTRCollectionLayout.{h,m}",'WTR/WTRImageListShow.{h,m}'
+    ss.dependency 'WTR/WTRBase'
+    ss.dependency 'WTR/WTRHUD'
   end
 
   # ――― Resources ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
@@ -151,7 +153,7 @@ Pod::Spec.new do |s|
   #
 
   # s.framework  = "SomeFramework"
-  s.frameworks = "UIKit", "Foundation", "Photos", "PhotosUI", "AVFoundation", "Accelerate"
+  s.frameworks = "UIKit", "Foundation", "AVFoundation", "Accelerate"
 
   # s.library   = "iconv"
   # s.libraries = "iconv", "xml2"

@@ -12,7 +12,6 @@
 #include <net/if.h>
 #import "WTRBaseDefine.h"
 #import <sqlite3.h>
-
 #import <CommonCrypto/CommonCrypto.h>
 
 @interface TextFieldLinkViewWTR : NSObject
@@ -132,10 +131,8 @@ static id _s;
     }
     
     height=height+curinttf.adh;
-    
-    WTRAppDelegate *delegate = (WTRAppDelegate *)[[UIApplication sharedApplication] delegate];
-    
-    CGRect rect=[curinttf.textfiled convertRect:curinttf.textfiled.bounds toView:delegate.window];
+
+    CGRect rect=[curinttf.textfiled convertRect:curinttf.textfiled.bounds toView:[UIApplication sharedApplication].delegate.window];
     
     CGFloat hh=ScreenHeight-rect.origin.y-rect.size.height;
     if (hh<height) {
@@ -605,7 +602,213 @@ static id _s;
     }
     return @"";
 }
++(NSString *)CovertLogToJson:(NSString *)inlogstr
+{
+    if (!inlogstr||![inlogstr isKindOfClass:[NSString class]]||inlogstr.length==0) {
+        return @"";
+    }
+    NSString *logstr=inlogstr;
 
+    logstr=[logstr stringByReplacingOccurrencesOfString:@"\t" withString:@""];
+    logstr=[logstr stringByReplacingOccurrencesOfString:@" " withString:@""];
+    logstr=[logstr stringByReplacingOccurrencesOfString:@"\n" withString:@""];
+    logstr=[logstr stringByReplacingOccurrencesOfString:@"\r" withString:@""];
+
+    unichar fc=[logstr characterAtIndex:0];
+    unichar lc=[logstr characterAtIndex:logstr.length-1];
+
+    if (fc=='('&&lc==')') {
+        //数组
+        NSMutableArray *muarr=[NSMutableArray array];//t: 1  字典  2 数组
+
+        NSMutableString *onestr=[NSMutableString string];
+
+        for (NSInteger h=1; h<logstr.length-1; h++) {
+            unichar hc=[logstr characterAtIndex:h];
+
+            if (hc=='{') {
+                NSInteger dep=1; //括号深度
+                NSInteger i=h+1;
+                for (; i<logstr.length; i++) {
+                    unichar kc=[logstr characterAtIndex:i];
+                    if (kc=='{') {
+                        dep++;
+                    }
+                    if (kc=='}') {
+                        dep--;
+                        if (dep==0) {
+                            break;
+                        }
+                    }
+                }
+                if (dep==0) {
+                    NSString *substr=[logstr substringWithRange:NSMakeRange(h, i-h+1)];
+                    substr=[self CovertLogToJson:substr];
+                    [muarr addObject:@{@"v":substr,@"t":@(1)}];
+                    h=i;
+                }
+            }else if (hc=='(') {
+                NSInteger dep=1; //括号深度
+                NSInteger i=h+1;
+                for (; i<logstr.length; i++) {
+                    unichar kc=[logstr characterAtIndex:i];
+                    if (kc=='(') {
+                        dep++;
+                    }
+                    if (kc==')') {
+                        dep--;
+                        if (dep==0) {
+                            break;
+                        }
+                    }
+                }
+                if (dep==0) {
+                    NSString *substr=[logstr substringWithRange:NSMakeRange(h, i-h+1)];
+                    substr=[self CovertLogToJson:substr];
+                    [muarr addObject:@{@"v":substr,@"t":@(2)}];
+                    h=i;
+                }
+            }else if(hc==','){
+                if (onestr.length>0) {
+                    [muarr addObject:@{@"v":onestr,@"t":@(0)}];
+                    onestr=[NSMutableString string];
+                }
+            }else{
+                [onestr appendFormat:@"%C",hc];
+            }
+        }
+        if (onestr.length>0) {
+            [muarr addObject:@{@"v":onestr,@"t":@(0)}];
+        }
+
+        NSMutableString *mustr=[NSMutableString string];
+        for (int i=0; i<muarr.count; i++) {
+            NSDictionary *ccdic=muarr[i];
+            NSString *value=[ccdic objectForKey:@"v"];
+            NSNumber *t=[ccdic objectForKey:@"t"];
+            if (t.intValue>0) {
+                if (mustr.length==0) {
+                    [mustr appendFormat:@"[%@",value];
+                }else{
+                    [mustr appendFormat:@",%@",value];
+                }
+            }else{
+                if (mustr.length==0) {
+                    [mustr appendFormat:@"[\"%@\"",value];
+                }else{
+                    [mustr appendFormat:@",\"%@\"",value];
+                }
+            }
+        }
+        [mustr appendString:@"]"];
+        return mustr;
+    }
+
+    if (fc=='{'&&lc=='}') {
+
+        //字典
+        NSMutableArray *muarr=[NSMutableArray array];//t: 1  字典  2 数组
+
+        NSMutableString *onename=[NSMutableString string];
+        NSMutableString *onestr=[NSMutableString string];
+
+        BOOL isnamec=1;//是否是name收集
+
+        for (NSInteger h=1; h<logstr.length-1; h++) {
+            unichar hc=[logstr characterAtIndex:h];
+
+            if (hc=='{') {
+                NSInteger dep=1; //括号深度
+                NSInteger i=h+1;
+                for (; i<logstr.length; i++) {
+                    unichar kc=[logstr characterAtIndex:i];
+                    if (kc=='{') {
+                        dep++;
+                    }
+                    if (kc=='}') {
+                        dep--;
+                        if (dep==0) {
+                            break;
+                        }
+                    }
+                }
+                if (dep==0) {
+                    NSString *substr=[logstr substringWithRange:NSMakeRange(h, i-h+1)];
+                    substr=[self CovertLogToJson:substr];
+                    [muarr addObject:@{@"v":substr,@"t":@(1),@"n":onename}];
+                    onename=[NSMutableString string];
+                    h=i;
+                }
+            }else if (hc=='(') {
+                NSInteger dep=1; //括号深度
+                NSInteger i=h+1;
+                for (; i<logstr.length; i++) {
+                    unichar kc=[logstr characterAtIndex:i];
+                    if (kc=='(') {
+                        dep++;
+                    }
+                    if (kc==')') {
+                        dep--;
+                        if (dep==0) {
+                            break;
+                        }
+                    }
+                }
+                if (dep==0) {
+                    NSString *substr=[logstr substringWithRange:NSMakeRange(h, i-h+1)];
+                    substr=[self CovertLogToJson:substr];
+                    [muarr addObject:@{@"v":substr,@"t":@(2),@"n":onename}];
+                    onename=[NSMutableString string];
+                    h=i;
+                }
+            }else if(hc=='='){
+                isnamec=0;
+            }else if(hc==';'){
+                isnamec=1;
+                if (onestr.length>0&&onename.length>0) {
+                    [muarr addObject:@{@"v":onestr,@"t":@(0),@"n":onename}];
+                    onestr=[NSMutableString string];
+                    onename=[NSMutableString string];
+                }
+            }else{
+                if (isnamec) {
+                    [onename appendFormat:@"%C",hc];
+                }else{
+                    [onestr appendFormat:@"%C",hc];
+                }
+            }
+        }
+        if (onestr.length>0&&onename.length>0) {
+            [muarr addObject:@{@"v":onestr,@"t":@(0),@"n":onename}];
+        }
+
+        NSMutableString *mustr=[NSMutableString string];
+        for (int i=0; i<muarr.count; i++) {
+            NSDictionary *ccdic=muarr[i];
+            NSString *value=[ccdic objectForKey:@"v"];
+            NSNumber *t=[ccdic objectForKey:@"t"];
+            NSString *n=[ccdic objectForKey:@"n"];
+
+            if (t.intValue>0) {
+                if (mustr.length==0) {
+                    [mustr appendFormat:@"{\"%@\":%@",n,value];
+                }else{
+                    [mustr appendFormat:@",\"%@\":%@",n,value];
+                }
+            }else{
+                if (mustr.length==0) {
+                    [mustr appendFormat:@"{\"%@\":\"%@\"",n,value];
+                }else{
+                    [mustr appendFormat:@",\"%@\":\"%@\"",n,value];
+                }
+            }
+        }
+        [mustr appendString:@"}"];
+        return mustr;
+    }
+
+    return logstr;
+}
 #pragma mark 清除缓存
 +(void)clearAllCaches
 {
@@ -750,8 +953,60 @@ static id _s;
     return marr;
 }
 
+#pragma mark 数字转汉字
++(NSString *)numtohanzi:(uint64_t)index
+{
+    NSMutableString *allstr=[self numtohanziR:index];
+    if (allstr.length>1&&[[allstr substringFromIndex:allstr.length-1] isEqualToString:@"零"]) {
+        [allstr replaceCharactersInRange:NSMakeRange(allstr.length-1, 1) withString:@""];
+    }
+    if (allstr.length>2&&[[allstr substringWithRange:NSMakeRange(0, 2)] isEqualToString:@"一十"]) {
+        [allstr replaceCharactersInRange:NSMakeRange(0, 2) withString:@"十"];
+    }
+    return allstr;
+}
++(NSMutableString *)numtohanziR:(uint64_t)index
+{
+    NSArray *shuzi=@[@"零",@"一",@"二",@"三",@"四",@"五",@"六",@"七",@"八",@"九"];
+    NSArray *danwei=@[@"十",@"百",@"千",@"万",@"亿"];
+    NSArray *danweiJs=@[@(10),@(100),@(1000),@(10000),@(100000000)];
+
+    if (index/10==0) {
+        NSUInteger ccindex=(NSUInteger)index;
+        return shuzi[ccindex];
+    }
+
+    NSMutableString *allstr=[NSMutableString string];
+    uint64_t shang=0;
+    uint64_t yushu=index;
+    NSInteger ji=danweiJs.count-1;
+    while (ji>=0) {
+        NSNumber *jishunum=danweiJs[ji];
+        uint64_t jishu=jishunum.unsignedLongLongValue;
+        shang=yushu/jishu;
+        if (shang>0) {
+            [allstr appendFormat:@"%@%@",[self numtohanziR:shang],danwei[ji]];
+            yushu=yushu%jishu;
+            uint64_t jishuxia=jishu/10;
+            NSString *yushustr=[self numtohanziR:yushu];
+            if ((jishuxia<10)||(yushu/jishuxia>0)) {
+                [allstr appendString:yushustr];
+            }else{
+                [allstr appendFormat:@"零%@",yushustr];
+            }
+            if (allstr.length>0&&[[allstr substringFromIndex:allstr.length-1] isEqualToString:@"零"]) {
+                [allstr replaceCharactersInRange:NSMakeRange(allstr.length-1, 1) withString:@""];
+            }
+            return allstr;
+        }
+        ji--;
+    }
+    NSLog(@"数字转文字出错");
+    return nil;
+}
+
 //Keychain操作
-- (NSMutableDictionary *)newkSecDictionary:(NSString *)identifier Account:(NSString *)Account Group:(NSString *)Group
++(NSMutableDictionary *)newkSecDictionary:(NSString *)identifier Account:(NSString *)Account Group:(NSString *)Group
 {
     NSMutableDictionary *searchDictionary = [NSMutableDictionary dictionary];
     //指定item的类型为GenericPassword
@@ -778,11 +1033,11 @@ static id _s;
     return searchDictionary;
 }
 
--(NSData *)readKeychainId:(NSString *)identifier
++(NSData *)readKeychainId:(NSString *)identifier
 {
     return [self readKeychainId:identifier Account:identifier Group:identifier];
 }
--(NSData *)readKeychainId:(NSString *)identifier Account:(NSString *)Account Group:(NSString *)Group
++(NSData *)readKeychainId:(NSString *)identifier Account:(NSString *)Account Group:(NSString *)Group
 {
     NSMutableDictionary *searchDictionary=[self newkSecDictionary:identifier Account:Account Group:Group];
     [searchDictionary setObject:(id)kSecMatchLimitOne forKey:(id)kSecMatchLimit];
@@ -799,11 +1054,11 @@ static id _s;
     };
     return nil;
 }
--(BOOL)writeData:(NSData *)data KeychainId:(NSString *)identifier
++(BOOL)writeData:(NSData *)data KeychainId:(NSString *)identifier
 {
     return [self writeData:data KeychainId:identifier Account:identifier Group:identifier];
 }
--(BOOL)writeData:(NSData *)data KeychainId:(NSString *)identifier Account:(NSString *)Account Group:(NSString *)Group
++(BOOL)writeData:(NSData *)data KeychainId:(NSString *)identifier Account:(NSString *)Account Group:(NSString *)Group
 {
     NSMutableDictionary *searchDictionary=[self newkSecDictionary:identifier Account:Account Group:Group];
 
@@ -822,11 +1077,11 @@ static id _s;
     }
     return NO;
 }
--(BOOL)deleteKeychainId:(NSString *)identifier
++(BOOL)deleteKeychainId:(NSString *)identifier
 {
     return [self deleteKeychainId:identifier Account:identifier Group:identifier];
 }
--(BOOL)deleteKeychainId:(NSString *)identifier Account:(NSString *)Account Group:(NSString *)Group
++(BOOL)deleteKeychainId:(NSString *)identifier Account:(NSString *)Account Group:(NSString *)Group
 {
     NSMutableDictionary *searchDictionary=[self newkSecDictionary:identifier Account:Account Group:Group];
     if (SecItemDelete((CFDictionaryRef)searchDictionary)==errSecSuccess) {

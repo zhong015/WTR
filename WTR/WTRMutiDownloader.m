@@ -87,19 +87,25 @@ static id _s;
 }
 - (void)URLSessionDidFinishEventsForBackgroundURLSession:(NSURLSession *)session
 {
-    WTRAppDelegate *appDelegate = (WTRAppDelegate *)[[UIApplication sharedApplication] delegate];
-    
-    if ([appDelegate respondsToSelector:@selector(backgroundSessionCompletionHandler)]) {
-        if (appDelegate.backgroundSessionCompletionHandler) {
-            
-            void (^completionHandler)(void) = appDelegate.backgroundSessionCompletionHandler;
-            
-            appDelegate.backgroundSessionCompletionHandler = nil;
-            
-            completionHandler();
-        }
-    }
-    NSLog(@"All tasks are finished");
+    /*
+     AppDelegate 文件
+     @property (copy) void (^backgroundSessionCompletionHandler)();
+     - (void)application:(UIApplication *)application handleEventsForBackgroundURLSession:(NSString *)identifier
+     completionHandler:(void (^)(void))completionHandler {
+     self.backgroundSessionCompletionHandler = completionHandler;
+     }*/
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"WTRMutiDownloaderDidFinishEventsForBackground" object:nil];
+//    if ([appDelegate respondsToSelector:@selector(backgroundSessionCompletionHandler)]) {
+//        if (appDelegate.backgroundSessionCompletionHandler) {
+//
+//            void (^completionHandler)(void) = appDelegate.backgroundSessionCompletionHandler;
+//
+//            appDelegate.backgroundSessionCompletionHandler = nil;
+//
+//            completionHandler();
+//        }
+//    }
+//    NSLog(@"All tasks are finished");
 }
 
 - (void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask

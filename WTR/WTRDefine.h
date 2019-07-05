@@ -21,10 +21,6 @@
 
 #import "WTRHUD.h"
 #import "UIImage+WTRManager.h"
-//#import "WTRMutiDownloader.h"
-//#import "WTRVideoCut.h"
-//#import "UIImageView+WTRLoad.h"
-//#import "WTRCollectionLayout.h"
 
 #endif
 

@@ -9,6 +9,7 @@
 #import "WTRVideoCut.h"
 #import <AVFoundation/AVFoundation.h>
 #import <UIKit/UIKit.h>
+#import "WTRBaseDefine.h"
 
 @implementation WTRVideoCut
 

@@ -49,6 +49,7 @@
 + (NSString *)getIPAddress;
 
 +(NSString *)SortedJsonStr:(id)dicOrArr; //得到排序JSON字符串
++(NSString *)CovertLogToJson:(NSString *)inlogstr;//NSLog打印的字符串转换为json
 
 + (CGFloat)getFileSize:(NSString *)path; //此方法可以获取文件的大小，返回的是单位是M。
 
@@ -61,14 +62,15 @@
 //获取数据库一个表的所有数据
 +(NSArray *)GetAllDataWithDbPath:(NSString *)path tablename:(NSString *)tablename columnArray:(NSArray <NSString *>*)columnArray;
 
++(NSString *)numtohanzi:(uint64_t)index;// 数字转汉字 12 -> 十二
 
 //Keychain操作
--(NSData *)readKeychainId:(NSString *)identifier; //读取数据
--(NSData *)readKeychainId:(NSString *)identifier Account:(NSString *)Account Group:(NSString *)Group;
--(BOOL)writeData:(NSData *)data KeychainId:(NSString *)identifier; //写入数据
--(BOOL)writeData:(NSData *)data KeychainId:(NSString *)identifier Account:(NSString *)Account Group:(NSString *)Group;
--(BOOL)deleteKeychainId:(NSString *)identifier; //删除数据
--(BOOL)deleteKeychainId:(NSString *)identifier Account:(NSString *)Account Group:(NSString *)Group;
++(NSData *)readKeychainId:(NSString *)identifier; //读取数据
++(NSData *)readKeychainId:(NSString *)identifier Account:(NSString *)Account Group:(NSString *)Group;
++(BOOL)writeData:(NSData *)data KeychainId:(NSString *)identifier; //写入数据
++(BOOL)writeData:(NSData *)data KeychainId:(NSString *)identifier Account:(NSString *)Account Group:(NSString *)Group;
++(BOOL)deleteKeychainId:(NSString *)identifier; //删除数据
++(BOOL)deleteKeychainId:(NSString *)identifier Account:(NSString *)Account Group:(NSString *)Group;
 
 @end
 

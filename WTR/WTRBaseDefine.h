@@ -16,8 +16,6 @@
 #import "WTR.h"
 #import "UIView+WTRFrame.h"
 #import "WTRFilePath.h"
-#import "WTRZAppDelegate.h"
-
 
 #define ISIOS8 ([UIDevice currentDevice].systemVersion.floatValue>=8.0)
 #define ISIOS9 ([UIDevice currentDevice].systemVersion.floatValue>=9.0)
@@ -27,9 +25,9 @@
 #define ISIOS13 ([UIDevice currentDevice].systemVersion.floatValue>=13.0)
 #define ISIOS14 ([UIDevice currentDevice].systemVersion.floatValue>=14.0)
 
-#define ScreenWidth  (((WTRAppDelegate *)[UIApplication sharedApplication].delegate).window.bounds.size.width)
-#define ScreenHeight  (((WTRAppDelegate *)[UIApplication sharedApplication].delegate).window.bounds.size.height)
-#define ScreenBounds  (((WTRAppDelegate *)[UIApplication sharedApplication].delegate).window.bounds)
+#define ScreenWidth  ([UIApplication sharedApplication].delegate.window.bounds.size.width)
+#define ScreenHeight  ([UIApplication sharedApplication].delegate.window.bounds.size.height)
+#define ScreenBounds  ([UIApplication sharedApplication].delegate.window.bounds)
 
 // 是否iPad
 #define isPad (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)

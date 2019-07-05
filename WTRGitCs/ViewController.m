@@ -8,8 +8,6 @@
 
 #import "ViewController.h"
 #import "WTRDefine.h"
-#import "SLImageSelectViewController.h"
-#import "UIImage+WTRManager.h"
 
 @interface ViewController ()<UITableViewDelegate,UITableViewDataSource>
 
@@ -17,24 +15,41 @@
 
 @implementation ViewController
 {
+    UIImageView *imv;
     NSArray *nameArray;
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    if (ISIPhoneX) {
-        NSLog(@"呵呵呵");
-    }
-    nameArray=@[@"图片选取剪切"];
+//    imv=[[UIImageView alloc] initWithImage:[UIImage imageWithContentsOfFile:@"/Users/wfz/Desktop/asd.png"]];
+//    [self.view addSubview:imv];
 
-    UITableView *tablev=[[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
-    tablev.dataSource=self;
-    tablev.delegate=self;
-    [self.view addSubview:tablev];
+    
+//    if (ISIPhoneX) {
+//        NSLog(@"呵呵呵");
+//    }
+//    nameArray=@[@"图片选取剪切"];
+//
+//    UITableView *tablev=[[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
+//    tablev.dataSource=self;
+//    tablev.delegate=self;
+//    [self.view addSubview:tablev];
+//
+//    tablev.contentInset=UIEdgeInsetsMake(ISIPhoneX?44:20, 0, ISIPhoneX?40:20, 0);
+//
+//    [tablev registerClass:[UITableViewCell class] forCellReuseIdentifier:@"cell"];
+}
+-(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
+{
+//    imv.center=CGPointMake(arc4random()%100/100.0*self.view.frame.size.width, arc4random()%100/100.0*self.view.frame.size.height);
 
-    tablev.contentInset=UIEdgeInsetsMake(ISIPhoneX?44:20, 0, ISIPhoneX?40:20, 0);
+//    [WTRHUD showHUDWInView:self.view];
 
-    [tablev registerClass:[UITableViewCell class] forCellReuseIdentifier:@"cell"];
+//    if (arc4random()%2) {
+//        [WTRHUD showSuccessWInView:self.view WithStatus:@"呵呵呵"];
+//    }else{
+//        [WTRHUD showErrorBInView:self.view WithStatus:@"错误提示"];
+//    }
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -54,8 +69,7 @@
     switch (indexPath.row) {
         case 0:
             {
-                SLImageSelectViewController *scvc=[SLImageSelectViewController new];
-                [self.navigationController pushViewController:scvc animated:YES];
+
             }
             break;
             
