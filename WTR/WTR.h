@@ -72,12 +72,18 @@
 +(BOOL)deleteKeychainId:(NSString *)identifier; //删除数据
 +(BOOL)deleteKeychainId:(NSString *)identifier Account:(NSString *)Account Group:(NSString *)Group;
 
+
+#pragma mark 验证内购
++(void)verifyReceiptWithData:(NSData *)receiptData isSANDBOX:(BOOL)isSANDBOX completionHandler:(void (^)(NSDictionary * retdic, NSURLResponse * response, NSError * error))completionHandler;
+
 @end
 
 
 @interface NSData (WTRMDJiaMi)
 
 -(NSString *)md5jiami;
+
++(NSData *)dataWithHexString:(NSString *)hexStr; //十六进制字符串 转data
 
 @end
 

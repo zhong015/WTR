@@ -1090,6 +1090,40 @@ static id _s;
     return NO;
 }
 
+#pragma mark 验证内购
++(void)verifyReceiptWithData:(NSData *)receiptData isSANDBOX:(BOOL)isSANDBOX completionHandler:(void (^)(NSDictionary * retdic, NSURLResponse * response, NSError * error))completionHandler
+{
+    NSString *encodeStr = [receiptData base64EncodedStringWithOptions:NSDataBase64EncodingEndLineWithLineFeed];
+
+    NSURL *url;
+    if (isSANDBOX) {
+        url = [NSURL URLWithString:@"https://sandbox.itunes.apple.com/verifyReceipt"];
+    }else{
+        url = [NSURL URLWithString:@"https://buy.itunes.apple.com/verifyReceipt"];
+    }
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:15.0f];
+
+    NSString *payload = [NSString stringWithFormat:@"{\"receipt-data\" : \"%@\"}", encodeStr];
+    NSData *payloadData = [payload dataUsingEncoding:NSUTF8StringEncoding];
+    [request setHTTPBody:payloadData];
+    [request setHTTPMethod:@"POST"];
+
+    NSURLSessionDataTask *task=[[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        if (data) {
+            NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
+            //status 为0 时 验证正确
+            if (completionHandler) {
+                completionHandler(jsonDict,response,error);
+            }
+        }else{
+            if (completionHandler) {
+                completionHandler(nil,response,error);
+            }
+        }
+    }];
+    [task resume];
+}
+
 @end
 
 
@@ -1108,5 +1142,32 @@ static id _s;
             result[12], result[13], result[14], result[15]
             ]; //lowercaseString] 小写
 }
+
++(NSData *)dataWithHexString:(NSString *)hexStr
+{
+    hexStr = [hexStr stringByReplacingOccurrencesOfString:@"<" withString:@""];
+    hexStr = [hexStr stringByReplacingOccurrencesOfString:@">" withString:@""];
+    hexStr = [hexStr stringByReplacingOccurrencesOfString:@" " withString:@""];
+    hexStr = [hexStr lowercaseString];
+    NSUInteger len = hexStr.length;
+    if (!len) return nil;
+    unichar *buf = malloc(sizeof(unichar) * len);
+    if (!buf) return nil;
+    [hexStr getCharacters:buf range:NSMakeRange(0, len)];
+
+    NSMutableData *result = [NSMutableData data];
+    unsigned char bytes;
+    char str[3] = { '\0', '\0', '\0' };
+    int i;
+    for (i = 0; i < len / 2; i++) {
+        str[0] = buf[i * 2];
+        str[1] = buf[i * 2 + 1];
+        bytes = strtol(str, NULL, 16);
+        [result appendBytes:&bytes length:1];
+    }
+    free(buf);
+    return result;
+}
+
 @end
 

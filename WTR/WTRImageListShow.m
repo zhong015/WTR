@@ -20,6 +20,7 @@
 
 @property(nonatomic,copy) void (^clearallcb)(void);
 
+
 @property(nonatomic,strong)UIViewController *curintsvc;
 @property(nonatomic,strong)UIAlertController *actionContr;
 
@@ -103,11 +104,16 @@
 
 -(void)handlelongt:(UILongPressGestureRecognizer*) recognizer{
     if (recognizer.state == UIGestureRecognizerStateBegan) {
-        UIImageView *imv=(UIImageView *)recognizer.view;
-        [self wtrsaveimage:imv.image imageView:imv];
+        [self saveimageaction];
     }
 }
 #pragma mark 保存图片
+-(void)saveimageaction
+{
+    if (self.imv.image) {
+        [self wtrsaveimage:self.imv.image imageView:self.imv];
+    }
+}
 -(void)wtrsaveimage:(UIImage *)saveimage imageView:(UIImageView *)imv
 {
     self.actionContr = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
@@ -141,7 +147,7 @@
             [self.curintsvc presentViewController:alt animated:YES completion:nil];
         }
     }else{
-        [WTRHUD showSuccessBInView:self.curintsvc.view WithStatus:@"保存成功"];
+        [WTRHUD showSuccessWInView:self.curintsvc.view WithStatus:@"保存成功"];
     }
 }
 -(void)openSettingApp
@@ -161,6 +167,7 @@
 
 @property(nonatomic,strong)UIView *bacview;//黑背景
 @property(nonatomic,strong)UIView *crutapv;
+@property(nonatomic,strong)UIImageView *crutapvimv;
 
 @property(nonatomic,assign)CGRect yuanlrect;
 
@@ -194,6 +201,9 @@
 }
 -(void)ShowImageList:(nonnull NSArray *)listArray current:(nonnull id)imageurlOrStr fromView:(nullable UIView *)imageView OrRect:(CGRect)fromRect configeOne:(void (^_Nonnull)(UIImageView * _Nonnull imv,id _Nonnull imageurlOrStr)) confige completion:(void (^_Nonnull)(void))completioncb
 {
+    if (!listArray||listArray.count==0) {
+        return;
+    }
     _listArray=listArray;
     _imageurl=imageurlOrStr;
     _imageView=imageView;
@@ -251,10 +261,11 @@
 
     [self.collection scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:currentindex inSection:0] atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:NO];
 
-    self.numla=[[UILabel alloc] initWithFrame:CGRectMake(20, self.height-40-20, ScreenWidth/2.0, 20)];
+    self.numla=[UILabel new];
     self.numla.font=[UIFont systemFontOfSize:15];
     self.numla.textColor=[UIColor whiteColor];
     [self addSubview:self.numla];
+    self.numla.frame=CGRectMake(20, self.height-60, self.width/2.0, 20);
     [self updataenumla];
 
     //放大动画
@@ -265,19 +276,19 @@
             self.yuanlrect=_fromRect;
         }
         self.crutapv=[[UIView alloc] initWithFrame:self.yuanlrect];
-        UIImageView *crutapvimv=[[UIImageView alloc]initWithFrame:self.crutapv.bounds];
-        [self.crutapv addSubview:crutapvimv];
-        crutapvimv.autoresizingMask=UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
+        self.crutapvimv=[[UIImageView alloc]initWithFrame:self.crutapv.bounds];
+        [self.crutapv addSubview:self.crutapvimv];
+        self.crutapvimv.autoresizingMask=UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
         self.crutapv.layer.masksToBounds=YES;
 
         if (confige) {
-            confige(crutapvimv,imageurlOrStr);
+            confige(self.crutapvimv,imageurlOrStr);
         }
 
-        if (crutapvimv.image) {
+        if (self.crutapvimv.image) {
             [self insertSubview:self.crutapv belowSubview:self.collection];
 
-            CGSize imsize=crutapvimv.image.size;
+            CGSize imsize=self.crutapvimv.image.size;
 
             CGFloat faw=0,fah=0;
             if (imsize.width/imsize.height>ScreenWidth/ScreenHeight) {
@@ -291,8 +302,8 @@
             }
 
             if (_imageView) {
-                crutapvimv.contentMode=_imageView.contentMode;
-                if (crutapvimv.contentMode==UIViewContentModeScaleAspectFit) {
+                self.crutapvimv.contentMode=_imageView.contentMode;
+                if (self.crutapvimv.contentMode==UIViewContentModeScaleAspectFit) {
                     faw=ScreenWidth;
                     fah=ScreenHeight;
                 }
@@ -303,8 +314,8 @@
                 self.crutapv.frame=CGRectMake((ScreenWidth-faw)/2,(ScreenHeight-fah)/2, faw, fah);
                 self.bacview.alpha=1;
             }completion:^(BOOL finished) {
-                self.collection.hidden=NO;
                 self.crutapv.hidden=YES;
+                self.collection.hidden=NO;
             }];
             return;
         }
@@ -356,6 +367,27 @@
     if (self.crutapv&&self.crutapv.superview) {
         self.collection.hidden=YES;
         self.crutapv.hidden=NO;
+
+        //图片是显示后加载出来的 那么大小会变化 重新设置crutapv位置
+        CGSize imsize=self.crutapvimv.image.size;
+        CGFloat faw=0,fah=0;
+        if (imsize.width/imsize.height>ScreenWidth/ScreenHeight) {
+            faw=ScreenWidth;
+            fah=ScreenWidth/(imsize.width/imsize.height);
+        }
+        else
+        {
+            fah=ScreenHeight;
+            faw=ScreenHeight*(imsize.width/imsize.height);
+        }
+        if (_imageView) {
+            if (self.crutapvimv.contentMode==UIViewContentModeScaleAspectFit) {
+                faw=ScreenWidth;
+                fah=ScreenHeight;
+            }
+        }
+        self.crutapv.frame=CGRectMake((ScreenWidth-faw)/2,(ScreenHeight-fah)/2, faw, fah);
+
         [UIView animateWithDuration:WTRImageListAnimateDuration animations:^{
             self.crutapv.frame=self.yuanlrect;
             self.bacview.alpha=0;
