@@ -32,6 +32,7 @@
 
 +(NSArray *)getPagesAttributedString:(NSAttributedString *)attString size:(CGSize)bbsize;//分页
 
+#pragma mark 日期获取
 + (NSDate *)dateWithISOFormatString:(NSString *)dateString;
 + (NSDate *)dateWithISOFormatStringZ:(NSString *)dateString;
 
@@ -72,9 +73,29 @@
 +(BOOL)deleteKeychainId:(NSString *)identifier; //删除数据
 +(BOOL)deleteKeychainId:(NSString *)identifier Account:(NSString *)Account Group:(NSString *)Group;
 
-
 #pragma mark 验证内购
 +(void)verifyReceiptWithData:(NSData *)receiptData isSANDBOX:(BOOL)isSANDBOX completionHandler:(void (^)(NSDictionary * retdic, NSURLResponse * response, NSError * error))completionHandler;
+
+#pragma mark 从数组中随机取连续的几个
++(NSMutableArray *)getSomeObjWithInArr:(NSArray *)yarr num:(NSInteger)num;
+
+#pragma mark 只留html中展示文字，去除所有标签、回车和空白
++(NSString *)jianHuaHtml:(NSString *)html;
+#pragma mark 过滤所有标签
++(NSString *)filterAllHTMLTag:(NSString *)html;
+#pragma mark 转意html字符
++(NSString *)htmlzhuanyizifu:(NSString *)html;
+
+#pragma mark 去除空行
++(NSString *)quchukonghang:(NSString *)str;
+#pragma mark 去除tagStr后的空白和空行
++(NSString *)quchuKBKH:(NSString *)str tagStr:(NSString *)tagStr;
+
+#pragma mark 给出现文字设置属性
++(void)AddAttributeStr:(NSMutableAttributedString *)allstr   Attributes:(NSDictionary *)atr inStr:(NSString *)str;
+#pragma mark 汉字转拼音
++(NSString *)HanZiToPinYin:(NSString *)hanzi;
+
 
 @end
 

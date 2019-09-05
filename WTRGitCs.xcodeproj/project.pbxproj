@@ -22,6 +22,7 @@
 		D264447E1ED573E600190727 /* WTRVideoCut.m in Sources */ = {isa = PBXBuildFile; fileRef = D264447D1ED573E600190727 /* WTRVideoCut.m */; };
 		D26444851ED5740400190727 /* WTRDIYTransitions.m in Sources */ = {isa = PBXBuildFile; fileRef = D26444841ED5740400190727 /* WTRDIYTransitions.m */; };
 		D26444881ED5740E00190727 /* WTRFilePath.m in Sources */ = {isa = PBXBuildFile; fileRef = D26444871ED5740E00190727 /* WTRFilePath.m */; };
+		D270D5E22320F37000F77914 /* pod 上传制作.rtf in Resources */ = {isa = PBXBuildFile; fileRef = D270D5E12320F37000F77914 /* pod 上传制作.rtf */; };
 		D29727D822CED77500BF56BE /* WTRImageListShow.m in Sources */ = {isa = PBXBuildFile; fileRef = D29727D722CED77500BF56BE /* WTRImageListShow.m */; };
 		D29727DB22CEF16500BF56BE /* SVStatusShowView.m in Sources */ = {isa = PBXBuildFile; fileRef = D29727DA22CEF16500BF56BE /* SVStatusShowView.m */; };
 		D2AAE25522D8869500D51EE9 /* WTRWebUrlPro.m in Sources */ = {isa = PBXBuildFile; fileRef = D2AAE25422D8869500D51EE9 /* WTRWebUrlPro.m */; };
@@ -63,6 +64,7 @@
 		D26444861ED5740E00190727 /* WTRFilePath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WTRFilePath.h; sourceTree = "<group>"; };
 		D26444871ED5740E00190727 /* WTRFilePath.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WTRFilePath.m; sourceTree = "<group>"; };
 		D26444891ED5846700190727 /* WTRBaseDefine.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WTRBaseDefine.h; sourceTree = "<group>"; };
+		D270D5E12320F37000F77914 /* pod 上传制作.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = "pod 上传制作.rtf"; sourceTree = "<group>"; };
 		D29727D622CED77500BF56BE /* WTRImageListShow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WTRImageListShow.h; sourceTree = "<group>"; };
 		D29727D722CED77500BF56BE /* WTRImageListShow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WTRImageListShow.m; sourceTree = "<group>"; };
 		D29727D922CEF16500BF56BE /* SVStatusShowView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SVStatusShowView.h; sourceTree = "<group>"; };
@@ -184,6 +186,7 @@
 		D2C85D5D1ED42E0800528873 = {
 			isa = PBXGroup;
 			children = (
+				D270D5E12320F37000F77914 /* pod 上传制作.rtf */,
 				D25E8F0222F7C79D009B4EA9 /* WTR.podspec */,
 				D2389DA02011755800179CEA /* Define.h */,
 				D2AAE25222D8867300D51EE9 /* 未加入2 */,
@@ -302,6 +305,7 @@
 				D25E8F0322F7C79D009B4EA9 /* WTR.podspec in Resources */,
 				D2C85D791ED42E0800528873 /* LaunchScreen.storyboard in Resources */,
 				D2C85D761ED42E0800528873 /* Assets.xcassets in Resources */,
+				D270D5E22320F37000F77914 /* pod 上传制作.rtf in Resources */,
 				D24D18D81ED65BE400AB1583 /* WTRBundle.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

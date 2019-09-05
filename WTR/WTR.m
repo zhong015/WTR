@@ -1124,6 +1124,153 @@ static id _s;
     [task resume];
 }
 
+#pragma mark 从数组中随机取连续的几个
++(NSMutableArray *)getSomeObjWithInArr:(NSArray *)yarr num:(NSInteger)num
+{
+    if (!yarr||![yarr isKindOfClass:[NSArray class]]) {
+        return nil;
+    }
+    
+    NSMutableArray *muarr=[NSMutableArray array];
+    if (yarr.count<=num) {
+        [muarr addObjectsFromArray:yarr];
+        return muarr;
+    }
+
+    NSInteger indexc=arc4random()%yarr.count;
+
+    for (int i=0; i<num; i++) {
+        [muarr addObject:yarr[indexc]];
+        indexc++;
+        if (indexc>=yarr.count) {
+            indexc=0;
+        }
+    }
+    return muarr;
+}
+
+#pragma mark 去除空行
++(NSString *)quchukonghang:(NSString *)str
+{
+    if (!str||str.length==0) {
+        return str;
+    }
+
+    NSMutableString *mustr=[NSMutableString stringWithString:str];
+
+    int ishn=0;
+
+    for (int i=0; i<mustr.length; i++) {
+        unichar c=[mustr characterAtIndex:i];
+        if (!ishn&&(c=='\n'||c=='\r')) {
+            ishn=1;
+            continue;
+        }
+        if (ishn&&(c=='\n'||c=='\r')) {
+            [mustr deleteCharactersInRange:NSMakeRange(i, 1)];
+            i--;
+        }
+        else if (ishn>0)
+        {
+            ishn=0;
+        }
+    }
+    return  mustr;//[mustr stringByReplacingOccurrencesOfString:@"\r" withString:@"\n"];
+}
+#pragma mark 去除tagStr后的空白和空行
++(NSString *)quchuKBKH:(NSString *)str tagStr:(NSString *)tagStr
+{
+    if (!str||str.length==0||!tagStr||tagStr.length==0) {
+        return str;
+    }
+
+    NSMutableString *mustr=[NSMutableString stringWithString:str];
+
+    NSRange brrange=[mustr rangeOfString:tagStr options:NSCaseInsensitiveSearch range:NSMakeRange(0, mustr.length)];
+    while (brrange.length>0) {
+        NSInteger i=brrange.location+brrange.length;
+        for (; i<mustr.length; i++) {
+            unichar c=[mustr characterAtIndex:i];
+            NSString *cstr=[NSString stringWithFormat:@"%C",c];
+            if (c=='\n'||c=='\r'||c==' '||c=='\t'||[cstr isEqualToString:@"\u3000"]) {
+                [mustr deleteCharactersInRange:NSMakeRange(i, 1)];
+                i--;
+            }else{
+                break;
+            }
+        }
+        if (i<mustr.length-1) {
+            brrange=[mustr rangeOfString:tagStr options:NSCaseInsensitiveSearch range:NSMakeRange(i, mustr.length-i)];
+        }else{
+            break;
+        }
+    }
+    return  mustr;
+}
+#pragma mark 过滤所有标签
++(NSString *)filterAllHTMLTag:(NSString *)html
+{
+    NSScanner * scanner = [NSScanner scannerWithString:html];
+    NSString * text = nil;
+    while([scanner isAtEnd]==NO)
+    {
+        [scanner scanUpToString:@"<" intoString:nil];
+        [scanner scanUpToString:@">" intoString:&text];
+        html = [html stringByReplacingOccurrencesOfString:[NSString stringWithFormat:@"%@>",text] withString:@""];
+    }
+    return html;
+}
+#pragma mark 转意html字符
++(NSString *)htmlzhuanyizifu:(NSString *)html
+{
+    if (!ISString(html)) {
+        return @"";
+    }
+    //这只是大部分概率的 不是全部转换
+    html=[html stringByReplacingOccurrencesOfString:@"&nbsp;" withString:@" "];
+    html=[html stringByReplacingOccurrencesOfString:@"&quot;" withString:@"\""];
+    html=[html stringByReplacingOccurrencesOfString:@"&amp;" withString:@"&"];
+    html=[html stringByReplacingOccurrencesOfString:@"&lt;" withString:@"<"];
+    html=[html stringByReplacingOccurrencesOfString:@"&gt;" withString:@">"];
+
+    return html;
+}
+#pragma mark 只留html中展示文字，去除所有标签、回车和空白
++(NSString *)jianHuaHtml:(NSString *)html
+{
+    html=[self filterAllHTMLTag:html];
+    html=[self htmlzhuanyizifu:html];
+
+    html=[html stringByReplacingOccurrencesOfString:@" " withString:@""];
+    html=[html stringByReplacingOccurrencesOfString:@"\n" withString:@""];
+    html=[html stringByReplacingOccurrencesOfString:@"\r" withString:@""];
+    html=[html stringByReplacingOccurrencesOfString:@"\u3000" withString:@""];
+    return html;
+}
+#pragma mark 给出现文字设置属性
++(void)AddAttributeStr:(NSMutableAttributedString *)allstr   Attributes:(NSDictionary *)atr inStr:(NSString *)str
+{
+    NSRange crange=[allstr.string rangeOfString:str];
+    while (crange.length>0) {
+        [allstr addAttributes:atr range:crange];
+        if (crange.location+crange.length>=allstr.string.length) {
+            break;
+        }
+        crange=[allstr.string rangeOfString:str options:NSCaseInsensitiveSearch range:NSMakeRange(crange.location+crange.length, allstr.string.length-(crange.location+crange.length))];
+    }
+}
+#pragma mark 汉字转拼音
++(NSString *)HanZiToPinYin:(NSString *)hanzi
+{
+    if (!ISString(hanzi)) {
+        return @"";
+    }
+    NSMutableString *source = [hanzi mutableCopy];
+    CFStringTransform((__bridge CFMutableStringRef)source, NULL, kCFStringTransformMandarinLatin, NO);
+    CFStringTransform((__bridge CFMutableStringRef)source, NULL, kCFStringTransformStripDiacritics, NO);
+    return source;
+}
+
 @end
 
 

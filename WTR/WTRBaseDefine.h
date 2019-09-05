@@ -38,6 +38,15 @@
 #define ScreenWidthD ((ScreenWidth<ScreenHeight)?ScreenWidth:ScreenHeight)
 #define ScreenHeightD ((ScreenWidth>ScreenHeight)?ScreenWidth:ScreenHeight)
 
+//判断类型
+#define ISString(str) (str&&[str isKindOfClass:[NSString class]]&&str.length>0)
+#define ISNumberStr(str) (str&&([str isKindOfClass:[NSString class]]||[str isKindOfClass:[NSNumber class]]))
+#define ISArray(arr) (arr&&[arr isKindOfClass:[NSArray class]])
+#define ISDictionary(dic) (dic&&[dic isKindOfClass:[NSDictionary class]])
+
+//只返回字符串
+#define SafeRealStr(str) ((str&&[str isKindOfClass:[NSString class]])?str:([str isKindOfClass:[NSNumber class]]?((NSNumber*)str).stringValue:@""))
+
 //颜色
 #define RANDOMF (arc4random()%1000/1000.0)
 #define RANDCOLOR [UIColor colorWithRed:RANDOMF green:RANDOMF blue:RANDOMF alpha:1] //变幻颜色

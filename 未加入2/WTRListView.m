@@ -125,12 +125,9 @@
                 pst.lineSpacing=model.lineSpacing;
                 pst.lineBreakMode=NSLineBreakByTruncatingTail;
 
-                NSMutableDictionary *mudic=[NSMutableDictionary dictionaryWithDictionary:model.contentAttr.attributes];
-                [mudic setObject:pst forKey:NSParagraphStyleAttributeName];
-
                 NSMutableAttributedString *mustr=[[NSMutableAttributedString alloc] initWithAttributedString:model.contentAttr];
-                [mustr setAttributes:mudic range:NSMakeRange(0, mustr.length)];
-                
+                [mustr addAttribute:NSParagraphStyleAttributeName value:pst range:NSMakeRange(0, mustr.length)];
+
                 model.contentAttr=mustr;
             }
             la.numberOfLines=0;
