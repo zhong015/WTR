@@ -8,6 +8,27 @@
 
 #import "ViewController.h"
 #import "WTRDefine.h"
+#import "NSObject+WTRExtension.h"
+
+@interface ONECS : NSObject
+
+@property(nonatomic,copy)NSString *onen;
+
+@property(nonatomic,copy)NSString *onew;
+
+@property(nonatomic,strong)NSArray *arr1;
+@property(nonatomic,strong)NSMutableArray *arr2;
+
+@end
+
+@implementation ONECS
+
++(NSDictionary *)WTR_objectClassInArray
+{
+    return @{@"arr1":@"ONECS",@"arr2":@"ONECS"};
+}
+
+@end
 
 @interface ViewController ()<UITableViewDelegate,UITableViewDataSource>
 
@@ -20,6 +41,14 @@
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
+
+    NSDictionary *dic=@{@"onen":@"ddd",@"onew":@"ooo",@"arr1":@[@{@"onen":@"ddd1",@"onew":@"ooo",@"arr1":@[]},@{@"onen":@"ddd2",@"onew":@"ooo",@"arr1":@[]}],@"arr2":@[@{@"onen":@"ddd1",@"onew":@"ooo",@"arr1":@[]},@{@"onen":@"ddd2",@"onew":@"ooo",@"arr1":@[]}]};
+
+    ONECS *ccs=[ONECS WTR_ObjectWithKeyValues:dic];
+
+    NSLog(@"%@",ccs.onen);
+
+    NSLog(@"%@",ccs.WTR_JSONString);
 
 //    imv=[[UIImageView alloc] initWithImage:[UIImage imageWithContentsOfFile:@"/Users/wfz/Desktop/asd.png"]];
 //    [self.view addSubview:imv];

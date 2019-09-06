@@ -1210,6 +1210,9 @@ static id _s;
 #pragma mark 过滤所有标签
 +(NSString *)filterAllHTMLTag:(NSString *)html
 {
+    if (!ISString(html)) {
+        return @"";
+    }
     NSScanner * scanner = [NSScanner scannerWithString:html];
     NSString * text = nil;
     while([scanner isAtEnd]==NO)
@@ -1250,6 +1253,9 @@ static id _s;
 #pragma mark 给出现文字设置属性
 +(void)AddAttributeStr:(NSMutableAttributedString *)allstr   Attributes:(NSDictionary *)atr inStr:(NSString *)str
 {
+    if (!allstr||![allstr isKindOfClass:[NSMutableAttributedString class]]||!ISString(str)) {
+        return;
+    }
     NSRange crange=[allstr.string rangeOfString:str];
     while (crange.length>0) {
         [allstr addAttributes:atr range:crange];

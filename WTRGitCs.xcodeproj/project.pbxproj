@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		D200B2D92282B4340089EEE8 /* WTRCollectionLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = D200B2D72282B4340089EEE8 /* WTRCollectionLayout.m */; };
+		D2226BA62321EE25005643F3 /* NSObject+WTRExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = D2226BA52321EE25005643F3 /* NSObject+WTRExtension.m */; };
+		D2226BA923221CCF005643F3 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = D2226BA823221CCF005643F3 /* README.md */; };
 		D24D18D81ED65BE400AB1583 /* WTRBundle.bundle in Resources */ = {isa = PBXBuildFile; fileRef = D24D18D71ED65BE400AB1583 /* WTRBundle.bundle */; };
 		D24D18DB1ED65C6B00AB1583 /* SVIndefiniteAnimatedView2.m in Sources */ = {isa = PBXBuildFile; fileRef = D24D18DA1ED65C6B00AB1583 /* SVIndefiniteAnimatedView2.m */; };
 		D24D18DE1ED65D8600AB1583 /* WTRHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = D24D18DD1ED65D8600AB1583 /* WTRHUD.m */; };
@@ -36,6 +38,9 @@
 /* Begin PBXFileReference section */
 		D200B2D72282B4340089EEE8 /* WTRCollectionLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WTRCollectionLayout.m; sourceTree = "<group>"; };
 		D200B2D82282B4340089EEE8 /* WTRCollectionLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WTRCollectionLayout.h; sourceTree = "<group>"; };
+		D2226BA42321ED4F005643F3 /* NSObject+WTRExtension.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSObject+WTRExtension.h"; sourceTree = "<group>"; };
+		D2226BA52321EE25005643F3 /* NSObject+WTRExtension.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSObject+WTRExtension.m"; sourceTree = "<group>"; };
+		D2226BA823221CCF005643F3 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		D2389DA02011755800179CEA /* Define.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Define.h; sourceTree = "<group>"; };
 		D24D18D71ED65BE400AB1583 /* WTRBundle.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = WTRBundle.bundle; sourceTree = "<group>"; };
 		D24D18D91ED65C6B00AB1583 /* SVIndefiniteAnimatedView2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVIndefiniteAnimatedView2.h; sourceTree = "<group>"; };
@@ -105,6 +110,15 @@
 				D25E8F0022F7C638009B4EA9 /* UIView+WTRManager.m */,
 			);
 			name = WTRView;
+			sourceTree = "<group>";
+		};
+		D2226BA12321ECAD005643F3 /* WTRExtension */ = {
+			isa = PBXGroup;
+			children = (
+				D2226BA42321ED4F005643F3 /* NSObject+WTRExtension.h */,
+				D2226BA52321EE25005643F3 /* NSObject+WTRExtension.m */,
+			);
+			name = WTRExtension;
 			sourceTree = "<group>";
 		};
 		D24D18D61ED65BAC00AB1583 /* WTRHUD */ = {
@@ -186,6 +200,7 @@
 		D2C85D5D1ED42E0800528873 = {
 			isa = PBXGroup;
 			children = (
+				D2226BA823221CCF005643F3 /* README.md */,
 				D270D5E12320F37000F77914 /* pod 上传制作.rtf */,
 				D25E8F0222F7C79D009B4EA9 /* WTR.podspec */,
 				D2389DA02011755800179CEA /* Define.h */,
@@ -239,6 +254,7 @@
 				D264447B1ED573DC00190727 /* WTRVideo */,
 				D264445D1ED5733F00190727 /* WTRDownload */,
 				D200B2D62282B42B0089EEE8 /* WTRView */,
+				D2226BA12321ECAD005643F3 /* WTRExtension */,
 			);
 			path = WTR;
 			sourceTree = "<group>";
@@ -302,6 +318,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D2226BA923221CCF005643F3 /* README.md in Resources */,
 				D25E8F0322F7C79D009B4EA9 /* WTR.podspec in Resources */,
 				D2C85D791ED42E0800528873 /* LaunchScreen.storyboard in Resources */,
 				D2C85D761ED42E0800528873 /* Assets.xcassets in Resources */,
@@ -324,6 +341,7 @@
 				D29727DB22CEF16500BF56BE /* SVStatusShowView.m in Sources */,
 				D24D18DE1ED65D8600AB1583 /* WTRHUD.m in Sources */,
 				D25E8F0122F7C638009B4EA9 /* UIView+WTRManager.m in Sources */,
+				D2226BA62321EE25005643F3 /* NSObject+WTRExtension.m in Sources */,
 				D26444661ED5735A00190727 /* WTRMutiDownloader.m in Sources */,
 				D264446C1ED573AE00190727 /* UIImage+WTRManager.m in Sources */,
 				D29727D822CED77500BF56BE /* WTRImageListShow.m in Sources */,
