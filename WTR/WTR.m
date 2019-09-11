@@ -1324,3 +1324,24 @@ static id _s;
 
 @end
 
+
+@implementation NSString (WTRStr)
+
+- (NSString*)stringByURLEncode
+{
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+    NSString *temp = [self stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+#pragma clang diagnostic pop
+    return temp;
+}
+- (NSString*)stringByURLDecode
+{
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+    NSString *temp = [self stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+#pragma clang diagnostic pop
+    return temp;
+}
+
+@end

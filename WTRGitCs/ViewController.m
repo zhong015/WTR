@@ -38,17 +38,12 @@
 {
     UIImageView *imv;
     NSArray *nameArray;
+
+    UILabel *showla;
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    NSDictionary *dic=@{@"onen":@"ddd",@"onew":@"ooo",@"arr1":@[@{@"onen":@"ddd1",@"onew":@"ooo",@"arr1":@[]},@{@"onen":@"ddd2",@"onew":@"ooo",@"arr1":@[]}],@"arr2":@[@{@"onen":@"ddd1",@"onew":@"ooo",@"arr1":@[]},@{@"onen":@"ddd2",@"onew":@"ooo",@"arr1":@[]}]};
-
-    ONECS *ccs=[ONECS WTR_ObjectWithKeyValues:dic];
-
-    NSLog(@"%@",ccs.onen);
-
-    NSLog(@"%@",ccs.WTR_JSONString);
 
 //    imv=[[UIImageView alloc] initWithImage:[UIImage imageWithContentsOfFile:@"/Users/wfz/Desktop/asd.png"]];
 //    [self.view addSubview:imv];
@@ -67,6 +62,11 @@
 //    tablev.contentInset=UIEdgeInsetsMake(ISIPhoneX?44:20, 0, ISIPhoneX?40:20, 0);
 //
 //    [tablev registerClass:[UITableViewCell class] forCellReuseIdentifier:@"cell"];
+
+
+    showla=[[UILabel alloc] initWithFrame:CGRectMake(100, 100, 100, 100)];
+    showla.textColor=[UIColor redColor];
+    [self.view addSubview:showla];
 }
 -(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
 {
@@ -79,6 +79,14 @@
 //    }else{
 //        [WTRHUD showErrorBInView:self.view WithStatus:@"错误提示"];
 //    }
+
+//    40
+
+    //44
+//    NSLog(@"%.2f",[UIApplication sharedApplication].keyWindow.safeAreaInsets.top);
+
+
+//    showla.text=[NSString stringWithFormat:@"%.2f",[UIApplication sharedApplication].keyWindow.safeAreaInsets.top];
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section

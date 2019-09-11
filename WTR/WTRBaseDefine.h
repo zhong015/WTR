@@ -32,7 +32,7 @@
 // 是否iPad
 #define isPad (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
 
-#define ISIPhoneX (^(void){if(@available(iOS 11.0, *)){return (([UIApplication sharedApplication].windows[0].safeAreaInsets.top>20)||[UIApplication sharedApplication].windows[0].safeAreaInsets.left>20||[UIApplication sharedApplication].windows[0].safeAreaInsets.bottom>20||[UIApplication sharedApplication].windows[0].safeAreaInsets.right>20);}else{return 0;}}())
+#define ISIPhoneX (^(void){if(@available(iOS 11.0, *)){return (([UIApplication sharedApplication].keyWindow.safeAreaInsets.top>41)||[UIApplication sharedApplication].keyWindow.safeAreaInsets.left>41||[UIApplication sharedApplication].keyWindow.safeAreaInsets.bottom>41||[UIApplication sharedApplication].keyWindow.safeAreaInsets.right>41);}else{return 0;}}())
 
 //IOS8后 旋转屏幕 ScreenWidth与ScreenHeight会调换 下面是绝对的
 #define ScreenWidthD ((ScreenWidth<ScreenHeight)?ScreenWidth:ScreenHeight)
@@ -45,7 +45,7 @@
 #define ISDictionary(dic) (dic&&[dic isKindOfClass:[NSDictionary class]])
 
 //只返回字符串
-#define SafeRealStr(str) ((str&&[str isKindOfClass:[NSString class]])?str:([str isKindOfClass:[NSNumber class]]?((NSNumber*)str).stringValue:@""))
+#define SafeStr(str) ((str&&[str isKindOfClass:[NSString class]])?str:([str isKindOfClass:[NSNumber class]]?((NSNumber*)str).stringValue:@""))
 
 //颜色
 #define RANDOMF (arc4random()%1000/1000.0)
@@ -71,13 +71,6 @@ blue: ((float)(rgbValue & 0xFF)) / 255.0 alpha : a]
 #define LayerMakeCorner(view,radius) {(view).layer.cornerRadius=(radius);(view).layer.masksToBounds=YES;}
 #define LayerMakeBorder(view,_borderWidth,_borderColor) {(view).layer.borderWidth=(_borderWidth);(view).layer.borderColor=(_borderColor);}
 #define LayerMakeCB(view,radius,_borderWidth,_borderColor) {LayerMakeCorner(view,radius);LayerMakeBorder(view,_borderWidth,_borderColor);}
-
-//判断是不是字符串 并且长度大于0
-#define ISString(str) (str&&[str isKindOfClass:[NSString class]]&&str.length>0)
-#define ISNumberStr(str) (str&&([str isKindOfClass:[NSString class]]||[str isKindOfClass:[NSNumber class]]))
-#define ISArray(arr) (arr&&[arr isKindOfClass:[NSArray class]])
-#define ISDictionary(dic) (dic&&[dic isKindOfClass:[NSDictionary class]])
-
 
 #define __WEAKSelf __weak typeof(self) weakSelf = self;
 

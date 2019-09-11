@@ -108,3 +108,9 @@
 
 @end
 
+@interface NSString (WTRStr)
+
+- (NSString*)stringByURLEncode;
+- (NSString*)stringByURLDecode;
+
+@end
