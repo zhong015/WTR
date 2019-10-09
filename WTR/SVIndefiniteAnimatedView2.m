@@ -50,7 +50,7 @@
         
         CALayer *maskLayer = [CALayer layer];
         
-        NSBundle *bundle = [NSBundle bundleForClass:NSClassFromString(@"WTRBundle")];
+        NSBundle *bundle = [NSBundle bundleForClass:NSClassFromString(@"WTR")];
         NSURL *url = [bundle URLForResource:@"WTRBundle" withExtension:@"bundle"];
         NSBundle *imageBundle = [NSBundle bundleWithURL:url];
         

@@ -117,7 +117,7 @@
 }
 + (void)showType:(int)type InView:(UIView *)bacView status:(NSString*)status duration:(NSTimeInterval)duration animated:(BOOL)animated IsWhite:(BOOL)isw
 {
-    NSBundle *bundle = [NSBundle bundleForClass:NSClassFromString(@"WTRBundle")];
+    NSBundle *bundle = [NSBundle bundleForClass:NSClassFromString(@"WTR")];
     NSURL *url = [bundle URLForResource:@"WTRBundle" withExtension:@"bundle"];
     NSBundle *imageBundle = [NSBundle bundleWithURL:url];
 

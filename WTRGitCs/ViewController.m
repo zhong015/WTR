@@ -70,6 +70,9 @@
 }
 -(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
 {
+
+    [WTRHUD showErrorBInView:self.view WithStatus:@"asda"];
+    
 //    imv.center=CGPointMake(arc4random()%100/100.0*self.view.frame.size.width, arc4random()%100/100.0*self.view.frame.size.height);
 
 //    [WTRHUD showHUDWInView:self.view];

@@ -34,7 +34,9 @@
 
 #pragma mark 日期获取
 + (NSDate *)dateWithISOFormatString:(NSString *)dateString;
++ (NSString *)ISOFormatStringWithDate:(NSDate *)date;
 + (NSDate *)dateWithISOFormatStringZ:(NSString *)dateString;
++ (NSString *)ISOFormatStringZWithDate:(NSDate *)date;
 
 + (NSString *)timestringof:(NSDate *)date; //时间显示
 
