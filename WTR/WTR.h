@@ -98,6 +98,9 @@
 #pragma mark 汉字转拼音
 +(NSString *)HanZiToPinYin:(NSString *)hanzi;
 
+//规范价格显示
++(NSString *)getPriceStr:(NSString *)inPrice;   //显示2位小数
++(NSString *)getPriceStr2:(NSString *)inPrice;  //有几位小数显示几位，没有不显示
 
 @end
 

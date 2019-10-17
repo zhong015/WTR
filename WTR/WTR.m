@@ -924,7 +924,7 @@ static id _s;
     UIWindow *window = [[UIApplication sharedApplication].delegate window];
     UIViewController *topViewController = [window rootViewController];
     while (true) {
-        if (topViewController.presentedViewController&&![topViewController.presentedViewController isKindOfClass:[UIAlertController class]]) {
+        if (topViewController.presentedViewController&&![topViewController.presentedViewController isKindOfClass:[UIAlertController class]]&&(topViewController.presentedViewController.modalPresentationStyle==UIModalPresentationFullScreen)) {
             topViewController = topViewController.presentedViewController;
         } else if ([topViewController isKindOfClass:[UINavigationController class]] && [(UINavigationController*)topViewController topViewController]) {
             topViewController = [(UINavigationController *)topViewController topViewController];
@@ -1304,6 +1304,37 @@ static id _s;
     CFStringTransform((__bridge CFMutableStringRef)source, NULL, kCFStringTransformMandarinLatin, NO);
     CFStringTransform((__bridge CFMutableStringRef)source, NULL, kCFStringTransformStripDiacritics, NO);
     return source;
+}
+
++(NSString *)getPriceStr:(NSString *)inPrice
+{
+    if (!ISNumberStr(inPrice)) {
+        return @"";
+    }
+    NSString *retstr=@"";
+    long long Pricelong=roundf(inPrice.doubleValue*100);
+
+    retstr=[NSString stringWithFormat:@"%.2f",Pricelong*1.0/100];
+
+    return retstr;
+}
++(NSString *)getPriceStr2:(NSString *)inPrice
+{
+    if (!ISNumberStr(inPrice)) {
+        return @"";
+    }
+    NSString *retstr=@"";
+    long long Pricelong=roundf(inPrice.doubleValue*100);
+    if (Pricelong%100>0) {
+        if (Pricelong%10>0) {
+            retstr=[NSString stringWithFormat:@"%.2f",Pricelong*1.0/100];
+        }else{
+            retstr=[NSString stringWithFormat:@"%.1f",Pricelong*1.0/100];
+        }
+    }else{
+        retstr=[NSString stringWithFormat:@"%.0f",Pricelong*1.0/100];
+    }
+    return retstr;
 }
 
 @end

@@ -13,7 +13,8 @@
 #define WTRHUDW 100.0  //默认大小
 #define WTRHUDH 100.0
 
-#define WTRHUDMinimumDismissTime 2 //最小显示时间
+#define WTRHUDMinimumDismissTime 2  //最小显示时间
+#define WTRHUDMaximumDismissTime 7 //最大显示时间
 
 @implementation WTRHUD
 
@@ -112,6 +113,7 @@
         status=@"";
     }
     CGFloat minimum = MAX(status.length * 0.06 + 0.5,WTRHUDMinimumDismissTime);
+    minimum=MIN(minimum, WTRHUDMaximumDismissTime);
 
     [self showType:type InView:bacView status:status duration:minimum animated:YES IsWhite:isw];
 }
