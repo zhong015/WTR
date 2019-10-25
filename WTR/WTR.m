@@ -1248,7 +1248,27 @@ static id _s;
     {
         [scanner scanUpToString:@"<" intoString:nil];
         [scanner scanUpToString:@">" intoString:&text];
-        html = [html stringByReplacingOccurrencesOfString:[NSString stringWithFormat:@"%@>",text] withString:@""];
+        if (text&&text.length>0) {
+            html = [html stringByReplacingOccurrencesOfString:[NSString stringWithFormat:@"%@>",text] withString:@""];
+        }
+    }
+    return html;
+}
++(NSString *)filterHTML:(NSString *)html biaoqian:(NSString *)biaoqian
+{
+    NSString *biaoqt=[NSString stringWithFormat:@"<%@",biaoqian];
+    NSString *biaoqw=[NSString stringWithFormat:@"/%@>",biaoqian];
+
+    NSScanner * scanner = [NSScanner scannerWithString:html];
+    NSString * text = nil;
+    while([scanner isAtEnd]==NO)
+    {
+        [scanner scanUpToString:biaoqt intoString:nil];
+        [scanner scanUpToString:biaoqw intoString:&text];
+        if (text&&text.length>0) {
+            html = [html stringByReplacingOccurrencesOfString:[NSString stringWithFormat:@"%@%@",text,biaoqw] withString:@""];
+            text=nil;
+        }
     }
     return html;
 }

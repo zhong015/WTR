@@ -30,9 +30,9 @@
 #define ScreenBounds  ([UIApplication sharedApplication].delegate.window.bounds)
 
 // 是否iPad
-#define isPad (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+#define isPad ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
 
-#define ISIPhoneX (^(void){if(@available(iOS 11.0, *)){return (([UIApplication sharedApplication].keyWindow.safeAreaInsets.top>41)||[UIApplication sharedApplication].keyWindow.safeAreaInsets.left>41||[UIApplication sharedApplication].keyWindow.safeAreaInsets.bottom>41||[UIApplication sharedApplication].keyWindow.safeAreaInsets.right>41);}else{return 0;}}())
+#define ISIPhoneX (^(void){if(@available(iOS 11.0, *)){return (([UIApplication sharedApplication].delegate.window.safeAreaInsets.top>41)||[UIApplication sharedApplication].delegate.window.safeAreaInsets.left>41||[UIApplication sharedApplication].delegate.window.safeAreaInsets.bottom>41||[UIApplication sharedApplication].delegate.window.safeAreaInsets.right>41);}else{return 0;}}())
 
 //IOS8后 旋转屏幕 ScreenWidth与ScreenHeight会调换 下面是绝对的
 #define ScreenWidthD ((ScreenWidth<ScreenHeight)?ScreenWidth:ScreenHeight)
