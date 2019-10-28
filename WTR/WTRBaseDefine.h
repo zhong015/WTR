@@ -24,13 +24,15 @@
 #define ISIOS12 ([UIDevice currentDevice].systemVersion.floatValue>=12.0)
 #define ISIOS13 ([UIDevice currentDevice].systemVersion.floatValue>=13.0)
 #define ISIOS14 ([UIDevice currentDevice].systemVersion.floatValue>=14.0)
+#define ISIOS15 ([UIDevice currentDevice].systemVersion.floatValue>=15.0)
+#define ISIOS16 ([UIDevice currentDevice].systemVersion.floatValue>=16.0)
 
 #define ScreenWidth  ([UIApplication sharedApplication].delegate.window.bounds.size.width)
 #define ScreenHeight  ([UIApplication sharedApplication].delegate.window.bounds.size.height)
 #define ScreenBounds  ([UIApplication sharedApplication].delegate.window.bounds)
 
 // 是否iPad
-#define isPad ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+#define ISPadWTR ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
 
 #define ISIPhoneX (^(void){if(@available(iOS 11.0, *)){return (([UIApplication sharedApplication].delegate.window.safeAreaInsets.top>41)||[UIApplication sharedApplication].delegate.window.safeAreaInsets.left>41||[UIApplication sharedApplication].delegate.window.safeAreaInsets.bottom>41||[UIApplication sharedApplication].delegate.window.safeAreaInsets.right>41);}else{return 0;}}())
 

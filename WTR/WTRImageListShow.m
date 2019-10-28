@@ -123,7 +123,7 @@
     [self.actionContr addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
     }]];
     self.curintsvc=[WTR curintViewController];
-    if(isPad&&imv){
+    if(ISPadWTR&&imv){
         UIPopoverPresentationController *popPresenter=[self.actionContr popoverPresentationController];
         popPresenter.sourceView=imv;
         popPresenter.sourceRect=CGRectMake(imv.width/2.0-40, imv.height/2.0-40, 80, 80);
