@@ -90,11 +90,12 @@
 +(void)clearImageWTRLoadCacheWithURLStr:(NSString *)imageURLStr
 {
     if (ISString(imageURLStr)) {
-        NSString *filename=[[imageURLStr dataUsingEncoding:NSUTF8StringEncoding] md5jiami];
+        NSString *filename=[[imageURLStr dataUsingEncoding:NSUTF8StringEncoding] WTRMD5String];
         NSString *filepath=[[WTRFilePath getCachePath] stringByAppendingPathComponent:filename];
         [[NSFileManager defaultManager]removeItemAtPath:filepath error:nil];
     }
 }
+
 @end
 
 static id _s;
@@ -149,7 +150,7 @@ static id _s;
     }
     else
     {
-        NSString *filename=[[imstr dataUsingEncoding:NSUTF8StringEncoding] md5jiami];
+        NSString *filename=[[imstr dataUsingEncoding:NSUTF8StringEncoding] WTRMD5String];
         NSString *filepath=[[WTRFilePath getCachePath] stringByAppendingPathComponent:filename];
         if ([[NSFileManager defaultManager] fileExistsAtPath:filepath]) {
             NSData *da=[NSData dataWithContentsOfFile:filepath];
@@ -237,7 +238,7 @@ didFinishDownloadingToURL:(NSURL *)location
         WTRImageLoadOb *one=self.loadArray[i];
         if (one.downTask==downloadTask) {
             if (im) {
-                NSString *filename=[[one.downTask.currentRequest.URL.absoluteString dataUsingEncoding:NSUTF8StringEncoding] md5jiami];
+                NSString *filename=[[one.downTask.currentRequest.URL.absoluteString dataUsingEncoding:NSUTF8StringEncoding] WTRMD5String];
                 NSString *filepath=[[WTRFilePath getCachePath] stringByAppendingPathComponent:filename];
                 [da writeToFile:filepath atomically:YES];
                 one.im=im;

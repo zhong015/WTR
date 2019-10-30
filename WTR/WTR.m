@@ -849,7 +849,7 @@ static id _s;
     [[NSURLCache sharedURLCache] removeAllCachedResponses];
     
     NSFileManager *manager=[NSFileManager defaultManager];
-    NSString * cachespath=[NSHomeDirectory() stringByAppendingString:@"/Library/Caches"];
+    NSString * cachespath=[WTRFilePath getCachePath];
     NSArray * array2=[manager subpathsAtPath:cachespath];
     for (NSString*str in array2) {
         NSString *path=[cachespath stringByAppendingPathComponent:str];
@@ -1360,20 +1360,58 @@ static id _s;
 @end
 
 
+int32_t const WTRCHUNK_SIZE = 8 * 1024;
+
 @implementation NSData (WTRMDJiaMi)
 
--(NSString *)md5jiami
++ (NSString *)WTRConvertMd5Bytes2String:(unsigned char *)md5Bytes {
+    return [NSString stringWithFormat:
+            @"%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X",
+            md5Bytes[0], md5Bytes[1], md5Bytes[2], md5Bytes[3],
+            md5Bytes[4], md5Bytes[5], md5Bytes[6], md5Bytes[7],
+            md5Bytes[8], md5Bytes[9], md5Bytes[10], md5Bytes[11],
+            md5Bytes[12], md5Bytes[13], md5Bytes[14], md5Bytes[15]
+            ];
+}
+-(NSString *)WTRMD5String
 {
     unsigned char result[CC_MD5_DIGEST_LENGTH];
     
     CC_MD5([self bytes], (CC_LONG)[self length], result);
     
-    return [NSString stringWithFormat:@"%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X",
-            result[0], result[1], result[2], result[3],
-            result[4], result[5], result[6], result[7],
-            result[8], result[9], result[10], result[11],
-            result[12], result[13], result[14], result[15]
-            ]; //lowercaseString] 小写
+    return [NSData WTRConvertMd5Bytes2String:result];
+}
++ (NSData *)WTRfileMD5:(NSString*)path
+{
+    NSFileHandle *handle = [NSFileHandle fileHandleForReadingAtPath:path];
+    if(handle == nil) {
+        return nil;
+    }
+    CC_MD5_CTX md5;
+    CC_MD5_Init(&md5);
+    BOOL done = NO;
+    while(!done) {
+        @autoreleasepool{
+            NSData* fileData = [handle readDataOfLength:WTRCHUNK_SIZE];
+            CC_MD5_Update(&md5, [fileData bytes], (CC_LONG)[fileData length]);
+            if([fileData length] == 0) {
+                done = YES;
+            }
+        }
+    }
+    unsigned char digestResult[CC_MD5_DIGEST_LENGTH * sizeof(unsigned char)];
+    CC_MD5_Final(digestResult, &md5);
+    return [NSData dataWithBytes:(const void *)digestResult length:CC_MD5_DIGEST_LENGTH * sizeof(unsigned char)];
+}
++ (NSString *)WTRfileMD5String:(NSString *)path {
+    BOOL isDirectory = NO;
+    BOOL isExist = [[NSFileManager defaultManager] fileExistsAtPath:path isDirectory:&isDirectory];
+    if (isDirectory || !isExist) {
+        NSLog(@"文件不存在：%@", path);
+        return nil;
+    }
+    unsigned char * md5Bytes = (unsigned char *)[[self WTRfileMD5:path] bytes];
+    return [self WTRConvertMd5Bytes2String:md5Bytes];
 }
 
 +(NSData *)dataWithHexString:(NSString *)hexStr

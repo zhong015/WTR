@@ -109,7 +109,10 @@
 
 @interface NSData (WTRMDJiaMi)
 
--(NSString *)md5jiami;
+-(NSString *)WTRMD5String;
+
++(NSData *)WTRfileMD5:(NSString*)path;
++(NSString *)WTRfileMD5String:(NSString *)path;
 
 +(NSData *)dataWithHexString:(NSString *)hexStr; //十六进制字符串 转data
 
