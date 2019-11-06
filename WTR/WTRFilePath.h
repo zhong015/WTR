@@ -15,6 +15,9 @@
 + (NSString *)getCachePath;
 + (NSString *)getTemporaryPath;
 
-+(void)excludeBackUp;
+
+//禁止被同步到iCloud
++(void)excludeBackUpAll;
++(BOOL)addSkipBackupAttributeToPath:(NSString *)path;
 
 @end

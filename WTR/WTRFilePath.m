@@ -65,28 +65,22 @@ static id _s;
     return NSTemporaryDirectory();
 }
 
-+(void)excludeBackUp
++(void)excludeBackUpAll
 {
     NSArray *documents = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *path = [documents objectAtIndex:0];
-    NSURL *url = [NSURL URLWithString:path];
-    [WTRFilePath addSkipBackupAttributeToItemAtURL:url];
+    [WTRFilePath addSkipBackupAttributeToPath:path];
     
     NSArray *libraries = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES);
     NSString *path1 = [libraries objectAtIndex:0];
-    NSURL *url1= [NSURL URLWithString:path1];
-    [WTRFilePath addSkipBackupAttributeToItemAtURL:url1];
+    [WTRFilePath addSkipBackupAttributeToPath:path1];
 }
 
 //禁止被同步到iCloud
-+ (BOOL)addSkipBackupAttributeToItemAtURL:(NSURL *)URL
++ (BOOL)addSkipBackupAttributeToPath:(NSString *)path
 {
-    const char* filePath = [[URL path] fileSystemRepresentation];
-    
-    const char* attrName = "com.apple.MobileBackup";
-    u_int8_t attrValue = 1;
-    
-    int result = setxattr(filePath, attrName, &attrValue, sizeof(attrValue), 0, 0);
+    u_int8_t b = 1;
+    int result = setxattr([path fileSystemRepresentation],"com.apple.MobileBackup",&b, sizeof(b), 0, 0);
     return result == 0;
 }
 

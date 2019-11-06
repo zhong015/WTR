@@ -20,6 +20,10 @@
 
 - (UIImage *)maskImageWithMask:(UIImage *)maskImage;//照片mask提取
 
+- (UIImage *)WTR_imageWithTintColor:(UIColor *)tintColor; //使用一个颜色来代替图片上的所有颜色
+- (UIImage *)WTR_imageWithTintColor:(UIColor *)tintColor blendMode:(CGBlendMode)blendMode;
+- (UIImage *)WTR_imageWithTintColor:(UIColor *)tintColor blendMode:(CGBlendMode)blendMode alpha:(CGFloat)alpha;
+
 - (UIImage *)yincangtupianWithImage:(UIImage *)img;//白色 黑色 背景隐藏图片 黑色背景显示img 白色显示self
 
 + (UIImage *)imageWithWTRCIImage:(CIImage *)ciimage;

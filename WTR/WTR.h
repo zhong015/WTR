@@ -59,6 +59,8 @@
 +(void)clearAllCaches; //清除所有缓存
 +(NSString *)AllCachesSize; //所有缓存大小
 
++(double)getFreeDiskSize;//设备可用容量 返回单位G
++(double)getTotalDiskSize;//设备总容量 返回单位G
 
 +(UIViewController *)curintViewController;//当前ViewController
 

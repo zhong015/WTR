@@ -918,6 +918,24 @@ static id _s;
     }
     return 0;
 }
++(double)getFreeDiskSize
+{
+    NSDictionary *infodic=[[NSFileManager defaultManager] attributesOfFileSystemForPath:NSHomeDirectory() error:nil];
+    if (infodic) {
+        NSNumber * fileSystemFreeSize = [infodic objectForKey:NSFileSystemFreeSize];
+        return fileSystemFreeSize.doubleValue/1024.0f/1024.0f/1024.0f;
+    }
+    return 0;
+}
++(double)getTotalDiskSize
+{
+    NSDictionary *infodic=[[NSFileManager defaultManager] attributesOfFileSystemForPath:NSHomeDirectory() error:nil];
+    if (infodic) {
+        NSNumber * fileSystemFreeSize = [infodic objectForKey:NSFileSystemSize];
+        return fileSystemFreeSize.doubleValue/1024.0f/1024.0f/1024.0f;
+    }
+    return 0;
+}
 
 +(UIViewController *)curintViewController
 {

@@ -36,6 +36,30 @@ void SetColorCWithDa(char *da,long width,int i,int j,ColorC onec)
 
 @implementation UIImage (WTRManager)
 
+- (UIImage *)WTR_imageWithTintColor:(UIColor *)tintColor
+{
+    return [self WTR_imageWithTintColor:tintColor blendMode:kCGBlendModeDestinationIn alpha:1.0f];
+}
+- (UIImage *)WTR_imageWithTintColor:(UIColor *)tintColor blendMode:(CGBlendMode)blendMode
+{
+    return [self WTR_imageWithTintColor:tintColor blendMode:blendMode alpha:1.0f];
+}
+- (UIImage *)WTR_imageWithTintColor:(UIColor *)tintColor blendMode:(CGBlendMode)blendMode alpha:(CGFloat)alpha
+{
+    //We want to keep alpha, set opaque to NO; Use 0.0f for scale to use the scale factor of the device’s main screen.
+    UIGraphicsBeginImageContextWithOptions(self.size, NO, 0.0f);
+    CGRect bounds = CGRectMake(0, 0, self.size.width, self.size.height);
+    [tintColor setFill];
+    UIRectFill(bounds);
+
+    [self drawInRect:bounds blendMode:blendMode alpha:alpha];
+
+    UIImage *tintedImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+
+    return tintedImage;
+}
+
 -(UIImage *)imagemultiplyByR:(CGFloat)r g:(CGFloat)g b:(CGFloat)b a:(CGFloat)a
 {
     CIImage *image=[self WTRCIImage];
