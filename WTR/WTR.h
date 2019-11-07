@@ -54,15 +54,17 @@
 +(NSString *)SortedJsonStr:(id)dicOrArr; //得到排序JSON字符串
 +(NSString *)CovertLogToJson:(NSString *)inlogstr;//NSLog打印的字符串转换为json
 
-+ (CGFloat)getFileSize:(NSString *)path; //此方法可以获取文件的大小，返回的是单位是M。
 
 +(void)clearAllCaches; //清除所有缓存
-+(NSString *)AllCachesSize; //所有缓存大小
-
++(unsigned long long)AllCachesSize; //所有缓存大小 Byte
++(unsigned long long)fileSizeAtPath:(NSString*)filePath;    //文件的大小 Byte
++(unsigned long long)folderSizeAtPath:(NSString*)folderPath;//文件夹内文件大小 Byte
 +(double)getFreeDiskSize;//设备可用容量 返回单位G
 +(double)getTotalDiskSize;//设备总容量 返回单位G
 
+
 +(UIViewController *)curintViewController;//当前ViewController
+
 
 //获取数据库一个表的所有数据
 +(NSArray *)GetAllDataWithDbPath:(NSString *)path tablename:(NSString *)tablename columnArray:(NSArray <NSString *>*)columnArray;

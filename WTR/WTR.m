@@ -847,68 +847,34 @@ static id _s;
      [[UIImageView sharedImageDownloader].sessionManager.session.configuration.URLCache removeAllCachedResponses];  //单个移除不管用从iOS8.0之后
      */
     [[NSURLCache sharedURLCache] removeAllCachedResponses];
-    
-    NSFileManager *manager=[NSFileManager defaultManager];
-    NSString * cachespath=[WTRFilePath getCachePath];
-    NSArray * array2=[manager subpathsAtPath:cachespath];
-    for (NSString*str in array2) {
-        NSString *path=[cachespath stringByAppendingPathComponent:str];
-        BOOL isdicr,isz;
-        isz=[manager fileExistsAtPath:path isDirectory:&isdicr];
-        if (!isdicr&&isz) {
-            if ([str rangeOfString:@"Snapshots"].length>0||[str rangeOfString:@"LaunchImages"].length>0) {
-                continue;
-            }
-            NSError *err;
-            BOOL isyes= [manager removeItemAtPath:path error:&err];
-            NSLog(@"清理%d:%@",isyes,str);
-            if (!isyes) {
-                NSLog(@"%@",err);
-            }
-        }
-    }
+    [[NSFileManager defaultManager] removeItemAtPath:[WTRFilePath getCachePath] error:nil];
+    [[NSFileManager defaultManager] createDirectoryAtPath:[WTRFilePath getCachePath] withIntermediateDirectories:YES attributes:nil error:nil];
 }
-+(NSString *)AllCachesSize
++(unsigned long long)AllCachesSize
 {
-    NSString * cachesPath=[NSHomeDirectory() stringByAppendingString:@"/Library/Caches"];
-    return [NSString stringWithFormat:@"%.1f M",[self folderSizeAtPath:cachesPath]];
+    NSString * cachesPath=[WTRFilePath getCachePath];
+    return [self folderSizeAtPath:cachesPath];
 }
-
 //文件夹内文件大小
-+ (float)folderSizeAtPath:(NSString*) folderPath
++(unsigned long long)folderSizeAtPath:(NSString*)folderPath
 {
     NSFileManager* manager = [NSFileManager defaultManager];
-    if (![manager fileExistsAtPath:folderPath]) return 0;
-    
-    NSArray *arr=[manager subpathsAtPath:folderPath];
-    
-    NSEnumerator *childFilesEnumerator = [arr objectEnumerator];//从前向后枚举器
-    NSString* fileName;
-    long long folderSize = 0;
-    while ((fileName = [childFilesEnumerator nextObject]) != nil){
-        
-        if ([fileName rangeOfString:@"Snapshots"].length>0||[fileName rangeOfString:@"LaunchImages"].length>0) {
-            continue;
+    if (![manager fileExistsAtPath:folderPath]) return 0.0;
+    unsigned long long folderSize=0;
+    NSArray *arr=[manager subpathsOfDirectoryAtPath:folderPath error:nil];
+    if (arr&&arr.count>0) {
+        for (int i=0; i<arr.count; i++) {
+            NSString *fileName=arr[i];
+            if ([fileName hasPrefix:@"."]||[fileName rangeOfString:@"/."].length>0) {
+                continue;
+            }
+            NSString* fileAbsolutePath = [folderPath stringByAppendingPathComponent:fileName];
+            folderSize += [self fileSizeAtPath:fileAbsolutePath];
         }
-        
-        NSString* fileAbsolutePath = [folderPath stringByAppendingPathComponent:fileName];
-        folderSize += [self fileSizeAtPath:fileAbsolutePath];
     }
-    return folderSize/(1024.0*1024.0);
+    return folderSize;
 }
-
-+ (CGFloat) getFileSize:(NSString *)path
-{
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    float filesize = -1.0;
-    if ([fileManager fileExistsAtPath:path]) {
-        NSDictionary *fileDic = [fileManager attributesOfItemAtPath:path error:nil];
-        unsigned long long size = [[fileDic objectForKey:NSFileSize] longLongValue];
-        filesize = 1.0*size/1024.0/1024.0;
-    }
-    return filesize;
-}
-+ (long long) fileSizeAtPath:(NSString*) filePath
++(unsigned long long)fileSizeAtPath:(NSString*)filePath
 {
     NSFileManager* manager = [NSFileManager defaultManager];
     BOOL isdicr;

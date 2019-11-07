@@ -64,13 +64,19 @@
 //    [tablev registerClass:[UITableViewCell class] forCellReuseIdentifier:@"cell"];
 
 
-    showla=[[UILabel alloc] initWithFrame:CGRectMake(100, 100, 100, 100)];
-    showla.textColor=[UIColor redColor];
-    [self.view addSubview:showla];
+//    UIImage *img=[UIImage imageWithColor:RANDCOLOR size:CGSizeMake(100, 100)];
+//    img=[img WTR_imageWithTintColor:[UIColor redColor]];
+//    self.view.backgroundColor=[UIColor colorWithPatternImage:img];
+//
+//    showla=[[UILabel alloc] initWithFrame:CGRectMake(100, 100, 100, 100)];
+//    showla.textColor=[UIColor redColor];
+//    [self.view addSubview:showla];
 }
 -(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
 {
-
+//    [WTRHUD showInfoBInView:self.view WithStatus:@"提示信息哈"];
+    [WTR clearAllCaches];
+    
 //    [WTRHUD showErrorBInView:self.view WithStatus:@"asda"];
     
 //    imv.center=CGPointMake(arc4random()%100/100.0*self.view.frame.size.width, arc4random()%100/100.0*self.view.frame.size.height);

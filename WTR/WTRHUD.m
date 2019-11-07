@@ -93,6 +93,10 @@
 }
 + (void)showInfoWInView:(UIView *)bacView WithStatus:(NSString*)status
 {
+    [self showType:-1 InView:bacView status:status IsWhite:YES];
+}
++ (void)showInfo2WInView:(UIView *)bacView WithStatus:(NSString*)status
+{
     [self showType:2 InView:bacView status:status IsWhite:YES];
 }
 + (void)showSuccessBInView:(UIView *)bacView WithStatus:(NSString*)status
@@ -104,6 +108,10 @@
     [self showType:1 InView:bacView status:status IsWhite:NO];
 }
 + (void)showInfoBInView:(UIView *)bacView WithStatus:(NSString*)status
+{
+    [self showType:-1 InView:bacView status:status IsWhite:NO];
+}
++ (void)showInfo2BInView:(UIView *)bacView WithStatus:(NSString*)status
 {
     [self showType:2 InView:bacView status:status IsWhite:NO];
 }
@@ -123,8 +131,13 @@
     NSURL *url = [bundle URLForResource:@"WTRBundle" withExtension:@"bundle"];
     NSBundle *imageBundle = [NSBundle bundleWithURL:url];
 
-    UIImage *image;
+    UIImage *image=nil;
     switch (type) {
+        case 0:
+        {
+            image = [UIImage imageWithContentsOfFile:[imageBundle pathForResource:@"success" ofType:@"png"]];
+        }
+            break;
         case 1:
         {
             image = [UIImage imageWithContentsOfFile:[imageBundle pathForResource:@"error" ofType:@"png"]];
@@ -136,14 +149,25 @@
         }
             break;
         default:
-            image = [UIImage imageWithContentsOfFile:[imageBundle pathForResource:@"success" ofType:@"png"]];
+            image = nil;
             break;
     }
 
     [self showImage:image status:status duration:duration InView:bacView animated:animated IsWhite:isw];
 }
 
-+(void)showImage:(UIImage*)image status:(NSString*)status duration:(NSTimeInterval)duration InView:(UIView *)bacView animated:(BOOL)animated IsWhite:(BOOL)isw
++(void)showImage:(UIImage*)image status:(NSString*)status duration:(NSTimeInterval)duration InView:(UIView *)bacView animated:(BOOL)animated IsWhite:(BOOL)isw;
+{
+    UIColor *tintColor;
+    if (isw) {
+        tintColor=[UIColor blackColor];
+    }else{
+        tintColor=[UIColor whiteColor];
+    }
+
+    [self showImage:image estyle:(isw?UIBlurEffectStyleExtraLight:UIBlurEffectStyleDark) status:status font:[UIFont preferredFontForTextStyle:UIFontTextStyleSubheadline] tintColor:tintColor textImageSpace:8 boundingRectSize:CGSizeMake(200.0f, 300.0f) edge:UIEdgeInsetsMake(12, 12, 12, 12) cornerRadius:(image?14.0:5.0) duration:duration animated:animated InView:bacView];
+}
++(void)showImage:(nullable UIImage*)image estyle:(UIBlurEffectStyle)estyle status:(nullable NSString*)status font:(UIFont *)font tintColor:(UIColor *)tintColor textImageSpace:(CGFloat)textImageSpace boundingRectSize:(CGSize)bsize edge:(UIEdgeInsets)edge cornerRadius:(CGFloat)cornerRadius duration:(NSTimeInterval)duration animated:(BOOL)animated InView:(UIView *)bacView
 {
     if (!bacView) {
         return;
@@ -156,12 +180,8 @@
             }
         }
 
-        UIImage *tintedImage = image;
-        if (image.renderingMode != UIImageRenderingModeAlwaysTemplate) {
-            tintedImage = [image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-        }
+        SVStatusShowView * svv=[[SVStatusShowView alloc]initWithImage:image estyle:estyle status:status font:font tintColor:tintColor textImageSpace:textImageSpace boundingRectSize:bsize edge:edge cornerRadius:cornerRadius];
 
-        SVStatusShowView * svv=[[SVStatusShowView alloc]initWithImage:tintedImage status:status IsWhite:isw];
         [bacView addSubview:svv];
         svv.center=CGPointMake(bacView.frame.size.width/2.0, bacView.frame.size.height/2.0);
         svv.autoresizingMask=UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleBottomMargin;
