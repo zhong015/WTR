@@ -98,6 +98,8 @@
 
 #pragma mark 去除空行
 +(NSString *)quchukonghang:(NSString *)str;
+#pragma mark 去除首行缩进空格回车空行
++(NSString *)quchuShkongge:(NSString *)str;
 #pragma mark 去除tagStr后的空白和空行
 +(NSString *)quchuKBKH:(NSString *)str tagStr:(NSString *)tagStr;
 

@@ -1190,6 +1190,35 @@ static id _s;
     }
     return  mustr;//[mustr stringByReplacingOccurrencesOfString:@"\r" withString:@"\n"];
 }
+#pragma mark 去除首行缩进空格回车空行
++(NSString *)quchuShkongge:(NSString *)str
+{
+    if (!str||str.length==0) {
+        return str;
+    }
+
+    NSMutableString *mustr=[NSMutableString stringWithString:str];
+
+    int ishn=0;
+
+    for (int i=0; i<mustr.length; i++) {
+        unichar c=[mustr characterAtIndex:i];
+        if (!ishn&&(c=='\n'||c=='\r')) {
+            ishn=1;
+            continue;
+        }
+        NSString *cstr=[NSString stringWithFormat:@"%C",c];
+        if (ishn&&(c=='\n'||c=='\r'||c==' '||c=='\t'||[cstr isEqualToString:@"\u3000"])) {
+            [mustr deleteCharactersInRange:NSMakeRange(i, 1)];
+            i--;
+        }
+        else if (ishn>0)
+        {
+            ishn=0;
+        }
+    }
+    return  mustr;//[mustr stringByReplacingOccurrencesOfString:@"\r" withString:@"\n"];
+}
 #pragma mark 去除tagStr后的空白和空行
 +(NSString *)quchuKBKH:(NSString *)str tagStr:(NSString *)tagStr
 {
@@ -1295,10 +1324,8 @@ static id _s;
     html=[self filterAllHTMLTag:html];
     html=[self htmlzhuanyizifu:html];
     html=[html stringByReplacingOccurrencesOfString:@"\r" withString:@"\n"];
-
-    //只运行两次 要是实在是需要空行就多打几个回车
-    html=[html stringByReplacingOccurrencesOfString:@"\n\n" withString:@"\n"];
-    html=[html stringByReplacingOccurrencesOfString:@"\n\n" withString:@"\n"];
+    html=[html stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    html=[self quchuShkongge:html];
     return html;
 }
 #pragma mark 给出现文字设置属性
