@@ -1283,6 +1283,24 @@ static id _s;
     html=[html stringByReplacingOccurrencesOfString:@"\u3000" withString:@""];
     return html;
 }
+#pragma mark 通用html处理-html显示优化
++(NSString *)htmlConvert:(NSString *)html
+{
+    if (!ISString(html)) {
+        return @"";
+    }
+    html=[html stringByReplacingOccurrencesOfString:@"<br/>" withString:@"\n"];
+    html=[html stringByReplacingOccurrencesOfString:@"</br>" withString:@"\n"];
+    html=[html stringByReplacingOccurrencesOfString:@"</p>" withString:@"\n"];
+    html=[self filterAllHTMLTag:html];
+    html=[self htmlzhuanyizifu:html];
+    html=[html stringByReplacingOccurrencesOfString:@"\r" withString:@"\n"];
+
+    //只运行两次 要是实在是需要空行就多打几个回车
+    html=[html stringByReplacingOccurrencesOfString:@"\n\n" withString:@"\n"];
+    html=[html stringByReplacingOccurrencesOfString:@"\n\n" withString:@"\n"];
+    return html;
+}
 #pragma mark 给出现文字设置属性
 +(void)AddAttributeStr:(NSMutableAttributedString *)allstr   Attributes:(NSDictionary *)atr inStr:(NSString *)str
 {
@@ -1339,6 +1357,14 @@ static id _s;
         retstr=[NSString stringWithFormat:@"%.0f",Pricelong*1.0/100];
     }
     return retstr;
+}
+
++(void)switchNewOrientation:(UIInterfaceOrientation)newOrientation
+{
+    NSNumber *yzor1=[NSNumber numberWithInteger:UIInterfaceOrientationUnknown];
+    [[UIDevice currentDevice] setValue:yzor1 forKey:@"orientation"];
+    NSNumber *yzor2=[NSNumber numberWithInteger:newOrientation];
+    [[UIDevice currentDevice] setValue:yzor2 forKey:@"orientation"];
 }
 
 @end

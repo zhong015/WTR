@@ -85,6 +85,8 @@
 #pragma mark 从数组中随机取连续的几个
 +(NSMutableArray *)getSomeObjWithInArr:(NSArray *)yarr num:(NSInteger)num;
 
+#pragma mark 通用html处理-html显示优化
++(NSString *)htmlConvert:(NSString *)html;
 #pragma mark 只留html中展示文字，去除所有标签、回车和空白
 +(NSString *)jianHuaHtml:(NSString *)html;
 #pragma mark 过滤所有标签
@@ -107,6 +109,9 @@
 //规范价格显示
 +(NSString *)getPriceStr:(NSString *)inPrice;   //显示2位小数
 +(NSString *)getPriceStr2:(NSString *)inPrice;  //有几位小数显示几位，没有不显示
+
+//强制旋转屏幕
++(void)switchNewOrientation:(UIInterfaceOrientation)newOrientation;
 
 @end
 
