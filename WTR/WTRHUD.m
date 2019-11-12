@@ -18,6 +18,70 @@
 
 @implementation WTRHUD
 
+//是否是黑色系的颜色
++(BOOL)isBlackFamilyColor:(UIColor *)incolor
+{
+    if (!incolor) {
+        return NO;
+    }
+    CGFloat r1,g1,b1,a1;
+    [incolor getRed:&r1 green:&g1 blue:&b1 alpha:&a1];
+    if (r1+g1+b1>1.5) {
+        return NO;
+    }
+    return YES;
+}
+
+//自动根据bacView的背景颜色选取背景
++(void)showHUDInView:(UIView *)bacView
+{
+    if ([self isBlackFamilyColor:bacView.backgroundColor]) {
+        [self showHUDWInView:bacView];
+    }else{
+        [self showHUDBInView:bacView];
+    }
+}
++(void)showHUDInView:(UIView *)bacView animated:(BOOL)animated size:(CGSize)size
+{
+    if ([self isBlackFamilyColor:bacView.backgroundColor]) {
+        [self showHUDWInView:bacView animated:animated size:size];
+    }else{
+        [self showHUDBInView:bacView animated:animated size:size];
+    }
+}
++(void)showSuccessInView:(UIView *)bacView WithStatus:(NSString*)status
+{
+    if ([self isBlackFamilyColor:bacView.backgroundColor]) {
+        [self showSuccessWInView:bacView WithStatus:status];
+    }else{
+        [self showSuccessBInView:bacView WithStatus:status];
+    }
+}
++(void)showErrorInView:(UIView *)bacView WithStatus:(NSString*)status
+{
+    if ([self isBlackFamilyColor:bacView.backgroundColor]) {
+        [self showErrorWInView:bacView WithStatus:status];
+    }else{
+        [self showErrorBInView:bacView WithStatus:status];
+    }
+}
++(void)showInfoInView:(UIView *)bacView WithStatus:(NSString*)status
+{
+    if ([self isBlackFamilyColor:bacView.backgroundColor]) {
+        [self showInfoWInView:bacView WithStatus:status];
+    }else{
+        [self showInfoBInView:bacView WithStatus:status];
+    }
+}
++(void)showInfo2InView:(UIView *)bacView WithStatus:(NSString*)status
+{
+    if ([self isBlackFamilyColor:bacView.backgroundColor]) {
+        [self showInfo2WInView:bacView WithStatus:status];
+    }else{
+        [self showInfo2BInView:bacView WithStatus:status];
+    }
+}
+
 #pragma mark HUD部分
 +(void)showHUDWInView:(UIView *)bacView
 {
