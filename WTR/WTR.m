@@ -1324,12 +1324,12 @@ static id _s;
     html=[self filterAllHTMLTag:html];
     html=[self htmlzhuanyizifu:html];
     html=[html stringByReplacingOccurrencesOfString:@"\r" withString:@"\n"];
-    html=[html stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    html=[html stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"\r\n\t \u3000"]];
     html=[self quchuShkongge:html];
     return html;
 }
 #pragma mark 给出现文字设置属性
-+(void)AddAttributeStr:(NSMutableAttributedString *)allstr   Attributes:(NSDictionary *)atr inStr:(NSString *)str
++(void)AddAttributeStr:(NSMutableAttributedString *)allstr Attributes:(NSDictionary *)atr inStr:(NSString *)str
 {
     if (!allstr||![allstr isKindOfClass:[NSMutableAttributedString class]]||!ISString(str)) {
         return;

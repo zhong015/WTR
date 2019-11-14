@@ -21,4 +21,9 @@
 
 +(void)ShowImageList:(nonnull NSArray *)listArray current:(nonnull id)imageurlOrStr Rect:(CGRect)fromRect configeOne:(void (^_Nonnull)(UIImageView * _Nonnull imv,id _Nonnull imageurlOrStr)) confige completion:(void (^_Nonnull)(void))completioncb;
 
+
+//自定义创建使用
+-(void)ShowImageList:(nonnull NSArray *)listArray current:(nonnull id)imageurlOrStr fromView:(nullable UIView *)imageView OrRect:(CGRect)fromRect configeOne:(void (^_Nonnull)(UIImageView * _Nonnull imv,id _Nonnull imageurlOrStr)) confige completion:(void (^_Nonnull)(void))completioncb;
+
+
 @end
