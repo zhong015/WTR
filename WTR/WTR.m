@@ -1451,7 +1451,7 @@ int32_t const WTRCHUNK_SIZE = 8 * 1024;
     return [self WTRConvertMd5Bytes2String:md5Bytes];
 }
 
-+(NSData *)dataWithHexString:(NSString *)hexStr
++(NSData *)WTR_dataWithHexString:(NSString *)hexStr
 {
     hexStr = [hexStr stringByReplacingOccurrencesOfString:@"<" withString:@""];
     hexStr = [hexStr stringByReplacingOccurrencesOfString:@">" withString:@""];
@@ -1476,27 +1476,80 @@ int32_t const WTRCHUNK_SIZE = 8 * 1024;
     free(buf);
     return result;
 }
+-(NSString *)WTR_hexString
+{
+    NSUInteger length = self.length;
+    NSMutableString *result = [NSMutableString stringWithCapacity:length * 2];
+    const unsigned char *byte = self.bytes;
+    for (int i = 0; i < length; i++, byte++) {
+        [result appendFormat:@"%02X", *byte];
+    }
+    return result;
+}
 
 @end
 
 
 @implementation NSString (WTRStr)
 
-- (NSString*)stringByURLEncode
+/*
+ 这里只适用于值中不需要对 !$&'()*+,;= 加密的
+
+ 如果值中带有&=什么的特殊符号 （例如 example.com?name=asd&qwe） 其中&不会被Encode
+
+ 只能每项拿出来单独URLEncode；
+ 单独URLEncode时请使用stringByURLEncodeReal
+ */
+- (NSString*)WTR_stringByURLEncode
 {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-    NSString *temp = [self stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    NSString *temp = [SafeStr(self) stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
 #pragma clang diagnostic pop
     return temp;
 }
-- (NSString*)stringByURLDecode
+- (NSString*)WTR_stringByURLDecode
 {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-    NSString *temp = [self stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    NSString *temp = [SafeStr(self) stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
 #pragma clang diagnostic pop
     return temp;
+}
+- (NSString*)WTR_stringByURLEncodeReal
+{
+    NSString *string=SafeStr(self);
+
+    //AF的AFPercentEscapedStringFromString
+    static NSString * const kAFCharactersGeneralDelimitersToEncode = @":#[]@"; // does not include "?" or "/" due to RFC 3986 - Section 3.4
+    static NSString * const kAFCharactersSubDelimitersToEncode = @"!$&'()*+,;=";
+
+    NSMutableCharacterSet * allowedCharacterSet = [[NSCharacterSet URLQueryAllowedCharacterSet] mutableCopy];
+    [allowedCharacterSet removeCharactersInString:[kAFCharactersGeneralDelimitersToEncode stringByAppendingString:kAFCharactersSubDelimitersToEncode]];
+
+    static NSUInteger const batchSize = 50;
+
+    NSUInteger index = 0;
+    NSMutableString *escaped = @"".mutableCopy;
+
+    while (index < string.length) {
+        NSUInteger length = MIN(string.length - index, batchSize);
+        NSRange range = NSMakeRange(index, length);
+
+        // To avoid breaking up character sequences such as 👴🏻👮🏽
+        range = [string rangeOfComposedCharacterSequencesForRange:range];
+
+        NSString *substring = [string substringWithRange:range];
+        NSString *encoded = [substring stringByAddingPercentEncodingWithAllowedCharacters:allowedCharacterSet];
+        [escaped appendString:encoded];
+
+        index += range.length;
+    }
+    return escaped;
+}
+- (NSString*)WTR_stringByURLDecodeReal
+{
+    return SafeStr(self).stringByRemovingPercentEncoding;
 }
 
 @end

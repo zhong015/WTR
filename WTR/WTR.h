@@ -125,13 +125,22 @@
 +(NSData *)WTRfileMD5:(NSString*)path;
 +(NSString *)WTRfileMD5String:(NSString *)path;
 
-+(NSData *)dataWithHexString:(NSString *)hexStr; //十六进制字符串 转data
++(NSData *)WTR_dataWithHexString:(NSString *)hexStr; //十六进制字符串 转data
+-(NSString *)WTR_hexString;
 
 @end
 
 @interface NSString (WTRStr)
 
-- (NSString*)stringByURLEncode;
-- (NSString*)stringByURLDecode;
+/*
+ WTR_stringByURLEncode
+ 只适用于值中不需要对 !$&'()*+,;= 加密的，如果值中带有&=什么的特殊符号 （例如 example.com?name=asd&qwe） 其中&不会被Encode
+
+ 如果需要真实的URLEncode只能每项拿出来单独stringByURLEncodeReal；
+ */
+- (NSString*)WTR_stringByURLEncode;
+- (NSString*)WTR_stringByURLDecode;
+- (NSString*)WTR_stringByURLEncodeReal;
+- (NSString*)WTR_stringByURLDecodeReal;
 
 @end
