@@ -117,9 +117,16 @@
 -(void)wtrsaveimage:(UIImage *)saveimage imageView:(UIImageView *)imv
 {
     self.actionContr = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
-    [self.actionContr addAction:[UIAlertAction actionWithTitle:@"保存到相册" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
-        UIImageWriteToSavedPhotosAlbum(saveimage, self, @selector(image:didFinishSavingWithError:contextInfo:),nil);
-    }]];
+    if (TARGET_OS_MACCATALYST) {
+        __WEAKSelf
+        [self.actionContr addAction:[UIAlertAction actionWithTitle:@"导出图片" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            [weakSelf performSelector:@selector(daochutupian:) withObject:imv afterDelay:0.1];
+        }]];
+    }else{
+        [self.actionContr addAction:[UIAlertAction actionWithTitle:@"保存到相册" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            UIImageWriteToSavedPhotosAlbum(saveimage, self, @selector(image:didFinishSavingWithError:contextInfo:),nil);
+        }]];
+    }
     [self.actionContr addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
     }]];
     self.curintsvc=[WTR curintViewController];
@@ -131,6 +138,20 @@
     }else{
         [self.curintsvc presentViewController:self.actionContr animated:YES completion:nil];
     }
+}
+-(void)daochutupian:(UIImageView *)imv
+{
+    if (!imv.image) {
+        return;
+    }
+    NSString *tmppath=[[WTRFilePath getCachePath] stringByAppendingPathComponent:@"wtrimlist.png"];
+    [[NSFileManager defaultManager] removeItemAtPath:tmppath error:nil];
+    [UIImagePNGRepresentation(imv.image) writeToFile:tmppath atomically:YES];
+    UIDocumentPickerViewController *pic=[[UIDocumentPickerViewController alloc] initWithURL:[NSURL fileURLWithPath:tmppath] inMode:UIDocumentPickerModeMoveToService];
+    if (@available(iOS 13.0, *)) {
+        pic.shouldShowFileExtensions=YES;
+    }
+    [[WTR curintViewController] presentViewController:pic animated:YES completion:nil];
 }
 - (void)image:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo
 {
