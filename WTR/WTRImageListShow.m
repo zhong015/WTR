@@ -21,8 +21,7 @@
 @property(nonatomic,copy) void (^clearallcb)(void);
 
 
-@property(nonatomic,strong)UIViewController *curintsvc;
-@property(nonatomic,strong)UIAlertController *actionContr;
+@property(nonatomic,weak)UIViewController *curintsvc;
 
 @end
 
@@ -116,27 +115,27 @@
 }
 -(void)wtrsaveimage:(UIImage *)saveimage imageView:(UIImageView *)imv
 {
-    self.actionContr = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+    UIAlertController *actionContr = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
     if (TARGET_OS_MACCATALYST) {
         __WEAKSelf
-        [self.actionContr addAction:[UIAlertAction actionWithTitle:@"导出图片" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [actionContr addAction:[UIAlertAction actionWithTitle:@"导出图片" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
             [weakSelf performSelector:@selector(daochutupian:) withObject:imv afterDelay:0.1];
         }]];
     }else{
-        [self.actionContr addAction:[UIAlertAction actionWithTitle:@"保存到相册" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [actionContr addAction:[UIAlertAction actionWithTitle:@"保存到相册" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
             UIImageWriteToSavedPhotosAlbum(saveimage, self, @selector(image:didFinishSavingWithError:contextInfo:),nil);
         }]];
     }
-    [self.actionContr addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+    [actionContr addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
     }]];
     self.curintsvc=[WTR curintViewController];
     if(ISPadWTR&&imv){
-        UIPopoverPresentationController *popPresenter=[self.actionContr popoverPresentationController];
+        UIPopoverPresentationController *popPresenter=[actionContr popoverPresentationController];
         popPresenter.sourceView=imv;
         popPresenter.sourceRect=CGRectMake(imv.width/2.0-40, imv.height/2.0-40, 80, 80);
-        [self.curintsvc presentViewController:self.actionContr animated:YES completion:nil];
+        [self.curintsvc presentViewController:actionContr animated:YES completion:nil];
     }else{
-        [self.curintsvc presentViewController:self.actionContr animated:YES completion:nil];
+        [self.curintsvc presentViewController:actionContr animated:YES completion:nil];
     }
 }
 -(void)daochutupian:(UIImageView *)imv
