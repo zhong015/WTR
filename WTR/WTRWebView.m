@@ -15,21 +15,24 @@ static void *WTRWebViewContentSizeContext = &WTRWebViewContentSizeContext;
 
 @property(nonatomic,strong)NSURLRequest *currentreq;
 
+@property(nonatomic,assign)BOOL isAddObserver;
+
 @end
 
 @implementation WTRWebView
 
 - (void)dealloc
 {
+    [self removeHHObserver];
     if (self.isLoading) {
         [self stopLoading];
     }
-    [self removeObserver:self forKeyPath:@"scrollView.contentSize"];
 }
 - (instancetype)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
     if (self) {
+        _isAddObserver=NO;
         _isChangeHeight=NO;
         [self loadui];
     }
@@ -48,10 +51,26 @@ static void *WTRWebViewContentSizeContext = &WTRWebViewContentSizeContext;
 {
     _isChangeHeight=isChangeHeight;
     if (isChangeHeight) {
-        [self addObserver:self forKeyPath:@"scrollView.contentSize" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:WTRWebViewContentSizeContext];
+        [self addHHObserver];
     }else{
-        [self removeObserver:self forKeyPath:@"scrollView.contentSize"];
+        [self removeHHObserver];
     }
+}
+-(void)addHHObserver
+{
+    if (self.isAddObserver) {
+        return;
+    }
+    self.isAddObserver=YES;
+    [self addObserver:self forKeyPath:@"scrollView.contentSize" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:WTRWebViewContentSizeContext];
+}
+-(void)removeHHObserver
+{
+    if (!self.isAddObserver) {
+        return;
+    }
+    self.isAddObserver=NO;
+    [self removeObserver:self forKeyPath:@"scrollView.contentSize"];
 }
 -(void)setCharsetUTF8
 {
