@@ -106,73 +106,60 @@ void SetColorCWithDa(char *da,long width,int i,int j,ColorC onec)
     
     return img;
 }
+
 - (UIImage *)imageCutWith:(CGSize)size
 {
-    size.width=roundf(size.width);
-    size.height=roundf(size.height);
-    
-    UIImage *image=self;
-    CGFloat ww,hh,x=0,y=0,imb,sib;
-    imb=image.size.width/image.size.height;
-    sib=size.width/size.height;
-    
-    if (imb>sib) {
-        y=0;
-        hh=size.height;
-        ww=image.size.width/image.size.height*hh;
-        x=-(ww-size.width)/2;
-    }
-    else
-    {
-        x=0;
-        ww=size.width;
-        hh=image.size.height/image.size.width*ww;
-        y=-(hh-size.height)/2;
-    }
-    
-    UIGraphicsBeginImageContext(size);
-    
-    [image drawInRect:CGRectMake(x,y,ww,hh)];
-    
-    UIImage *viewImage = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    
-    return viewImage;
+    return [self imageCutWithSize:size isAspectFill:YES opaque:YES];
 }
-
 - (UIImage *)imageCutNoOpaqueWith:(CGSize)size
+{
+    return [self imageCutWithSize:size isAspectFill:YES opaque:NO];
+}
+- (UIImage *)imageCutWithSize:(CGSize)size isAspectFill:(BOOL)isAspectFill opaque:(BOOL)opaque
 {
     size.width=roundf(size.width);
     size.height=roundf(size.height);
-    
+
     UIImage *image=self;
     CGFloat ww,hh,x=0,y=0,imb,sib;
     imb=image.size.width/image.size.height;
     sib=size.width/size.height;
-    
-    if (imb>sib) {
-        y=0;
-        hh=size.height;
-        ww=image.size.width/image.size.height*hh;
-        x=-(ww-size.width)/2;
+
+    if (isAspectFill) {
+        if (imb>sib) {
+            y=0;
+            hh=size.height;
+            ww=image.size.width/image.size.height*hh;
+            x=-(ww-size.width)/2;
+        }else{
+            x=0;
+            ww=size.width;
+            hh=image.size.height/image.size.width*ww;
+            y=-(hh-size.height)/2;
+        }
+    }else{
+        if (imb>sib) {
+            x=0;
+            ww=size.width;
+            hh=image.size.height/image.size.width*ww;
+            y=-(hh-size.height)/2;
+        }else{
+            y=0;
+            hh=size.height;
+            ww=image.size.width/image.size.height*hh;
+            x=-(ww-size.width)/2;
+        }
     }
-    else
-    {
-        x=0;
-        ww=size.width;
-        hh=image.size.height/image.size.width*ww;
-        y=-(hh-size.height)/2;
-    }
-    
-    UIGraphicsBeginImageContextWithOptions(size, NO, 1.0);
+
+    UIGraphicsBeginImageContextWithOptions(size, opaque, 1.0);
     CGContextRef context=UIGraphicsGetCurrentContext();
     CGContextClearRect(context, CGRectMake(0, 0, size.width, size.height));
-    
+
     [image drawInRect:CGRectMake(x,y,ww,hh)];
-    
+
     UIImage *viewImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
-    
+
     return viewImage;
 }
 
@@ -492,107 +479,94 @@ void SetColorCWithDa(char *da,long width,int i,int j,ColorC onec)
     return [UIImage imageWithCGImage:masked];
 }
 
-- (UIImage *)yincangtupianWithImage:(UIImage *)img
+- (UIImage *)WTR_heiBaiTuImg:(UIImage *)img
 {
-    CIImage *imgci1=[[CIImage alloc] initWithImage:self];
-    CIImage *imgci2=[[CIImage alloc] initWithImage:img];
-    
-    CIFilter *Monoft=[CIFilter filterWithName:@"CIPhotoEffectMono"];
-    CIFilter *Invertft=[CIFilter filterWithName:@"CIColorInvert"];
-    CIFilter *Alphaft=[CIFilter filterWithName:@"CIMaskToAlpha"];
-    
-    [Monoft setValue:imgci1 forKey:@"inputImage"];
-    imgci1=Monoft.outputImage;
-    
-    [Monoft setValue:imgci2 forKey:@"inputImage"];
-    imgci2=Monoft.outputImage;
-    
-    //1
-    [Invertft setValue:imgci1 forKey:@"inputImage"];
-    imgci1=Invertft.outputImage;
-    
-    [Alphaft setValue:imgci1 forKey:@"inputImage"];
-    imgci1=Alphaft.outputImage;
-    
-    [Invertft setValue:imgci1 forKey:@"inputImage"];
-    imgci1=Invertft.outputImage;
-    
-    //2
-    [Alphaft setValue:imgci2 forKey:@"inputImage"];
-    imgci2=Alphaft.outputImage;
-    
-    UIImage *im1=[UIImage imageWithWTRCIImage:imgci1];
-    UIImage *im2=[UIImage imageWithWTRCIImage:imgci2];
-    
-    //合成
-    UIImage *hcim=[UIImage dianhechengimage1:im1 image2:im2];
-    
-    return hcim;
+    return [UIImage HeiBaiTuWithImage1:self image2:img];
 }
-
-//点 合成 图片
-+(UIImage *)dianhechengimage1:(UIImage *)image1 image2:(UIImage *)image2
+//黑白背景显示不同图片
++(UIImage *)HeiBaiTuWithImage1:(UIImage *)image1 image2:(UIImage *)image2
 {
+    //改成同样大小
+    if (image2.size.width!=image1.size.width||image2.size.height!=image1.size.height) {
+        image2=[image2 imageCutNoOpaqueWith:image1.size];
+    }
+
     CGSize size=image1.size;
     CGRect rect = CGRectMake(0, 0, size.width, size.height);
-    
+
     UIGraphicsBeginImageContextWithOptions(size, NO, 1.0);
     CGContextRef context = UIGraphicsGetCurrentContext();
     CGContextClearRect(context, rect);
-    
+
     [image1 drawInRect:CGRectMake(0, 0, size.width, size.height)];
     char *da1=CGBitmapContextGetData(context);
-    
+
     size_t width=CGBitmapContextGetWidth(context);
     size_t heigth=CGBitmapContextGetHeight(context);
-    
+
     size_t BitsPerComponent=CGBitmapContextGetBitsPerComponent(context);
-    
+
     size_t BitsPerPixel=CGBitmapContextGetBitsPerPixel(context);
-    
+
     size_t BytesPerRow=CGBitmapContextGetBytesPerRow(context);
-    
-    
+
+
     char *imda1=malloc(width*heigth*BitsPerPixel);
     memcpy(imda1, da1, width*heigth*4);
-    
+
     CGContextClearRect(context, rect);
     [image2 drawInRect:CGRectMake(0, 0, size.width, size.height)];
     char *da2=CGBitmapContextGetData(context);
-    
+
     char *imda2=malloc(width*heigth*BitsPerPixel);
     memcpy(imda2, da2, width*heigth*4);
-    
-    
+
+
     if (BitsPerPixel!=(4*8)) {
         NSLog(@"格式错误");
     }
-    
-    //像素点填充
+
+    //像素点操作
     for (int i=0; i<heigth; i++) {
         for (int j=0; j<width; j++) {
-            if (j%2==1||i%2==1) {
-                ColorC onec=getColorCWithDa(imda2,width,i,j);
-                SetColorCWithDa(imda1, width, i, j, onec);
-            }
+
+            ColorC onec1=getColorCWithDa(imda1,width,i,j);
+            ColorC onec2=getColorCWithDa(imda2,width,i,j);
+
+            CGFloat hui1=onec1.r*0.3+onec1.g*0.59+onec1.b*0.11;
+            CGFloat hui2=onec2.r*0.3+onec2.g*0.59+onec2.b*0.11;
+
+            CGFloat linjind=0.5;//间隔值 0 ~ 1
+
+            //保证 hui2 大于 hui1
+            hui1=hui1*linjind;
+            hui2=hui2*(1-linjind)+255*linjind;
+
+            ColorC rsco;
+            rsco.r=hui1;
+            rsco.g=hui1;
+            rsco.b=hui1;
+            rsco.a= 255+hui1-hui2; //原理 显示图 = 当前图*a + 背景值*(1-a)  列出两个二元一次方程 求 a 就可以得到
+
+            SetColorCWithDa(imda1, width, i, j, rsco);
         }
     }
-    
+
     CGColorSpaceRef colorspaceref=CGBitmapContextGetColorSpace(context);//CGColorSpaceCreateDeviceRGB();
     CGBitmapInfo info=CGBitmapContextGetBitmapInfo(context);//1
-    
+
     UIGraphicsEndImageContext();
-    
+
     CGContextRef bitmapcontext=CGBitmapContextCreate(imda1, width, heigth, BitsPerComponent,BytesPerRow, colorspaceref, info);
     CGImageRef imagr=CGBitmapContextCreateImage(bitmapcontext);
     UIImage *retim=[[UIImage alloc]initWithCGImage:imagr];
     CGImageRelease(imagr);
     CGColorSpaceRelease(colorspaceref);
     CGContextRelease(bitmapcontext);
-    
+
     free(imda1);
     free(imda2);
-    
+
     return retim;
 }
 

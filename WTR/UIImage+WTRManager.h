@@ -15,6 +15,7 @@
 
 - (UIImage *)imageCutWith:(CGSize)size;//改变分辨率 透明部分变白
 - (UIImage *)imageCutNoOpaqueWith:(CGSize)size;//改变分辨率 透明部分透明
+- (UIImage *)imageCutWithSize:(CGSize)size isAspectFill:(BOOL)isAspectFill opaque:(BOOL)opaque;
 
 - (UIImage *)fixOrientation;//纠正系统相机照出来的图片方向
 
@@ -24,7 +25,7 @@
 - (UIImage *)WTR_imageWithTintColor:(UIColor *)tintColor blendMode:(CGBlendMode)blendMode;
 - (UIImage *)WTR_imageWithTintColor:(UIColor *)tintColor blendMode:(CGBlendMode)blendMode alpha:(CGFloat)alpha;
 
-- (UIImage *)yincangtupianWithImage:(UIImage *)img;//白色 黑色 背景隐藏图片 黑色背景显示img 白色显示self
+- (UIImage *)WTR_heiBaiTuImg:(UIImage *)img;//黑白背景显示不同图片
 
 + (UIImage *)imageWithWTRCIImage:(CIImage *)ciimage;
 

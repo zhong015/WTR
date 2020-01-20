@@ -921,6 +921,46 @@ static id _s;
     }
     return topViewController;
 }
++(UIViewController *)curintViewControllerNotInVcClassArray:(NSArray <Class>*)vcClassArray
+{
+    //当前ViewController 链碰到到vcClassArray里的某一项就停止 返回上一个
+    UIWindow *window = [[UIApplication sharedApplication].delegate window];
+    UIViewController *topViewController = [window rootViewController];
+    while (true) {
+        if (topViewController.presentedViewController&&![topViewController.presentedViewController isKindOfClass:[UIAlertController class]]&&(topViewController.presentedViewController.modalPresentationStyle==UIModalPresentationFullScreen)) {
+            if ([self isCurintViewController:topViewController.presentedViewController InVcClassArray:vcClassArray]) {
+                break;
+            }
+            topViewController = topViewController.presentedViewController;
+        } else if ([topViewController isKindOfClass:[UINavigationController class]] && [(UINavigationController*)topViewController topViewController]) {
+            if ([self isCurintViewController:[(UINavigationController *)topViewController topViewController] InVcClassArray:vcClassArray]) {
+                break;
+            }
+            topViewController = [(UINavigationController *)topViewController topViewController];
+        } else if ([topViewController isKindOfClass:[UITabBarController class]]) {
+            if ([self isCurintViewController:((UITabBarController *)topViewController).selectedViewController InVcClassArray:vcClassArray]) {
+                break;
+            }
+            UITabBarController *tab = (UITabBarController *)topViewController;
+            topViewController = tab.selectedViewController;
+        } else {
+            break;
+        }
+    }
+    return topViewController;
+}
++(BOOL)isCurintViewController:(UIViewController *)cvc InVcClassArray:(NSArray <Class>*)vcClassArray
+{
+    if (!vcClassArray||![vcClassArray isKindOfClass:[NSArray class]]||vcClassArray.count==0) {
+        return NO;
+    }
+    for (Class cclas in vcClassArray) {
+        if ([cvc isKindOfClass:cclas]) {
+            return YES;
+        }
+    }
+    return NO;
+}
 
 
 +(NSArray *)GetAllDataWithDbPath:(NSString *)path tablename:(NSString *)tablename columnArray:(NSArray <NSString *>*)columnArray
