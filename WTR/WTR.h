@@ -73,6 +73,7 @@
 
 //Keychain操作
 +(NSData *)readKeychainId:(NSString *)identifier; //读取数据
++(NSData *)readKeychainId:(NSString *)identifier kSecReturnType:(NSString *)kSecReturnType;
 +(NSData *)readKeychainId:(NSString *)identifier Account:(NSString *)Account Group:(NSString *)Group;
 +(NSData *)readKeychainId:(NSString *)identifier Account:(NSString *)Account Group:(NSString *)Group kSecReturnType:(NSString *)kSecReturnType;
 +(BOOL)writeData:(NSData *)data KeychainId:(NSString *)identifier; //写入数据

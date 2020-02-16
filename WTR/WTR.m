@@ -1090,6 +1090,10 @@ static id _s;
 {
     return [self readKeychainId:identifier Account:identifier Group:identifier];
 }
++(NSData *)readKeychainId:(NSString *)identifier kSecReturnType:(NSString *)kSecReturnType
+{
+    return [self readKeychainId:identifier Account:identifier Group:identifier kSecReturnType:kSecReturnType];
+}
 +(NSData *)readKeychainId:(NSString *)identifier Account:(NSString *)Account Group:(NSString *)Group
 {
     return [self readKeychainId:identifier Account:Account Group:Group kSecReturnType:(id)kSecReturnData];
