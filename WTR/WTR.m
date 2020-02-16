@@ -1092,9 +1092,21 @@ static id _s;
 }
 +(NSData *)readKeychainId:(NSString *)identifier Account:(NSString *)Account Group:(NSString *)Group
 {
+    return [self readKeychainId:identifier Account:Account Group:Group kSecReturnType:(id)kSecReturnData];
+}
++(NSData *)readKeychainId:(NSString *)identifier Account:(NSString *)Account Group:(NSString *)Group kSecReturnType:(NSString *)kSecReturnType
+{
     NSMutableDictionary *searchDictionary=[self newkSecDictionary:identifier Account:Account Group:Group];
     [searchDictionary setObject:(id)kSecMatchLimitOne forKey:(id)kSecMatchLimit];
-    [searchDictionary setObject:(id)kCFBooleanTrue forKey:(id)kSecReturnData];
+
+    /*
+     kSecReturnType:
+        kSecReturnData 直接返回原数据，返回值类型是CFDataRef
+        kSecReturnAttributes 返回该条目的属性，返回值是字典类型CFDictionaryRef
+        kSecReturnRef 返回条目的引用，根据条目所属类别，返回值类型可能是：SecKeychainItemRef, SecKeyRef,SecCertificateRef, SecIdentityRef.
+        kSecReturnPersistentRef 返回条目的引用，返回值类型是CFDataRef（配置VPN等要钥匙串时需要用 系统库需要的是引用值）
+     */
+    [searchDictionary setObject:(id)kCFBooleanTrue forKey:kSecReturnType];
 
     CFTypeRef outdata = nil;
 
@@ -1432,6 +1444,19 @@ static id _s;
     [[UIDevice currentDevice] setValue:yzor1 forKey:@"orientation"];
     NSNumber *yzor2=[NSNumber numberWithInteger:newOrientation];
     [[UIDevice currentDevice] setValue:yzor2 forKey:@"orientation"];
+}
+
++(void)reMoveAutoTableViewSet:(UITableView *)tableView
+{
+    tableView.estimatedRowHeight=0;
+    tableView.estimatedSectionFooterHeight=0;
+    tableView.estimatedSectionHeaderHeight=0;
+    if (@available(iOS 13.0, *)) {
+        tableView.automaticallyAdjustsScrollIndicatorInsets=NO;
+    }
+    if (@available(iOS 11.0, *)) {
+        tableView.contentInsetAdjustmentBehavior=UIScrollViewContentInsetAdjustmentNever;
+    }
 }
 
 @end

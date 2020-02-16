@@ -533,8 +533,9 @@ void SetColorCWithDa(char *da,long width,int i,int j,ColorC onec)
             ColorC onec1=getColorCWithDa(imda1,width,i,j);
             ColorC onec2=getColorCWithDa(imda2,width,i,j);
 
-            CGFloat hui1=onec1.r*0.3+onec1.g*0.59+onec1.b*0.11;
-            CGFloat hui2=onec2.r*0.3+onec2.g*0.59+onec2.b*0.11;
+            //这里取出来的颜色 红 蓝是调换的 以后取像素点用 mainColorWtr 里的方法
+            CGFloat hui1=onec1.b*0.3+onec1.g*0.59+onec1.r*0.11;
+            CGFloat hui2=onec2.b*0.3+onec2.g*0.59+onec2.r*0.11;
 
             CGFloat linjind=0.5;//间隔值 0 ~ 1
 

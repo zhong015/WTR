@@ -74,6 +74,7 @@
 //Keychain操作
 +(NSData *)readKeychainId:(NSString *)identifier; //读取数据
 +(NSData *)readKeychainId:(NSString *)identifier Account:(NSString *)Account Group:(NSString *)Group;
++(NSData *)readKeychainId:(NSString *)identifier Account:(NSString *)Account Group:(NSString *)Group kSecReturnType:(NSString *)kSecReturnType;
 +(BOOL)writeData:(NSData *)data KeychainId:(NSString *)identifier; //写入数据
 +(BOOL)writeData:(NSData *)data KeychainId:(NSString *)identifier Account:(NSString *)Account Group:(NSString *)Group;
 +(BOOL)deleteKeychainId:(NSString *)identifier; //删除数据
@@ -104,7 +105,7 @@
 +(NSString *)quchuKBKH:(NSString *)str tagStr:(NSString *)tagStr;
 
 #pragma mark 给出现文字设置属性
-+(void)AddAttributeStr:(NSMutableAttributedString *)allstr   Attributes:(NSDictionary *)atr inStr:(NSString *)str;
++(void)AddAttributeStr:(NSMutableAttributedString *)allstr Attributes:(NSDictionary *)atr inStr:(NSString *)str;
 #pragma mark 汉字转拼音
 +(NSString *)HanZiToPinYin:(NSString *)hanzi;
 
@@ -114,6 +115,9 @@
 
 //强制旋转屏幕
 +(void)switchNewOrientation:(UIInterfaceOrientation)newOrientation;
+
+//取消tableView的自动适配大小和边距 恢复以前完全自定义控制高度和内边距
++(void)reMoveAutoTableViewSet:(UITableView *)tableView;
 
 @end
 
