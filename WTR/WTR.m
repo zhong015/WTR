@@ -1556,6 +1556,53 @@ int32_t const WTRCHUNK_SIZE = 8 * 1024;
     return result;
 }
 
+-(NSData *)WTR_sha1
+{
+    unsigned char hash[CC_SHA1_DIGEST_LENGTH];
+    CC_SHA1([self bytes],(CC_LONG)[self length],hash);
+    return [NSData dataWithBytes:hash length: CC_SHA1_DIGEST_LENGTH];
+}
+-(NSString *)WTR_sha1String
+{
+    NSData *shada=[self WTR_sha1];
+    NSString *retStr=[shada base64EncodedStringWithOptions:0];//base64
+    return retStr;
+}
+-(NSData *)WTR_hmac_sha1WithKey:(NSString *)key
+{
+    const char *cKey  = [key cStringUsingEncoding:NSUTF8StringEncoding];
+    const char *cData = self.bytes;
+
+    char cHMAC[CC_SHA1_DIGEST_LENGTH];
+
+    CCHmac(kCCHmacAlgSHA1, cKey, strlen(cKey), cData, self.length, cHMAC);
+
+    return [[NSData alloc] initWithBytes:cHMAC length:CC_SHA1_DIGEST_LENGTH];
+}
+-(NSString *)WTR_hmac_sha1StrWithKey:(NSString *)key
+{
+    NSData *shada=[self WTR_hmac_sha1WithKey:key];
+    NSString *retStr=[shada base64EncodedStringWithOptions:0];//base64
+    return retStr;
+}
+-(NSData *)WTR_hmac_md5WithKey:(NSString *)key
+{
+    const char *cKey  = [key cStringUsingEncoding:NSUTF8StringEncoding];
+    const char *cData = self.bytes;
+
+    char cHMAC[CC_MD5_DIGEST_LENGTH];
+
+    CCHmac(kCCHmacAlgMD5, cKey, strlen(cKey), cData, self.length, cHMAC);
+
+    return [[NSData alloc] initWithBytes:cHMAC length:CC_MD5_DIGEST_LENGTH];
+}
+-(NSString *)WTR_hmac_md5StrWithKey:(NSString *)key
+{
+    NSData *md5da=[self WTR_hmac_md5WithKey:key];
+    NSString *retStr=[md5da base64EncodedStringWithOptions:0];//base64
+    return retStr;
+}
+
 @end
 
 

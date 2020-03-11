@@ -133,6 +133,14 @@
 +(NSData *)WTR_dataWithHexString:(NSString *)hexStr; //十六进制字符串 转data
 -(NSString *)WTR_hexString;
 
+-(NSData *)WTR_sha1;
+-(NSString *)WTR_sha1String;
+
+-(NSData *)WTR_hmac_sha1WithKey:(NSString *)key;
+-(NSString *)WTR_hmac_sha1StrWithKey:(NSString *)key;
+-(NSData *)WTR_hmac_md5WithKey:(NSString *)key;
+-(NSString *)WTR_hmac_md5StrWithKey:(NSString *)key;
+
 @end
 
 @interface NSString (WTRStr)
