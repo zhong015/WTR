@@ -847,8 +847,16 @@ static id _s;
      [[UIImageView sharedImageDownloader].sessionManager.session.configuration.URLCache removeAllCachedResponses];  //单个移除不管用从iOS8.0之后
      */
     [[NSURLCache sharedURLCache] removeAllCachedResponses];
-    [[NSFileManager defaultManager] removeItemAtPath:[WTRFilePath getCachePath] error:nil];
-    [[NSFileManager defaultManager] createDirectoryAtPath:[WTRFilePath getCachePath] withIntermediateDirectories:YES attributes:nil error:nil];
+    NSFileManager* manager = [NSFileManager defaultManager];
+    NSString *cachefile=[WTRFilePath getCachePath];
+    NSArray *arr=[manager subpathsAtPath:cachefile];
+    if (arr&&arr.count>0) {
+        for (int i=0; i<arr.count; i++) {
+            NSString *fileName=arr[i];
+            NSString *fileAbsolutePath = [cachefile stringByAppendingPathComponent:fileName];
+            [manager removeItemAtPath:fileAbsolutePath error:nil];
+        }
+    }
 }
 +(unsigned long long)AllCachesSize
 {
@@ -859,9 +867,9 @@ static id _s;
 +(unsigned long long)folderSizeAtPath:(NSString*)folderPath
 {
     NSFileManager* manager = [NSFileManager defaultManager];
-    if (![manager fileExistsAtPath:folderPath]) return 0.0;
+    if (![manager fileExistsAtPath:folderPath]) return 0;
     unsigned long long folderSize=0;
-    NSArray *arr=[manager subpathsOfDirectoryAtPath:folderPath error:nil];
+    NSArray *arr=[manager subpathsAtPath:folderPath];
     if (arr&&arr.count>0) {
         for (int i=0; i<arr.count; i++) {
             NSString *fileName=arr[i];
@@ -1450,7 +1458,7 @@ static id _s;
     [[UIDevice currentDevice] setValue:yzor2 forKey:@"orientation"];
 }
 
-+(void)reMoveAutoTableViewSet:(UITableView *)tableView
++(void)reMoveTableViewAutoSet:(UITableView *)tableView
 {
     tableView.estimatedRowHeight=0;
     tableView.estimatedSectionFooterHeight=0;

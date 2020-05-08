@@ -118,7 +118,7 @@
 +(void)switchNewOrientation:(UIInterfaceOrientation)newOrientation;
 
 //取消tableView的自动适配大小和边距 恢复以前完全自定义控制高度和内边距
-+(void)reMoveAutoTableViewSet:(UITableView *)tableView;
++(void)reMoveTableViewAutoSet:(UITableView *)tableView;
 
 @end
 
