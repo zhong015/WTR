@@ -148,6 +148,9 @@ static id _s;
 }
 -(void)addOneWTRImageLoadWithImageV:(UIImageView *)imv imstr:(NSString *)imstr placeholder:(UIImage *)placeholder isneedcheck:(BOOL)isneedcheck
 {
+    if (!imv||!imstr) {
+        return;
+    }
     BOOL ischeck=YES;
     long long datalength=-1;
     
