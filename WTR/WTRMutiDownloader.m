@@ -1,10 +1,6 @@
 //
 //  WTRMutiDownloader.m
-//  CnkiIPhoneClient
-//
 //  Created by wfz on 2017/4/7.
-//  Copyright © 2017年 net.cnki.www. All rights reserved.
-//
 
 #import "WTRMutiDownloader.h"
 #import "WTRBaseDefine.h"
@@ -28,7 +24,7 @@
 
 
 
-@interface CNKIDownloadTask : NSObject
+@interface WTRDownloadTask : NSObject
 
 @property(nonatomic,copy)NSString *tagstr;
 
@@ -41,13 +37,13 @@
 
 @property(nonatomic,copy)void (^retcb)(NSData * filedata,NSString *tagstr, NSError * error);
 
--(void)cnkiDownloadTaskWithRequest:(NSURLRequest *)request completionHandler:(void (^)(NSData * filedata,NSString *tagstr, NSError * error))completionHandler;
+-(void)WTRDownloadTaskWithRequest:(NSURLRequest *)request completionHandler:(void (^)(NSData * filedata,NSString *tagstr, NSError * error))completionHandler;
 
 @end
 
-@implementation CNKIDownloadTask
+@implementation WTRDownloadTask
 
--(void)cnkiDownloadTaskWithRequest:(NSURLRequest *)request completionHandler:(void (^)(NSData * filedata,NSString *tagstr, NSError * error))completionHandler;
+-(void)WTRDownloadTaskWithRequest:(NSURLRequest *)request completionHandler:(void (^)(NSData * filedata,NSString *tagstr, NSError * error))completionHandler;
 {
     self.retcb=completionHandler;
     self.isDown=NO;
@@ -74,7 +70,7 @@ static id _s;
 {
     self=[super init];
     if (self) {
-        NSURLSessionConfiguration* configuration= [NSURLSessionConfiguration backgroundSessionConfigurationWithIdentifier:@"net.cnki.www.CNKIClient"];
+        NSURLSessionConfiguration* configuration= [NSURLSessionConfiguration backgroundSessionConfigurationWithIdentifier:@"WTRMutiDownloader"];
         
         configuration.HTTPMaximumConnectionsPerHost = WTRMutiMaxNum;
 
@@ -117,7 +113,7 @@ didFinishDownloadingToURL:(NSURL *)location
     [self.downtasklock lock];
     
     for (int i=0; i<self.downtaskArray.count; i++) {
-        CNKIDownloadTask *mytask=self.downtaskArray[i];
+        WTRDownloadTask *mytask=self.downtaskArray[i];
         if (mytask.downtask==downloadTask) {
             
             if (downloadTask.error) {
@@ -145,7 +141,7 @@ didFinishDownloadingToURL:(NSURL *)location
 {
     [self.downtasklock lock];
     for (int i=0; i<self.downtaskArray.count; i++) {
-        CNKIDownloadTask *mytask=self.downtaskArray[i];
+        WTRDownloadTask *mytask=self.downtaskArray[i];
         if ([mytask.tagstr isEqualToString:tagstr]) {
             [self.downtaskArray removeObjectAtIndex:i];
             i--;
@@ -155,7 +151,7 @@ didFinishDownloadingToURL:(NSURL *)location
     [self.downtasklock unlock];
 }
 
--(void)hechehngDtask:(CNKIDownloadTask *)mytaskcc
+-(void)hechehngDtask:(WTRDownloadTask *)mytaskcc
 {
     NSMutableArray *fmuarr=[NSMutableArray array];
     
@@ -163,7 +159,7 @@ didFinishDownloadingToURL:(NSURL *)location
     
     int numc=0;
     for (int i=0; i<self.downtaskArray.count; i++) {
-        CNKIDownloadTask *mytask=self.downtaskArray[i];
+        WTRDownloadTask *mytask=self.downtaskArray[i];
         if ([mytask.tagstr isEqualToString:mytaskcc.tagstr]) {
             if (mytask.isDown) {
                 numc++;
@@ -179,8 +175,8 @@ didFinishDownloadingToURL:(NSURL *)location
         
         [fmuarr sortUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
             
-            CNKIDownloadTask *mytask1=obj1;
-            CNKIDownloadTask *mytask2=obj2;
+            WTRDownloadTask *mytask1=obj1;
+            WTRDownloadTask *mytask2=obj2;
             if (mytask1.fromindex<mytask2.fromindex) {
                 return NSOrderedAscending;
             }
@@ -190,7 +186,7 @@ didFinishDownloadingToURL:(NSURL *)location
 
         [self.downtasklock lock];
         for (int i=0; i<fmuarr.count; i++) {
-            CNKIDownloadTask *mytask=self.downtaskArray[i];
+            WTRDownloadTask *mytask=self.downtaskArray[i];
             [muda appendData:mytask.filedata];
         }
         [self.downtasklock unlock];
@@ -214,9 +210,9 @@ didFinishDownloadingToURL:(NSURL *)location
     long long curintd=0;
     
     [self.downtasklock lock];
-    CNKIDownloadTask *lastdowntask=nil;
+    WTRDownloadTask *lastdowntask=nil;
     for (int i=0; i<self.downtaskArray.count; i++) {
-        CNKIDownloadTask *downtask=[self.downtaskArray objectAtIndex:i];
+        WTRDownloadTask *downtask=[self.downtaskArray objectAtIndex:i];
         if ([downtask.tagstr isEqualToString:tagstr]) {
             if (downtask.downtask.state==NSURLSessionTaskStateRunning&&downtask.downtask.countOfBytesExpectedToReceive>0) {
                 curintd+=downtask.downtask.countOfBytesExpectedToReceive;
@@ -272,7 +268,7 @@ didFinishDownloadingToURL:(NSURL *)location
         
         [ssmrequ setHTTPMethod:@"GET"];
         
-        CNKIDownloadTask *downtask=[[CNKIDownloadTask alloc]init];
+        WTRDownloadTask *downtask=[[WTRDownloadTask alloc]init];
         
         downtask.tagstr=tagstr;
    
@@ -283,7 +279,7 @@ didFinishDownloadingToURL:(NSURL *)location
     
         foromindex=toindex;
         
-        [downtask cnkiDownloadTaskWithRequest:ssmrequ completionHandler:completionHandler];
+        [downtask WTRDownloadTaskWithRequest:ssmrequ completionHandler:completionHandler];
         [[WTRMutiDownloader shareInstence].downtaskArray addObject:downtask];
     }
 }

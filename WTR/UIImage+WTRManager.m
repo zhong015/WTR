@@ -46,9 +46,10 @@ void SetColorCWithDa(char *da,long width,int i,int j,ColorC onec)
 }
 - (UIImage *)WTR_imageWithTintColor:(UIColor *)tintColor blendMode:(CGBlendMode)blendMode alpha:(CGFloat)alpha
 {
-    //We want to keep alpha, set opaque to NO; Use 0.0f for scale to use the scale factor of the device’s main screen.
-    UIGraphicsBeginImageContextWithOptions(self.size, NO, 0.0f);
-    CGRect bounds = CGRectMake(0, 0, self.size.width, self.size.height);
+    CGSize size=CGSizeMake(ceilf(self.size.width), ceilf(self.size.height));
+
+    UIGraphicsBeginImageContextWithOptions(size, NO, 0.0f);
+    CGRect bounds = CGRectMake(0, 0,size.width, size.height);
     [tintColor setFill];
     UIRectFill(bounds);
 

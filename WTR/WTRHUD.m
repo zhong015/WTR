@@ -1,10 +1,6 @@
 //
 //  WTRHUD.m
-//  CnkiIPadHD
-//
 //  Created by wfz on 16/6/23.
-//  Copyright © 2016年 cnki. All rights reserved.
-//
 
 #import "WTRHUD.h"
 #import "SVIndefiniteAnimatedView2.h"

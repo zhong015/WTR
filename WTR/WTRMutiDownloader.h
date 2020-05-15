@@ -1,10 +1,6 @@
 //
 //  WTRMutiDownloader.h
-//  CnkiIPhoneClient
-//
 //  Created by wfz on 2017/4/7.
-//  Copyright © 2017年 net.cnki.www. All rights reserved.
-//
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>

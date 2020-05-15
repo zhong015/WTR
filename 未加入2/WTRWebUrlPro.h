@@ -1,10 +1,6 @@
 //
 //  WTRWebUrlPro.h
-//  CnkiIPhoneClient
-//
 //  Created by wfz on 2019/7/12.
-//  Copyright © 2019 net.cnki.www. All rights reserved.
-//
 
 #import <Foundation/Foundation.h>
 

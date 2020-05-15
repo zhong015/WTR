@@ -24,13 +24,12 @@
 
 @property(nonatomic,strong)NSURLSession *urlsession;
 @property(nonatomic,strong)NSMutableArray *loadArray;
-@property(nonatomic,strong)NSLock *loadArraylock;
-
 @property(nonatomic,strong)NSMutableArray *ImMemeArray;
+
 + (dispatch_queue_t)WTRImageLoadQueue;
 
 +(WTRLoad *)shareInstence;
--(void)addOneWTRImageLoadWithImageV:(UIImageView *)imv imstr:(NSString *)imstr placeholder:(UIImage *)placeholder;
+-(void)addOneWTRImageLoadWithImageV:(UIImageView *)imv imstr:(NSString *)imstr placeholder:(UIImage *)placeholder isneedcheck:(BOOL)isneedcheck;
 - (void)CancelCurintImageLoad:(UIImageView *)imv;
 
 @end
@@ -42,16 +41,15 @@
     self=[super init];
     if (self) {
         self.datalength=-1;
-        
         self.urlstr=urlstr;
         self.imvArray=[NSMutableArray array];
         if (ischeck) {
             NSMutableURLRequest *req=[NSMutableURLRequest requestWithURL:[NSURL URLWithString:urlstr]];
             [req setHTTPMethod:@"HEAD"];
             self.downTask=[[WTRLoad shareInstence].urlsession downloadTaskWithRequest:req];
-        }
-        else
+        }else{
             self.downTask=[[WTRLoad shareInstence].urlsession downloadTaskWithURL:[NSURL URLWithString:urlstr]];
+        }
         [self.downTask resume];
     }
     return self;
@@ -72,27 +70,38 @@
 
 @implementation UIImageView (WTRLoad)
 
-- (void)setImageWTRLoadWithURLStr:(NSString *)imageURLStr
+- (void)WTR_setImageWithURLStr:(NSString *)imageURLStr isNeedcheck:(BOOL)isneedcheck
 {
-    [self setImagWTRLoadeWithURLStr:imageURLStr placeholder:nil];
+    [self WTR_setImageWithURLStr:imageURLStr placeholder:nil isNeedcheck:isneedcheck];
 }
-- (void)setImagWTRLoadeWithURLStr:(NSString *)imageURLStr placeholder:(UIImage *)placeholder
+- (void)WTR_setImageWithURLStr:(NSString *)imageURLStr placeholder:(UIImage *)placeholder isNeedcheck:(BOOL)isneedcheck
 {
     __WEAKSelf
     dispatch_async([WTRLoad WTRImageLoadQueue], ^{
-        [[WTRLoad shareInstence] addOneWTRImageLoadWithImageV:weakSelf imstr:imageURLStr placeholder:placeholder];
+        [[WTRLoad shareInstence] addOneWTRImageLoadWithImageV:weakSelf imstr:imageURLStr placeholder:placeholder isneedcheck:isneedcheck];
     });
 }
-- (void)CancelWTRLoadCurintImageLoad
+- (void)WTR_cancelCurintImageLoad
 {
-    [[WTRLoad shareInstence] CancelCurintImageLoad:self];
+    dispatch_async([WTRLoad WTRImageLoadQueue], ^{
+        [[WTRLoad shareInstence] CancelCurintImageLoad:self];
+    });
 }
-+(void)clearImageWTRLoadCacheWithURLStr:(NSString *)imageURLStr
++(void)WTR_clearImageCacheWithURLStr:(NSString *)imageURLStr
 {
     if (ISString(imageURLStr)) {
-        NSString *filename=[[imageURLStr dataUsingEncoding:NSUTF8StringEncoding] WTRMD5String];
-        NSString *filepath=[[WTRFilePath getCachePath] stringByAppendingPathComponent:filename];
-        [[NSFileManager defaultManager]removeItemAtPath:filepath error:nil];
+        dispatch_async([WTRLoad WTRImageLoadQueue], ^{
+            NSString *filename=[[imageURLStr dataUsingEncoding:NSUTF8StringEncoding] WTRMD5String];
+            NSString *filepath=[[WTRFilePath getCachePath] stringByAppendingPathComponent:filename];
+            [[NSFileManager defaultManager] removeItemAtPath:filepath error:nil];
+            for (int i=0; i<[WTRLoad shareInstence].ImMemeArray.count; i++) {
+                WTRImageLoadOb *one=[WTRLoad shareInstence].ImMemeArray[i];
+                if ([one.urlstr isEqualToString:filename]) {
+                    [[WTRLoad shareInstence].ImMemeArray removeObjectAtIndex:i];
+                    return;
+                }
+            }
+        });
     }
 }
 
@@ -115,7 +124,6 @@ static id _s;
     self=[super init];
     if (self) {
         self.loadArray=[NSMutableArray array];
-        self.loadArraylock=[[NSLock alloc]init];
         self.ImMemeArray=[NSMutableArray array];
         
         self.urlsession=[NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] delegate:self delegateQueue:[NSOperationQueue new]];
@@ -132,24 +140,24 @@ static id _s;
     });
     return queue;
 }
-
 -(void)setimvImage:(NSDictionary *)dic
 {
     UIImageView *imv=[dic objectForKey:@"imv"];
     UIImage *im=[dic objectForKey:@"im"];
     imv.image=im;
 }
--(void)addOneWTRImageLoadWithImageV:(UIImageView *)imv imstr:(NSString *)imstr placeholder:(UIImage *)placeholder
+-(void)addOneWTRImageLoadWithImageV:(UIImageView *)imv imstr:(NSString *)imstr placeholder:(UIImage *)placeholder isneedcheck:(BOOL)isneedcheck
 {
     BOOL ischeck=YES;
     long long datalength=-1;
     
     UIImage *im=[self getimagewithkey:imstr];
     if (im) {
-         [self performSelectorOnMainThread:@selector(setimvImage:) withObject:@{@"imv":imv,@"im":im} waitUntilDone:YES modes:@[NSRunLoopCommonModes]];
-    }
-    else
-    {
+        [self performSelectorOnMainThread:@selector(setimvImage:) withObject:@{@"imv":imv,@"im":im} waitUntilDone:YES modes:@[NSRunLoopCommonModes]];
+        if (!isneedcheck) {
+            return;
+        }
+    }else{
         NSString *filename=[[imstr dataUsingEncoding:NSUTF8StringEncoding] WTRMD5String];
         NSString *filepath=[[WTRFilePath getCachePath] stringByAppendingPathComponent:filename];
         if ([[NSFileManager defaultManager] fileExistsAtPath:filepath]) {
@@ -161,24 +169,22 @@ static id _s;
             one.im=im;
             one.urlstr=imstr;
             [self setImMemeArraywith:one];
-            
+
             [self performSelectorOnMainThread:@selector(setimvImage:) withObject:@{@"imv":imv,@"im":im} waitUntilDone:YES modes:@[NSRunLoopCommonModes]];
-        }
-        else if (placeholder) {
+            if (!isneedcheck) {
+                return;
+            }
+        }else if (placeholder) {
             ischeck=NO;
             [self performSelectorOnMainThread:@selector(setimvImage:) withObject:@{@"imv":imv,@"im":placeholder} waitUntilDone:YES modes:@[NSRunLoopCommonModes]];
         }
     }
-    
     [self clearimvFrome:imv];
     if (ISString(imstr)) {
-        [self.loadArraylock lock];
-        
         for (int i=0; i<self.loadArray.count; i++) {
             WTRImageLoadOb *one=self.loadArray[i];
             if ([imstr isEqualToString:one.downTask.currentRequest.URL.absoluteString]) {
                 [one.imvArray addObject:imv];
-                [self.loadArraylock unlock];
                 return;
             }
         }
@@ -186,32 +192,24 @@ static id _s;
         one.datalength=datalength;
         [one.imvArray addObject:imv];
         [self.loadArray addObject:one];
-        
-        [self.loadArraylock unlock];
         return;
     }
 }
 -(void)clearimvFrome:(UIImageView *)imv
 {
-    [self.loadArraylock lock];
-    
     for (int i=0; i<self.loadArray.count; i++) {
         WTRImageLoadOb *one=self.loadArray[i];
         for (int j=0; j<one.imvArray.count; j++) {
             UIImageView *cimv=one.imvArray[j];
             if (cimv==imv) {
                 [one.imvArray removeObjectAtIndex:j];
-                [self.loadArraylock unlock];
                 return;
             }
         }
     }
-    [self.loadArraylock unlock];
 }
 - (void)CancelCurintImageLoad:(UIImageView *)imv
 {
-    [self.loadArraylock lock];
-    
     for (int i=0; i<self.loadArray.count; i++) {
         WTRImageLoadOb *one=self.loadArray[i];
         for (int j=0; j<one.imvArray.count; j++) {
@@ -219,52 +217,41 @@ static id _s;
             if (cimv==imv) {
                 [one CancelCurintImageLoad];
                 [self.loadArray removeObjectAtIndex:i];
-                [self.loadArraylock unlock];
                 return;
             }
         }
     }
-    [self.loadArraylock unlock];
 }
-- (void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask
-didFinishDownloadingToURL:(NSURL *)location
+- (void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask didFinishDownloadingToURL:(NSURL *)location
 {
-    NSData *da=[NSData dataWithContentsOfFile:location.path];
-    UIImage *im=[UIImage imageWithData:da scale:[UIScreen mainScreen].scale];
-    
-    [self.loadArraylock lock];
-
-    for (int i=0; i<self.loadArray.count; i++) {
-        WTRImageLoadOb *one=self.loadArray[i];
-        if (one.downTask==downloadTask) {
-            if (im) {
-                NSString *filename=[[one.downTask.currentRequest.URL.absoluteString dataUsingEncoding:NSUTF8StringEncoding] WTRMD5String];
-                NSString *filepath=[[WTRFilePath getCachePath] stringByAppendingPathComponent:filename];
-                [da writeToFile:filepath atomically:YES];
-                one.im=im;
-                [self performSelectorOnMainThread:@selector(setimgeVarr:) withObject:one waitUntilDone:YES modes:@[NSRunLoopCommonModes]];
-            }
-            else if(one.datalength>0)
-            {
-                NSString *ContentLength=[((NSHTTPURLResponse *)downloadTask.response).allHeaderFields objectForKey:@"Content-Length"];
-                
-                if (ISNumberStr(ContentLength)) {
-                    long long ClongLongValue=ContentLength.longLongValue;
-                    if (ClongLongValue!=one.datalength&&ClongLongValue>0) {
-                        [one reloadurlstr];
-                        [self.loadArraylock unlock];
-                        return;
+    dispatch_async([WTRLoad WTRImageLoadQueue], ^{
+        NSData *da=[NSData dataWithContentsOfFile:location.path];
+        UIImage *im=[UIImage imageWithData:da scale:[UIScreen mainScreen].scale];
+        for (int i=0; i<self.loadArray.count; i++) {
+            WTRImageLoadOb *one=self.loadArray[i];
+            if (one.downTask==downloadTask) {
+                if (im) {
+                    NSString *filename=[[one.downTask.currentRequest.URL.absoluteString dataUsingEncoding:NSUTF8StringEncoding] WTRMD5String];
+                    NSString *filepath=[[WTRFilePath getCachePath] stringByAppendingPathComponent:filename];
+                    [da writeToFile:filepath atomically:YES];
+                    one.im=im;
+                    [self performSelectorOnMainThread:@selector(setimgeVarr:) withObject:one waitUntilDone:YES modes:@[NSRunLoopCommonModes]];
+                }else if(one.datalength>0){
+                    NSString *ContentLength=[((NSHTTPURLResponse *)downloadTask.response).allHeaderFields objectForKey:@"Content-Length"];
+                    if (ISNumberStr(ContentLength)) {
+                        long long ClongLongValue=ContentLength.longLongValue;
+                        if (ClongLongValue!=one.datalength&&ClongLongValue>0) {
+                            [one reloadurlstr];
+                            return;
+                        }
                     }
                 }
+                [one CancelCurintImageLoad];
+                [self.loadArray removeObjectAtIndex:i];
+                return;
             }
-            [one CancelCurintImageLoad];
-            [self.loadArray removeObjectAtIndex:i];
-            [self.loadArraylock unlock];
-            return;
         }
-    }
-    
-    [self.loadArraylock unlock];
+    });
 }
 -(void)setimgeVarr:(WTRImageLoadOb *)one
 {
@@ -275,21 +262,18 @@ didFinishDownloadingToURL:(NSURL *)location
         }
     }
 }
-- (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task
-didCompleteWithError:(nullable NSError *)error
+- (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didCompleteWithError:(nullable NSError *)error
 {
-    [self.loadArraylock lock];
-    for (int i=0; i<self.loadArray.count; i++) {
-        WTRImageLoadOb *one=self.loadArray[i];
-        if (one.downTask==task) {
-            [one CancelCurintImageLoad];
-            [self.loadArray removeObjectAtIndex:i];
-            
-            [self.loadArraylock unlock];
-            return;
+    dispatch_async([WTRLoad WTRImageLoadQueue], ^{
+        for (int i=0; i<self.loadArray.count; i++) {
+            WTRImageLoadOb *one=self.loadArray[i];
+            if (one.downTask==task) {
+                [one CancelCurintImageLoad];
+                [self.loadArray removeObjectAtIndex:i];
+                return;
+            }
         }
-    }
-    [self.loadArraylock unlock];
+    });
 }
 -(UIImage *)getimagewithkey:(NSString *)key
 {
@@ -314,8 +298,9 @@ didCompleteWithError:(nullable NSError *)error
         }
     }
     [self.ImMemeArray insertObject:one atIndex:0];
-    if (self.ImMemeArray.count>15) {
+    if (self.ImMemeArray.count>30) {
         [self.ImMemeArray removeLastObject];
     }
 }
+
 @end

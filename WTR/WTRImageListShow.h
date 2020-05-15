@@ -1,10 +1,6 @@
 //
 //  WTRImageListShow.h
-//  CnkiIPhoneClient
-//
 //  Created by wfz on 2019/5/29.
-//  Copyright © 2019 net.cnki.www. All rights reserved.
-//
 
 #import <UIKit/UIKit.h>
 

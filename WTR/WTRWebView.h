@@ -1,10 +1,6 @@
 //
 //  WTRWebView.h
-//  CnkiIPhoneClient
-//
 //  Created by wfz on 2019/7/25.
-//  Copyright © 2019 net.cnki.www. All rights reserved.
-//
 
 #import <WebKit/WebKit.h>
 
