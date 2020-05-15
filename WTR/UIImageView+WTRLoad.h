@@ -14,6 +14,7 @@
 - (void)WTR_setImageWithURLStr:(NSString *)imageURLStr isNeedcheck:(BOOL)isneedcheck;
 - (void)WTR_setImageWithURLStr:(NSString *)imageURLStr placeholder:(UIImage *)placeholder isNeedcheck:(BOOL)isneedcheck;
 
+
 //取消当前加载的图片 后台也会取消当前图片加载，别的地方如果有相同的图片添加到后台也不会加载出来
 - (void)WTR_cancelCurintImageLoad;
 
