@@ -92,7 +92,7 @@ Pod::Spec.new do |s|
   #
 
   s.source_files  = "WTR/WTRDefine.h"
-  # s.exclude_files = "Classes/Exclude"
+  s.exclude_files = "WTRGitCs/*.plist"
   # s.public_header_files = "WTR/WTRDefine.h"
 
   s.subspec 'WTRBase' do |ss|
