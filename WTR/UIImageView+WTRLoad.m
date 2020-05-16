@@ -104,6 +104,12 @@
         });
     }
 }
++(void)WTR_clearAllMemCache
+{
+    dispatch_async([WTRLoad WTRImageLoadQueue], ^{
+        [[WTRLoad shareInstence].ImMemeArray removeAllObjects];
+    });
+}
 
 @end
 
@@ -180,6 +186,8 @@ static id _s;
         }else if (placeholder) {
             ischeck=NO;
             [self performSelectorOnMainThread:@selector(setimvImage:) withObject:@{@"imv":imv,@"im":placeholder} waitUntilDone:YES modes:@[NSRunLoopCommonModes]];
+        }else{
+            ischeck=NO;
         }
     }
     [self clearimvFrome:imv];
@@ -227,34 +235,36 @@ static id _s;
 }
 - (void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask didFinishDownloadingToURL:(NSURL *)location
 {
-    dispatch_async([WTRLoad WTRImageLoadQueue], ^{
-        NSData *da=[NSData dataWithContentsOfFile:location.path];
-        UIImage *im=[UIImage imageWithData:da scale:[UIScreen mainScreen].scale];
-        for (int i=0; i<self.loadArray.count; i++) {
-            WTRImageLoadOb *one=self.loadArray[i];
-            if (one.downTask==downloadTask) {
-                if (im) {
-                    NSString *filename=[[one.downTask.currentRequest.URL.absoluteString dataUsingEncoding:NSUTF8StringEncoding] WTRMD5String];
-                    NSString *filepath=[[WTRFilePath getCachePath] stringByAppendingPathComponent:filename];
-                    [da writeToFile:filepath atomically:YES];
-                    one.im=im;
-                    [self performSelectorOnMainThread:@selector(setimgeVarr:) withObject:one waitUntilDone:YES modes:@[NSRunLoopCommonModes]];
-                }else if(one.datalength>0){
-                    NSString *ContentLength=[((NSHTTPURLResponse *)downloadTask.response).allHeaderFields objectForKey:@"Content-Length"];
-                    if (ISNumberStr(ContentLength)) {
-                        long long ClongLongValue=ContentLength.longLongValue;
-                        if (ClongLongValue!=one.datalength&&ClongLongValue>0) {
-                            [one reloadurlstr];
-                            return;
+    NSData *da=[NSData dataWithContentsOfFile:location.path];
+    if (da) {
+        dispatch_async([WTRLoad WTRImageLoadQueue], ^{
+            UIImage *im=[UIImage imageWithData:da scale:[UIScreen mainScreen].scale];
+            for (int i=0; i<self.loadArray.count; i++) {
+                WTRImageLoadOb *one=self.loadArray[i];
+                if (one.downTask==downloadTask) {
+                    if (im) {
+                        NSString *filename=[[one.downTask.currentRequest.URL.absoluteString dataUsingEncoding:NSUTF8StringEncoding] WTRMD5String];
+                        NSString *filepath=[[WTRFilePath getCachePath] stringByAppendingPathComponent:filename];
+                        [da writeToFile:filepath atomically:YES];
+                        one.im=im;
+                        [self performSelectorOnMainThread:@selector(setimgeVarr:) withObject:one waitUntilDone:YES modes:@[NSRunLoopCommonModes]];
+                    }else if(one.datalength>0){
+                        NSString *ContentLength=[((NSHTTPURLResponse *)downloadTask.response).allHeaderFields objectForKey:@"Content-Length"];
+                        if (ISNumberStr(ContentLength)) {
+                            long long ClongLongValue=ContentLength.longLongValue;
+                            if (ClongLongValue!=one.datalength&&ClongLongValue>0) {
+                                [one reloadurlstr];
+                                return;
+                            }
                         }
                     }
+                    [one CancelCurintImageLoad];
+                    [self.loadArray removeObjectAtIndex:i];
+                    return;
                 }
-                [one CancelCurintImageLoad];
-                [self.loadArray removeObjectAtIndex:i];
-                return;
             }
-        }
-    });
+        });
+    }
 }
 -(void)setimgeVarr:(WTRImageLoadOb *)one
 {

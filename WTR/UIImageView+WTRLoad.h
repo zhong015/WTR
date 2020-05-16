@@ -21,4 +21,6 @@
 //清除某一张图片缓存
 +(void)WTR_clearImageCacheWithURLStr:(NSString *)imageURLStr;
 
++(void)WTR_clearAllMemCache;
+
 @end
