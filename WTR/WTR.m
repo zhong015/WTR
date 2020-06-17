@@ -210,7 +210,7 @@ static id _s;
     return muarr;
 }
 
-+ (NSDate *)dateWithISOFormatString:(NSString *)dateString {
++(NSDate *)dateWithISOFormatString:(NSString *)dateString {
     static NSDateFormatter *formatter = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
@@ -221,7 +221,7 @@ static id _s;
     });
     return [formatter dateFromString:dateString];
 }
-+ (NSString *)ISOFormatStringWithDate:(NSDate *)date {
++(NSString *)ISOFormatStringWithDate:(NSDate *)date {
     static NSDateFormatter *formatter = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
@@ -232,7 +232,7 @@ static id _s;
     });
     return [formatter stringFromDate:date];
 }
-+ (NSDate *)dateWithISOFormatStringZ:(NSString *)dateString {
++(NSDate *)dateWithISOFormatStringZ:(NSString *)dateString {
     static NSDateFormatter *formatter = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
@@ -243,7 +243,7 @@ static id _s;
     });
     return [formatter dateFromString:dateString];
 }
-+ (NSString *)ISOFormatStringZWithDate:(NSDate *)date {
++(NSString *)ISOFormatStringZWithDate:(NSDate *)date {
     static NSDateFormatter *formatter = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
@@ -255,7 +255,7 @@ static id _s;
     return [formatter stringFromDate:date];
 }
 
-+ (NSString *)timestringof:(NSDate *)date
++(NSString *)timestringof:(NSDate *)date
 {
     NSLocale *locale = [[NSLocale alloc] initWithLocaleIdentifier:@"zh_CN"];//设置为中文显示
     NSTimeZone *timezone=[NSTimeZone systemTimeZone];//系统时区
@@ -308,7 +308,7 @@ static id _s;
     }
 }
 
-+ (BOOL)isContainsEmoji:(NSString *)string {
++(BOOL)isContainsEmoji:(NSString *)string {
     __block BOOL isEomji = NO;
     [string enumerateSubstringsInRange:NSMakeRange(0, [string length]) options:NSStringEnumerationByComposedCharacterSequences usingBlock:^(NSString *substring, NSRange substringRange, NSRange enclosingRange, BOOL *stop) {
         const unichar hs = [substring characterAtIndex:0];
@@ -344,7 +344,7 @@ static id _s;
     }];
     return isEomji;
 }
-+ (BOOL)version:(NSString *)_oldver lessthan:(NSString *)_newver
++(BOOL)version:(NSString *)_oldver lessthan:(NSString *)_newver
 {
     if ([_oldver compare:_newver options:NSNumericSearch] == NSOrderedAscending)
     {
@@ -354,7 +354,7 @@ static id _s;
 }
 
 //验证QQ
-+ (BOOL)isQQNum:(NSString *)QQNum;
++(BOOL)isQQNum:(NSString *)QQNum;
 {
     if (!QQNum||![QQNum isKindOfClass:[NSString class]]) {
         return NO;
@@ -366,7 +366,7 @@ static id _s;
     return isMatch;
 }
 //验证手机号
-+ (BOOL)isPhoneNum:(NSString *)phoneNum;
++(BOOL)isPhoneNum:(NSString *)phoneNum;
 {
     if (!phoneNum||![phoneNum isKindOfClass:[NSString class]]||phoneNum.length!=11) {
         return NO;
@@ -563,6 +563,38 @@ static id _s;
     }
     return [addresses count] ? addresses : nil;
 }
+
++(uint16_t)getFreePortWithBasePort:(uint16_t)basePort
+{
+    for (int i=basePort; i<65536; i++) {
+        if (![self isAlreadyBindPort:i]) {
+            return i;
+        }
+    }
+    return basePort;
+}
++(BOOL)isAlreadyBindPort:(uint16_t)port
+{
+    struct sockaddr_in servaddr;
+    int cfd = socket(AF_INET, SOCK_STREAM, 0);
+    if (cfd<0) {
+        NSLog(@"创建socket失败\n");
+        return YES;
+    }
+    bzero(&servaddr, sizeof(servaddr));
+    servaddr.sin_family = AF_INET;
+    servaddr.sin_addr.s_addr = htonl(INADDR_ANY);
+    servaddr.sin_port = htons(port);
+    int bindret=bind(cfd, (struct sockaddr *)&servaddr, sizeof(servaddr));
+    if (bindret<0) {
+        NSLog(@"已占用端口:%d\n",port);
+        return YES;
+    }
+    close(cfd);
+    return NO;
+}
+
+
 +(NSString *)SortedJsonStr:(id)dicOrArr
 {
     if ([dicOrArr isKindOfClass:[NSDictionary class]]) {
@@ -1624,7 +1656,7 @@ int32_t const WTRCHUNK_SIZE = 8 * 1024;
  只能每项拿出来单独URLEncode；
  单独URLEncode时请使用stringByURLEncodeReal
  */
-- (NSString*)WTR_stringByURLEncode
+-(NSString*)WTR_stringByURLEncode
 {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
@@ -1632,7 +1664,7 @@ int32_t const WTRCHUNK_SIZE = 8 * 1024;
 #pragma clang diagnostic pop
     return temp;
 }
-- (NSString*)WTR_stringByURLDecode
+-(NSString*)WTR_stringByURLDecode
 {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
@@ -1640,7 +1672,7 @@ int32_t const WTRCHUNK_SIZE = 8 * 1024;
 #pragma clang diagnostic pop
     return temp;
 }
-- (NSString*)WTR_stringByURLEncodeReal
+-(NSString*)WTR_stringByURLEncodeReal
 {
     NSString *string=SafeStr(self);
 
@@ -1671,7 +1703,7 @@ int32_t const WTRCHUNK_SIZE = 8 * 1024;
     }
     return escaped;
 }
-- (NSString*)WTR_stringByURLDecodeReal
+-(NSString*)WTR_stringByURLDecodeReal
 {
     return SafeStr(self).stringByRemovingPercentEncoding;
 }

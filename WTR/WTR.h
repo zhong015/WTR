@@ -33,27 +33,28 @@
 +(NSArray *)getPagesAttributedString:(NSAttributedString *)attString size:(CGSize)bbsize;//分页
 
 #pragma mark 日期获取
-+ (NSDate *)dateWithISOFormatString:(NSString *)dateString;
-+ (NSString *)ISOFormatStringWithDate:(NSDate *)date;
-+ (NSDate *)dateWithISOFormatStringZ:(NSString *)dateString;
-+ (NSString *)ISOFormatStringZWithDate:(NSDate *)date;
++(NSDate *)dateWithISOFormatString:(NSString *)dateString;
++(NSString *)ISOFormatStringWithDate:(NSDate *)date;
++(NSDate *)dateWithISOFormatStringZ:(NSString *)dateString;
++(NSString *)ISOFormatStringZWithDate:(NSDate *)date;
 
-+ (NSString *)timestringof:(NSDate *)date; //时间显示
++(NSString *)timestringof:(NSDate *)date; //时间显示
 
-+ (BOOL)isContainsEmoji:(NSString *)string; //是否包含表情
++(BOOL)isContainsEmoji:(NSString *)string; //是否包含表情
 
-+ (BOOL)version:(NSString *)_oldver lessthan:(NSString *)_newver;   //版本比较
++(BOOL)version:(NSString *)_oldver lessthan:(NSString *)_newver;   //版本比较
 
-+ (BOOL)isQQNum:(NSString *)QQNum;
-+ (BOOL)isPhoneNum:(NSString *)phoneNum;//验证手机号
-+ (BOOL)isEmail:(NSString *)email;
-+ (BOOL)isNeedURLEncoding:(NSString *)inurlstr;//是否需要URLEncoding
++(BOOL)isQQNum:(NSString *)QQNum;
++(BOOL)isPhoneNum:(NSString *)phoneNum;//验证手机号
++(BOOL)isEmail:(NSString *)email;
++(BOOL)isNeedURLEncoding:(NSString *)inurlstr;//是否需要URLEncoding
 
-+ (NSString *)getIPAddress;
++(NSString *)getIPAddress;
++(uint16_t)getFreePortWithBasePort:(uint16_t)basePort;
++(BOOL)isAlreadyBindPort:(uint16_t)port;
 
 +(NSString *)SortedJsonStr:(id)dicOrArr; //得到排序JSON字符串
 +(NSString *)CovertLogToJson:(NSString *)inlogstr;//NSLog打印的字符串转换为json
-
 
 +(void)clearAllCaches; //清除所有缓存
 +(unsigned long long)AllCachesSize; //所有缓存大小 Byte
@@ -151,9 +152,9 @@
 
  如果需要真实的URLEncode只能每项拿出来单独stringByURLEncodeReal；
  */
-- (NSString*)WTR_stringByURLEncode;
-- (NSString*)WTR_stringByURLDecode;
-- (NSString*)WTR_stringByURLEncodeReal;
-- (NSString*)WTR_stringByURLDecodeReal;
+-(NSString*)WTR_stringByURLEncode;
+-(NSString*)WTR_stringByURLDecode;
+-(NSString*)WTR_stringByURLEncodeReal;
+-(NSString*)WTR_stringByURLDecodeReal;
 
 @end

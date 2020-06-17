@@ -19,7 +19,7 @@
  self.navigationDelegate=self;
  */
 
-@property(nonatomic,copy)BOOL (^shouldStartLoad)(NSString *urlstr);//是否跳转url
+@property(nonatomic,copy)BOOL (^shouldStartLoad)(NSURL *url);//是否跳转url
 
 //开始跳转新链接
 @property(nonatomic,copy)void (^didStartNavigation)(WKNavigation *navigation);

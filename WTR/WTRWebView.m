@@ -194,9 +194,8 @@ static void *WTRWebViewContentSizeContext = &WTRWebViewContentSizeContext;
 }
 -(BOOL)shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(WKNavigationType)navigationType
 {
-    NSString *urlstr=request.URL.absoluteString;
     if (self.shouldStartLoad) {
-        return self.shouldStartLoad(urlstr);
+        return self.shouldStartLoad(request.URL);
     }
     return NO;
 }

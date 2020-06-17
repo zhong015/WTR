@@ -38,6 +38,9 @@ void SetColorCWithDa(char *da,long width,int i,int j,ColorC onec)
 
 - (UIImage *)WTR_imageWithTintColor:(UIColor *)tintColor
 {
+    if (@available(iOS 13.0, *)) {
+        return [self imageWithTintColor:tintColor];
+    }
     return [self WTR_imageWithTintColor:tintColor blendMode:kCGBlendModeDestinationIn alpha:1.0f];
 }
 - (UIImage *)WTR_imageWithTintColor:(UIColor *)tintColor blendMode:(CGBlendMode)blendMode
