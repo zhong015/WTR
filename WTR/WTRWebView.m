@@ -24,9 +24,9 @@ static void *WTRWebViewContentSizeContext = &WTRWebViewContentSizeContext;
         [self stopLoading];
     }
 }
-- (instancetype)initWithFrame:(CGRect)frame
+- (instancetype)initWithFrame:(CGRect)frame configuration:(nonnull WKWebViewConfiguration *)configuration
 {
-    self = [super initWithFrame:frame];
+    self = [super initWithFrame:frame configuration:configuration];
     if (self) {
         _isAddObserver=NO;
         _isChangeHeight=NO;
@@ -197,7 +197,7 @@ static void *WTRWebViewContentSizeContext = &WTRWebViewContentSizeContext;
     if (self.shouldStartLoad) {
         return self.shouldStartLoad(request.URL);
     }
-    return NO;
+    return YES;
 }
 
 //#pragma mark 额外的信息 可继承本类去实现

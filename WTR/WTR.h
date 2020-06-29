@@ -94,6 +94,8 @@
 +(NSString *)jianHuaHtml:(NSString *)html;
 #pragma mark 过滤所有标签
 +(NSString *)filterAllHTMLTag:(NSString *)html;
+#pragma mark 过滤某个标签头
++(NSString *)filterHTML:(NSString *)html oneTag:(NSString *)oneTag;
 #pragma mark 过滤标签和标签内东西
 +(NSString *)filterHTML:(NSString *)html biaoqian:(NSString *)biaoqian;
 #pragma mark 转意html字符

@@ -1363,6 +1363,23 @@ static id _s;
     }
     return html;
 }
+#pragma mark 过滤某个标签头
++(NSString *)filterHTML:(NSString *)html oneTag:(NSString *)oneTag
+{
+    NSString *bqt=[NSString stringWithFormat:@"<%@",oneTag];
+    NSScanner * scanner = [NSScanner scannerWithString:html];
+    NSString * text = nil;
+    while([scanner isAtEnd]==NO)
+    {
+        [scanner scanUpToString:bqt intoString:nil];
+        [scanner scanUpToString:@">" intoString:&text];
+        if (text&&text.length>0) {
+            html = [html stringByReplacingOccurrencesOfString:[NSString stringWithFormat:@"%@>",text] withString:@""];
+        }
+    }
+    return html;
+}
+#pragma mark 过滤标签和标签内东西
 +(NSString *)filterHTML:(NSString *)html biaoqian:(NSString *)biaoqian
 {
     NSString *biaoqt=[NSString stringWithFormat:@"<%@",biaoqian];
@@ -1405,6 +1422,7 @@ static id _s;
     html=[html stringByReplacingOccurrencesOfString:@" " withString:@""];
     html=[html stringByReplacingOccurrencesOfString:@"\n" withString:@""];
     html=[html stringByReplacingOccurrencesOfString:@"\r" withString:@""];
+    html=[html stringByReplacingOccurrencesOfString:@"\t" withString:@""];
     html=[html stringByReplacingOccurrencesOfString:@"\u3000" withString:@""];
     return html;
 }

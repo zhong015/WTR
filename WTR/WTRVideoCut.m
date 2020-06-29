@@ -229,4 +229,23 @@
     
     return [AVVideoCompositionCoreAnimationTool videoCompositionCoreAnimationToolWithPostProcessingAsVideoLayer:videoLayer inLayer:parentLayer];
 }
+
+/*
+ 修改多媒体文件说明信息
+ AVURLAsset *asset=[AVURLAsset URLAssetWithURL:url options:nil];
+ 
+ sestion=[AVAssetExportSession exportSessionWithAsset:asset presetName:AVAssetExportPresetHighestQuality];
+
+ sestion.outputURL = [NSURL fileURLWithPath:[[url.path stringByDeletingLastPathComponent] stringByAppendingPathComponent:@"asd.m4a"]];
+ 
+ AVMutableMetadataItem *item=[AVMutableMetadataItem metadataItem];
+ item.keySpace=AVMetadataKeySpaceCommon;
+ item.key=AVMetadataCommonKeyTitle; //修改标题
+ item.value=@"哈哈哈222";
+ sestion.metadata=@[item];
+ [sestion exportAsynchronouslyWithCompletionHandler:^{
+     NSLog(@"完成");
+ }];
+ 
+ */
 @end
