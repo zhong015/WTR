@@ -13,6 +13,7 @@
 #import "WTRBaseDefine.h"
 #import <sqlite3.h>
 #import <CommonCrypto/CommonCrypto.h>
+#import <WebKit/WebKit.h>
 
 @interface TextFieldLinkViewWTR : NSObject
 
@@ -870,6 +871,16 @@ static id _s;
 
     return logstr;
 }
+-(void)clearAllCookie
+{
+    [[NSURLCache sharedURLCache] removeAllCachedResponses];
+    for (NSHTTPCookie *cookie in [NSHTTPCookieStorage sharedHTTPCookieStorage].cookies) {
+        [[NSHTTPCookieStorage sharedHTTPCookieStorage] deleteCookie:cookie];
+    }
+    [[NSFileManager defaultManager] removeItemAtPath:[[WTRFilePath getLibraryPath] stringByAppendingPathComponent:@"Cookies"] error:nil];
+    [[WKWebsiteDataStore defaultDataStore] removeDataOfTypes:[NSSet setWithArray:@[WKWebsiteDataTypeCookies,WKWebsiteDataTypeSessionStorage]] modifiedSince:[NSDate dateWithTimeIntervalSince1970:0] completionHandler:^{
+    }];
+}
 #pragma mark 清除缓存
 +(void)clearAllCaches
 {
@@ -1101,6 +1112,10 @@ static id _s;
 //Keychain操作
 +(NSMutableDictionary *)newkSecDictionary:(NSString *)identifier Account:(NSString *)Account Group:(NSString *)Group
 {
+    return [self newkSecDictionary:identifier Account:Account Group:Group Accessible:(id)kSecAttrAccessibleAfterFirstUnlock];
+}
++(NSMutableDictionary *)newkSecDictionary:(NSString *)identifier Account:(NSString *)Account Group:(NSString *)Group Accessible:(NSString *)kSecAttrAccessibleStr
+{
     NSMutableDictionary *searchDictionary = [NSMutableDictionary dictionary];
     //指定item的类型为GenericPassword
     [searchDictionary setObject:(id)kSecClassGenericPassword forKey:(id)kSecClass];
@@ -1111,6 +1126,11 @@ static id _s;
     //账户名
     [searchDictionary setObject:Account forKey:(id)kSecAttrAccount];
 
+    if (kSecAttrAccessibleStr) {
+        //pdmn = ck; kSecAttrAccessibleAfterFirstUnlock
+        [searchDictionary setObject:kSecAttrAccessibleStr forKey:(id)kSecAttrAccessible];
+    }
+    
     /*
      公用组名 要保证真机 并且Capabilities下打开工程的Keychain Sharing按钮 并在开发者网站id中配置 证书
      accessGroup = "[YOUR APP ID PREFIX].com.example.apple-samplecode.GenericKeychainShared"
@@ -1519,6 +1539,58 @@ static id _s;
     if (@available(iOS 11.0, *)) {
         tableView.contentInsetAdjustmentBehavior=UIScrollViewContentInsetAdjustmentNever;
     }
+}
+
++(void)showmsge:(NSString *)msg
+{
+    [self showmsge:msg time:1];
+}
++(void)showmsge:(NSString *)msgin time:(NSTimeInterval)timint
+{
+    __block NSString *msg=[msgin copy];
+    if (!msg||![msg isKindOfClass:[NSString class]]) {
+        return;
+    }
+    dispatch_async(dispatch_get_main_queue(), ^{
+        msg=[msg stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        
+        UILabel *showmsgla=[UILabel new];
+        showmsgla.textColor=[UIColor whiteColor];//UIColorFromRGB(0x999999);
+        showmsgla.backgroundColor=[UIColor colorWithRed:0 green:0 blue:0 alpha:0.9];
+        showmsgla.textAlignment=NSTextAlignmentCenter;
+        showmsgla.text=msg;
+        showmsgla.numberOfLines=0;
+        showmsgla.font=[UIFont systemFontOfSize:15];
+        LayerMakeCorner(showmsgla, 5);
+        
+        [[UIApplication sharedApplication].delegate.window addSubview:showmsgla];
+        showmsgla.alpha=0;
+        
+        CGSize ss=[self getsizeOfStr:msg Fontsize:showmsgla.font Width:ScreenWidth-20];
+        
+        ss.height=ss.width-20;
+        if (ss.height>80) {
+            ss.height=80;
+        }
+        CGFloat jiange=20;
+        if (ISPadWTR) {
+            jiange=30;
+        }
+        
+        CGFloat jww=(ScreenWidth-ss.width-jiange)/2.0,jhh=(ScreenHeight-ss.height-20)/2.0;
+        
+        showmsgla.frame=CGRectMake(jww, jhh-30, ss.width+jiange, ss.height+20);
+        
+        [UIView animateWithDuration:0.25 animations:^{
+            showmsgla.alpha=1;
+        }completion:^(BOOL finished) {
+            [UIView animateWithDuration:0.5 delay:timint options:UIViewAnimationOptionCurveEaseIn animations:^{
+                showmsgla.alpha=0.1;
+            } completion:^(BOOL finished) {
+                [showmsgla removeFromSuperview];
+            }];
+        }];
+    });
 }
 
 @end

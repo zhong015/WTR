@@ -50,7 +50,7 @@
 #define ISDictionary(dic) (dic&&[dic isKindOfClass:[NSDictionary class]])
 
 //只返回字符串
-#define SafeStr(str) ((str&&[str isKindOfClass:[NSString class]])?str:([str isKindOfClass:[NSNumber class]]?((NSNumber*)str).stringValue:@""))
+#define SafeStr(str) ((str&&[str isKindOfClass:[NSString class]])?(NSString *)str:([str isKindOfClass:[NSNumber class]]?((NSNumber*)str).stringValue:@""))
 
 //颜色
 #define RANDOMF (arc4random()%1000/1000.0)

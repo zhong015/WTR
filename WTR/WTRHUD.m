@@ -6,13 +6,35 @@
 #import "SVIndefiniteAnimatedView2.h"
 #import "SVStatusShowView.h"
 
-#define WTRHUDW 100.0  //默认大小
-#define WTRHUDH 100.0
+#define WTRHUDW 84.0  //默认大小
+#define WTRHUDH 80.0
+
+#define WTRHUDScale (1/1.2f) //变小好看点
 
 #define WTRHUDMinimumDismissTime 2  //最小显示时间
 #define WTRHUDMaximumDismissTime 7 //最大显示时间
 
 @implementation WTRHUD
+
++(UIView *)bacView:(UIView *)inbacView
+{
+    UIView *bacView=inbacView;
+    if (!bacView) {
+        bacView=[UIApplication sharedApplication].delegate.window;
+        if (!bacView) {
+            for (UIWindow *win in [UIApplication sharedApplication].windows) {
+                if (win.isKeyWindow) {
+                    bacView=win;
+                    break;
+                }
+            }
+            if (!bacView) {
+                return nil;
+            }
+        }
+    }
+    return bacView;
+}
 
 //是否是黑色系的颜色
 +(BOOL)isBlackFamilyColor:(UIColor *)incolor
@@ -29,80 +51,97 @@
 }
 
 //自动根据bacView的背景颜色选取背景
-+(void)showHUDInView:(UIView *)bacView
++(void)showHUDInView:(nullable UIView *)bacView
 {
-    if ([self isBlackFamilyColor:bacView.backgroundColor]) {
-        [self showHUDWInView:bacView];
-    }else{
-        [self showHUDBInView:bacView];
-    }
+    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+        UIView *inbacView=[self bacView:bacView];
+        if ([self isBlackFamilyColor:inbacView.backgroundColor]) {
+            [self showHUDWInView:inbacView];
+        }else{
+            [self showHUDBInView:inbacView];
+        }
+    }];
 }
-+(void)showHUDInView:(UIView *)bacView animated:(BOOL)animated size:(CGSize)size
++(void)showHUDInView:(nullable UIView *)bacView animated:(BOOL)animated size:(CGSize)size
 {
-    if ([self isBlackFamilyColor:bacView.backgroundColor]) {
-        [self showHUDWInView:bacView animated:animated size:size];
-    }else{
-        [self showHUDBInView:bacView animated:animated size:size];
-    }
+    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+        UIView *inbacView=[self bacView:bacView];
+        
+        if ([self isBlackFamilyColor:inbacView.backgroundColor]) {
+            [self showHUDWInView:inbacView animated:animated size:size];
+        }else{
+            [self showHUDBInView:inbacView animated:animated size:size];
+        }
+    }];
 }
-+(void)showSuccessInView:(UIView *)bacView WithStatus:(NSString*)status
++(void)showSuccessInView:(nullable UIView *)bacView WithStatus:(NSString*)status
 {
-    if ([self isBlackFamilyColor:bacView.backgroundColor]) {
-        [self showSuccessWInView:bacView WithStatus:status];
-    }else{
-        [self showSuccessBInView:bacView WithStatus:status];
-    }
+    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+        UIView *inbacView=[self bacView:bacView];
+        
+        if ([self isBlackFamilyColor:inbacView.backgroundColor]) {
+            [self showSuccessWInView:inbacView WithStatus:status];
+        }else{
+            [self showSuccessBInView:inbacView WithStatus:status];
+        }
+    }];
 }
-+(void)showErrorInView:(UIView *)bacView WithStatus:(NSString*)status
++(void)showErrorInView:(nullable UIView *)bacView WithStatus:(NSString*)status
 {
-    if ([self isBlackFamilyColor:bacView.backgroundColor]) {
-        [self showErrorWInView:bacView WithStatus:status];
-    }else{
-        [self showErrorBInView:bacView WithStatus:status];
-    }
+    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+        UIView *inbacView=[self bacView:bacView];
+        if ([self isBlackFamilyColor:inbacView.backgroundColor]) {
+            [self showErrorWInView:inbacView WithStatus:status];
+        }else{
+            [self showErrorBInView:inbacView WithStatus:status];
+        }
+    }];
 }
-+(void)showInfoInView:(UIView *)bacView WithStatus:(NSString*)status
++(void)showInfoInView:(nullable UIView *)bacView WithStatus:(NSString*)status
 {
-    if ([self isBlackFamilyColor:bacView.backgroundColor]) {
-        [self showInfoWInView:bacView WithStatus:status];
-    }else{
-        [self showInfoBInView:bacView WithStatus:status];
-    }
+    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+        UIView *inbacView=[self bacView:bacView];
+        if ([self isBlackFamilyColor:inbacView.backgroundColor]) {
+            [self showInfoWInView:inbacView WithStatus:status];
+        }else{
+            [self showInfoBInView:inbacView WithStatus:status];
+        }
+    }];
 }
-+(void)showInfo2InView:(UIView *)bacView WithStatus:(NSString*)status
++(void)showInfo2InView:(nullable UIView *)bacView WithStatus:(NSString*)status
 {
-    if ([self isBlackFamilyColor:bacView.backgroundColor]) {
-        [self showInfo2WInView:bacView WithStatus:status];
-    }else{
-        [self showInfo2BInView:bacView WithStatus:status];
-    }
+    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+        UIView *inbacView=[self bacView:bacView];
+        if ([self isBlackFamilyColor:inbacView.backgroundColor]) {
+            [self showInfo2WInView:inbacView WithStatus:status];
+        }else{
+            [self showInfo2BInView:inbacView WithStatus:status];
+        }
+    }];
 }
 
 #pragma mark HUD部分
-+(void)showHUDWInView:(UIView *)bacView
++(void)showHUDWInView:(nullable UIView *)bacView
 {
     [self showHUDWInView:bacView animated:YES size:CGSizeMake(WTRHUDW, WTRHUDH)];
 }
-+(void)showHUDWInView:(UIView *)bacView animated:(BOOL)animated size:(CGSize)size
++(void)showHUDWInView:(nullable UIView *)bacView animated:(BOOL)animated size:(CGSize)size
 {
     [self showHUDInView:bacView animated:animated IsWhite:YES size:size];
 }
 
-+(void)showHUDBInView:(UIView *)bacView
++(void)showHUDBInView:(nullable UIView *)bacView
 {
     [self showHUDBInView:bacView animated:YES size:CGSizeMake(WTRHUDW, WTRHUDH)];
 }
-+(void)showHUDBInView:(UIView *)bacView animated:(BOOL)animated size:(CGSize)size
++(void)showHUDBInView:(nullable UIView *)bacView animated:(BOOL)animated size:(CGSize)size
 {
     [self showHUDInView:bacView animated:animated IsWhite:NO size:size];
 }
-
-+(void)showHUDInView:(UIView *)bacView animated:(BOOL)animated IsWhite:(BOOL)isw size:(CGSize)size
++(void)showHUDInView:(nullable UIView *)inbacView animated:(BOOL)animated IsWhite:(BOOL)isw size:(CGSize)size
 {
-    if (!bacView) {
-        return;
-    }
-    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+    void (^block)(void)=^{
+        UIView *bacView=[self bacView:inbacView];
         
         for (UIView *vv in bacView.subviews) {
             if ([vv isKindOfClass:[SVIndefiniteAnimatedView2 class]]||[vv isKindOfClass:[SVStatusShowView class]]) {
@@ -119,12 +158,10 @@
         
         if (isw) {
             svv.strokeColor=[UIColor blackColor];
-            svv.backgroundColor=[UIColor whiteColor];
-        }
-        else
-        {
+            svv.backgroundColor=[UIColor colorWithWhite:1 alpha:0.8];
+        }else{
             svv.strokeColor=[UIColor whiteColor];
-            svv.backgroundColor=[UIColor colorWithWhite:0.4 alpha:1];//[UIColor blackColor];
+            svv.backgroundColor=[UIColor colorWithWhite:0 alpha:0.8];
         }
         
         if (ABS(size.width-WTRHUDW)>10) {
@@ -132,50 +169,59 @@
             svv.layer.cornerRadius=14.0/WTRHUDW*size.width;
         }
         
+        //变小点 好看
+        svv.transform = CGAffineTransformMakeScale(WTRHUDScale, WTRHUDScale);
+        
         if (animated) {
             svv.alpha=0.0;
             [UIView animateWithDuration:0.15 animations:^{
                 svv.alpha=1.0;
             }];
         }
-    }];
+    };
+    
+    if ([[NSThread currentThread] isMainThread]) {
+        block();
+    }else{
+        [[NSOperationQueue mainQueue] addOperationWithBlock:block];
+    }
 }
 
 
 #pragma mark Status部分
-+ (void)showSuccessWInView:(UIView *)bacView WithStatus:(NSString*)status
++ (void)showSuccessWInView:(nullable UIView *)bacView WithStatus:(NSString*)status
 {
     [self showType:0 InView:bacView status:status IsWhite:YES];
 }
-+ (void)showErrorWInView:(UIView *)bacView WithStatus:(NSString*)status
++ (void)showErrorWInView:(nullable UIView *)bacView WithStatus:(NSString*)status
 {
     [self showType:1 InView:bacView status:status IsWhite:YES];
 }
-+ (void)showInfoWInView:(UIView *)bacView WithStatus:(NSString*)status
++ (void)showInfoWInView:(nullable UIView *)bacView WithStatus:(NSString*)status
 {
     [self showType:-1 InView:bacView status:status IsWhite:YES];
 }
-+ (void)showInfo2WInView:(UIView *)bacView WithStatus:(NSString*)status
++ (void)showInfo2WInView:(nullable UIView *)bacView WithStatus:(NSString*)status
 {
     [self showType:2 InView:bacView status:status IsWhite:YES];
 }
-+ (void)showSuccessBInView:(UIView *)bacView WithStatus:(NSString*)status
++ (void)showSuccessBInView:(nullable UIView *)bacView WithStatus:(NSString*)status
 {
     [self showType:0 InView:bacView status:status IsWhite:NO];
 }
-+ (void)showErrorBInView:(UIView *)bacView WithStatus:(NSString*)status
++ (void)showErrorBInView:(nullable UIView *)bacView WithStatus:(NSString*)status
 {
     [self showType:1 InView:bacView status:status IsWhite:NO];
 }
-+ (void)showInfoBInView:(UIView *)bacView WithStatus:(NSString*)status
++ (void)showInfoBInView:(nullable UIView *)bacView WithStatus:(NSString*)status
 {
     [self showType:-1 InView:bacView status:status IsWhite:NO];
 }
-+ (void)showInfo2BInView:(UIView *)bacView WithStatus:(NSString*)status
++ (void)showInfo2BInView:(nullable UIView *)bacView WithStatus:(NSString*)status
 {
     [self showType:2 InView:bacView status:status IsWhite:NO];
 }
-+ (void)showType:(int)type InView:(UIView *)bacView status:(NSString*)status IsWhite:(BOOL)isw
++ (void)showType:(int)type InView:(nullable UIView *)bacView status:(NSString*)status IsWhite:(BOOL)isw
 {
     if (!status||![status isKindOfClass:[NSString class]]) {
         status=@"";
@@ -185,7 +231,7 @@
 
     [self showType:type InView:bacView status:status duration:minimum animated:YES IsWhite:isw];
 }
-+ (void)showType:(int)type InView:(UIView *)bacView status:(NSString*)status duration:(NSTimeInterval)duration animated:(BOOL)animated IsWhite:(BOOL)isw
++ (void)showType:(int)type InView:(nullable UIView *)bacView status:(NSString*)status duration:(NSTimeInterval)duration animated:(BOOL)animated IsWhite:(BOOL)isw
 {
     NSBundle *bundle = [NSBundle bundleForClass:NSClassFromString(@"WTR")];
     NSURL *url = [bundle URLForResource:@"WTRBundle" withExtension:@"bundle"];
@@ -216,36 +262,33 @@
     [self showImage:image status:status duration:duration InView:bacView animated:animated IsWhite:isw];
 }
 
-+(void)showImage:(UIImage*)image status:(NSString*)status duration:(NSTimeInterval)duration InView:(UIView *)bacView animated:(BOOL)animated IsWhite:(BOOL)isw;
++(void)showImage:(UIImage*)image status:(NSString*)status duration:(NSTimeInterval)duration InView:(nullable UIView *)bacView animated:(BOOL)animated IsWhite:(BOOL)isw;
 {
-    UIColor *tintColor;
-    if (isw) {
-        tintColor=[UIColor blackColor];
-    }else{
-        tintColor=[UIColor whiteColor];
-    }
-
-    [self showImage:image estyle:(isw?UIBlurEffectStyleExtraLight:UIBlurEffectStyleDark) status:status font:[UIFont preferredFontForTextStyle:UIFontTextStyleSubheadline] tintColor:tintColor textImageSpace:8 boundingRectSize:CGSizeMake(200.0f, 300.0f) edge:UIEdgeInsetsMake(12, 12, 12, 12) cornerRadius:(image?14.0:5.0) duration:duration animated:animated InView:bacView];
+    [self showImage:image bgColor:(isw?[UIColor colorWithWhite:1 alpha:0.8]:[UIColor colorWithWhite:0 alpha:0.8]) status:status font:[UIFont preferredFontForTextStyle:UIFontTextStyleSubheadline] tintColor:(isw?[UIColor blackColor]:[UIColor whiteColor]) textImageSpace:8 boundingRectSize:CGSizeMake(200.0f, 300.0f) edge:UIEdgeInsetsMake(12, 12, 12, 12) cornerRadius:(image?14.0:5.0) duration:duration animated:animated InView:bacView];
 }
-+(void)showImage:(nullable UIImage*)image estyle:(UIBlurEffectStyle)estyle status:(nullable NSString*)status font:(UIFont *)font tintColor:(UIColor *)tintColor textImageSpace:(CGFloat)textImageSpace boundingRectSize:(CGSize)bsize edge:(UIEdgeInsets)edge cornerRadius:(CGFloat)cornerRadius duration:(NSTimeInterval)duration animated:(BOOL)animated InView:(UIView *)bacView
++(void)showImage:(nullable UIImage*)image bgColor:(UIColor *)bgColor status:(nullable NSString*)status font:(UIFont *)font tintColor:(UIColor *)tintColor textImageSpace:(CGFloat)textImageSpace boundingRectSize:(CGSize)bsize edge:(UIEdgeInsets)edge cornerRadius:(CGFloat)cornerRadius duration:(NSTimeInterval)duration animated:(BOOL)animated InView:(nullable UIView *)inbacView
 {
-    if (!bacView) {
-        return;
-    }
-    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-
+    void (^block)(void)=^{
+        
+        UIView *bacView=[self bacView:inbacView];
+        
         for (UIView *vv in bacView.subviews) {
             if ([vv isKindOfClass:[SVIndefiniteAnimatedView2 class]]||[vv isKindOfClass:[SVStatusShowView class]]) {
                 [vv removeFromSuperview];
             }
         }
 
-        SVStatusShowView * svv=[[SVStatusShowView alloc]initWithImage:image estyle:estyle status:status font:font tintColor:tintColor textImageSpace:textImageSpace boundingRectSize:bsize edge:edge cornerRadius:cornerRadius];
+        SVStatusShowView * svv=[[SVStatusShowView alloc]initWithImage:image bgColor:bgColor status:status font:font tintColor:tintColor textImageSpace:textImageSpace boundingRectSize:bsize edge:edge cornerRadius:cornerRadius];
 
         [bacView addSubview:svv];
         svv.center=CGPointMake(bacView.frame.size.width/2.0, bacView.frame.size.height/2.0);
         svv.autoresizingMask=UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleBottomMargin;
-
+        
+        //变小点 好看
+        if (image) {
+            svv.transform = CGAffineTransformMakeScale(WTRHUDScale, WTRHUDScale);
+        }
+        
         if (animated) {
             svv.alpha=0.0;
             [UIView animateWithDuration:0.15 animations:^{
@@ -256,21 +299,26 @@
         }else{
             [svv performSelector:@selector(dismissWithAnimated:) withObject:@(animated) afterDelay:duration];
         }
-    }];
+    };
+    
+    if ([[NSThread currentThread] isMainThread]) {
+        block();
+    }else{
+        [[NSOperationQueue mainQueue] addOperationWithBlock:block];
+    }
 }
 
 #pragma mark 取消
-+(void)dismissInView:(UIView *)bacView
++(void)dismissInView:(nullable UIView *)bacView
 {
     [self dismissInView:bacView animated:YES];
 }
-+(void)dismissInView:(UIView *)bacView animated:(BOOL)animated
++(void)dismissInView:(nullable UIView *)inbacView animated:(BOOL)animated
 {
-    if (!bacView) {
-        return;
-    }
     [[NSOperationQueue mainQueue] addOperationWithBlock:^{
 
+        UIView *bacView=[self bacView:inbacView];
+        
         UIView * svv=nil;
         for (UIView *vv in bacView.subviews) {
             if ([vv isKindOfClass:[SVIndefiniteAnimatedView2 class]]||[vv isKindOfClass:[SVStatusShowView class]]) {

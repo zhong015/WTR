@@ -11,8 +11,8 @@
 
 @implementation SVStatusShowView
 {
+    UIColor *_bgColor;
     UIImage *_image;
-    UIBlurEffectStyle _estyle;
     NSString *_status;
     UIFont *_font;
     UIColor *_tintColor;
@@ -20,24 +20,16 @@
     CGSize _bsize;
     UIEdgeInsets _edge;
     CGFloat _cornerRadius;
-
-    UIVisualEffectView *_vibrancyEffectView;
+    
     UIImageView *_imageView;
     UILabel *_statusLabel;
 }
--(instancetype)initWithImage:(nullable UIImage*)image estyle:(UIBlurEffectStyle)estyle status:(nullable NSString*)status font:(UIFont *)font tintColor:(UIColor *)tintColor textImageSpace:(CGFloat)textImageSpace boundingRectSize:(CGSize)bsize edge:(UIEdgeInsets)edge cornerRadius:(CGFloat)cornerRadius
+-(instancetype)initWithImage:(nullable UIImage*)image bgColor:(UIColor *)bgColor status:(nullable NSString*)status font:(UIFont *)font tintColor:(UIColor *)tintColor textImageSpace:(CGFloat)textImageSpace boundingRectSize:(CGSize)bsize edge:(UIEdgeInsets)edge cornerRadius:(CGFloat)cornerRadius
 {
-    // Blur effect 模糊效果
-    UIBlurEffect *blurEffect = [UIBlurEffect effectWithStyle:estyle];
-    self = [super initWithEffect:blurEffect];
+    self = [super init];
     if (self) {
-        // Vibrancy effect 生动效果
-        UIVibrancyEffect *vibrancyEffect = [UIVibrancyEffect effectForBlurEffect:blurEffect];
-        _vibrancyEffectView = [[UIVisualEffectView alloc] initWithEffect:vibrancyEffect];
-        [self.contentView addSubview:_vibrancyEffectView];
-
         _image=image;
-        _estyle=estyle;
+        _bgColor=bgColor;
         _status=status;
         _font=font;
         _tintColor=tintColor;
@@ -52,6 +44,7 @@
 }
 -(void)loadui
 {
+    self.backgroundColor=_bgColor;
     self.layer.cornerRadius=_cornerRadius;
     self.layer.masksToBounds=YES;
 
@@ -64,7 +57,7 @@
         _imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 28.0f, 28.0f)];
         _imageView.tintColor = _tintColor;
         _imageView.image = _image;
-        [_vibrancyEffectView.contentView addSubview:_imageView];
+        [self addSubview:_imageView];
         imww=_imageView.frame.size.width;
         imhh=_imageView.frame.size.height;
     }
@@ -82,7 +75,7 @@
         _statusLabel.numberOfLines = 0;
         _statusLabel.textColor = _tintColor;
         _statusLabel.font = _font;
-        [_vibrancyEffectView.contentView addSubview:_statusLabel];
+        [self addSubview:_statusLabel];
 
         labelRect = [_status boundingRectWithSize:_bsize options:(NSStringDrawingOptions)(NSStringDrawingUsesFontLeading | NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin)attributes:@{NSFontAttributeName:_font} context:NULL];
         labelHeight = ceilf(CGRectGetHeight(labelRect));
@@ -101,7 +94,6 @@
     }
 
     self.bounds=CGRectMake(0, 0, hudWidth, hudHeight);
-    _vibrancyEffectView.frame = self.bounds;
 
     if (_imageView) {
         _imageView.center = CGPointMake(CGRectGetMidX(self.bounds),_edge.top+imhh/2.0);

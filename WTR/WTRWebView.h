@@ -6,6 +6,22 @@
 
 //可自动伸展全部web  self.height
 
+/*初始化 例子
+ 
+ 必须使用 initWithFrame: configuration:
+ 
+ WKWebViewConfiguration *config = [[WKWebViewConfiguration alloc] init];
+ if (@available(iOS 10.0, *)) {
+     config.mediaTypesRequiringUserActionForPlayback = YES;
+ } else {
+     config.mediaPlaybackRequiresUserAction=YES;
+ }//手动播放设置
+ config.allowsInlineMediaPlayback = YES; //是否允许内联(YES)或使用本机全屏控制器(NO)，默认是NO。
+ config.allowsAirPlayForMediaPlayback = YES; //允许AirPlay
+ 
+ self.webView = [[WTRWebView alloc] initWithFrame:CGRectZero configuration:config];
+ */
+
 @interface WTRWebView : WKWebView
 
 @property(nonatomic,assign)BOOL isChangeHeight;//是否跟随网页改变高度 默认NO

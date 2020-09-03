@@ -114,8 +114,10 @@
 }
 -(void)loadchushihua
 {
-    self.ChaRuBili=0.8;
+    self.ChaRuBili=0.9;
     self.HuDongD=10;
+    
+    self.totalSpeedLJ=100;
 
     self.isCanLongPressBigin=YES;
     self.isCanPanMoveBigin=NO;
@@ -346,7 +348,7 @@
         
         CGPoint speed = [pan velocityInView:self.collectionView];
         CGFloat totalSpeed = sqrtf(speed.x*speed.x+speed.y*speed.y);
-        if (totalSpeed<200) {
+        if (totalSpeed<self.totalSpeedLJ) {
             [self tiaozhengcollectionView];
 
             NSIndexPath *indexPath = [self.collectionView indexPathForItemAtPoint:location];

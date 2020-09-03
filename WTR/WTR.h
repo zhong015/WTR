@@ -56,6 +56,7 @@
 +(NSString *)SortedJsonStr:(id)dicOrArr; //得到排序JSON字符串
 +(NSString *)CovertLogToJson:(NSString *)inlogstr;//NSLog打印的字符串转换为json
 
+-(void)clearAllCookie;
 +(void)clearAllCaches; //清除所有缓存
 +(unsigned long long)AllCachesSize; //所有缓存大小 Byte
 +(unsigned long long)fileSizeAtPath:(NSString*)filePath;    //文件的大小 Byte
@@ -122,6 +123,11 @@
 
 //取消tableView的自动适配大小和边距 恢复以前完全自定义控制高度和内边距
 +(void)reMoveTableViewAutoSet:(UITableView *)tableView;
+
+
++(void)showmsge:(NSString *)msg;
++(void)showmsge:(NSString *)msgin time:(NSTimeInterval)timint;
+
 
 @end
 

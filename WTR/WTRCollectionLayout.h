@@ -45,7 +45,9 @@
 
 
 //配置 一般不用动
-@property(nonatomic,assign)CGFloat ChaRuBili; //插入组合界限 默认0.8 
+@property(nonatomic,assign)CGFloat ChaRuBili; //插入组合界限 默认0.9
 @property(nonatomic,assign)CGFloat HuDongD; //滑动间隔 当移动的cell靠近上下边缘时 滑动Collection的界限 默认10
+
+@property(nonatomic,assign)CGFloat totalSpeedLJ;//检测速度临界点 默认100
 
 @end

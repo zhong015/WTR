@@ -41,9 +41,20 @@
 
     UILabel *showla;
 }
+-(void)testhud
+{
+    self.view.backgroundColor=RANDCOLOR;
+    
+    [WTRHUD showHUDInView:self.view];
+    
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [WTRHUD showSuccessInView:self.view WithStatus:@"登录成功"];
+    });
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+    [self testhud];
 
 //    imv=[[UIImageView alloc] initWithImage:[UIImage imageWithContentsOfFile:@"/Users/wfz/Desktop/asd.png"]];
 //    [self.view addSubview:imv];
@@ -74,8 +85,10 @@
 }
 -(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
 {
+    [self testhud];
+    
 //    [WTRHUD showInfoBInView:self.view WithStatus:@"提示信息哈"];
-    [WTR clearAllCaches];
+//    [WTR clearAllCaches];
     
 //    [WTRHUD showErrorBInView:self.view WithStatus:@"asda"];
     
@@ -84,7 +97,7 @@
 //    [WTRHUD showHUDWInView:self.view];
 
 //    if (arc4random()%2) {
-//        [WTRHUD showSuccessWInView:self.view WithStatus:@"呵呵呵"];
+//        [WTRHUD showSuccessWInView:self.view WithStatus:@"呵呵呵提示信息哈"];
 //    }else{
 //        [WTRHUD showErrorBInView:self.view WithStatus:@"错误提示"];
 //    }
