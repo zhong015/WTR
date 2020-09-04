@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
   #
 
   s.name         = "WTR"
-  s.version      = "0.1.33"
+  s.version      = "0.1.34"
   s.summary      = "基本快捷方法"
 
   # This description is used to generate tags and improve search results.
@@ -92,7 +92,7 @@ Pod::Spec.new do |s|
   #
 
   s.source_files  = "WTR/WTRDefine.h"
-  s.exclude_files = "WTRGitCs/*.plist"
+  # s.exclude_files = "WTRGitCs/*.plist"
   # s.public_header_files = "WTR/WTRDefine.h"
 
   s.subspec 'WTRBase' do |ss|

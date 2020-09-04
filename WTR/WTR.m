@@ -878,8 +878,12 @@ static id _s;
         [[NSHTTPCookieStorage sharedHTTPCookieStorage] deleteCookie:cookie];
     }
     [[NSFileManager defaultManager] removeItemAtPath:[[WTRFilePath getLibraryPath] stringByAppendingPathComponent:@"Cookies"] error:nil];
-    [[WKWebsiteDataStore defaultDataStore] removeDataOfTypes:[NSSet setWithArray:@[WKWebsiteDataTypeCookies,WKWebsiteDataTypeSessionStorage]] modifiedSince:[NSDate dateWithTimeIntervalSince1970:0] completionHandler:^{
-    }];
+    
+    if (@available(iOS 9.0, *)) {
+        [[WKWebsiteDataStore defaultDataStore] removeDataOfTypes:[NSSet setWithArray:@[WKWebsiteDataTypeCookies,WKWebsiteDataTypeSessionStorage]] modifiedSince:[NSDate dateWithTimeIntervalSince1970:0] completionHandler:^{
+        }];
+    }
+    
 }
 #pragma mark 清除缓存
 +(void)clearAllCaches
@@ -1552,7 +1556,7 @@ static id _s;
         return;
     }
     dispatch_async(dispatch_get_main_queue(), ^{
-        msg=[msg stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        msg=[msg WTR_stringByURLDecode];
         
         UILabel *showmsgla=[UILabel new];
         showmsgla.textColor=[UIColor whiteColor];//UIColorFromRGB(0x999999);
