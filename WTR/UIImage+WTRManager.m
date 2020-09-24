@@ -9,6 +9,7 @@
 #import "UIImage+WTRManager.h"
 #import <Accelerate/Accelerate.h>
 #import <CommonCrypto/CommonCryptor.h>
+#import "WTRBaseDefine.h"
 
 typedef struct ColorC {
     uint8_t r;
