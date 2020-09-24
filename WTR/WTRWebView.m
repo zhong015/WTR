@@ -208,41 +208,41 @@ static void *WTRWebViewContentSizeContext = &WTRWebViewContentSizeContext;
  *  message           警告框中的内容
  *  completionHandler 警告框消失调用
  */
-//- (void)webView:(WKWebView *)webView runJavaScriptAlertPanelWithMessage:(NSString *)message initiatedByFrame:(WKFrameInfo *)frame completionHandler:(void (^)(void))completionHandler
-//{
-//    NSLog(@"message:%@",message);
-//    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"HTML的弹出框" message:message?:@"" preferredStyle:UIAlertControllerStyleAlert];
-//    [alertController addAction:([UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-//        completionHandler();
-//    }])];
-//    [self presentViewController:alertController animated:YES completion:nil];
-//}
+- (void)webView:(WKWebView *)webView runJavaScriptAlertPanelWithMessage:(NSString *)message initiatedByFrame:(WKFrameInfo *)frame completionHandler:(void (^)(void))completionHandler
+{
+    NSLog(@"message:%@",message);
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:SafeStr(message) message:nil preferredStyle:UIAlertControllerStyleAlert];
+    [alertController addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        completionHandler();
+    }]];
+    [WTR.curintViewController presentViewController:alertController animated:YES completion:nil];
+}
 // 确认框
 //JavaScript调用confirm方法后回调的方法 confirm是js中的确定框，需要在block中把用户选择的情况传递进去
-//- (void)webView:(WKWebView *)webView runJavaScriptConfirmPanelWithMessage:(NSString *)message initiatedByFrame:(WKFrameInfo *)frame completionHandler:(void (^)(BOOL))completionHandler
-//{
-//    NSLog(@"message:%@",message);
-////    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"" message:message?:@"" preferredStyle:UIAlertControllerStyleAlert];
-////    [alertController addAction:([UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-////        completionHandler(NO);
-////    }])];
-////    [alertController addAction:([UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-////        completionHandler(YES);
-////    }])];
-////    [self presentViewController:alertController animated:YES completion:nil];
-//}
+- (void)webView:(WKWebView *)webView runJavaScriptConfirmPanelWithMessage:(NSString *)message initiatedByFrame:(WKFrameInfo *)frame completionHandler:(void (^)(BOOL))completionHandler
+{
+    NSLog(@"message:%@",message);
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:SafeStr(message) message:nil preferredStyle:UIAlertControllerStyleAlert];
+    [alertController addAction:([UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        completionHandler(NO);
+    }])];
+    [alertController addAction:([UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        completionHandler(YES);
+    }])];
+    [WTR.curintViewController presentViewController:alertController animated:YES completion:nil];
+}
 // 输入框
 //JavaScript调用prompt方法后回调的方法 prompt是js中的输入框 需要在block中把用户输入的信息传入
-//- (void)webView:(WKWebView *)webView runJavaScriptTextInputPanelWithPrompt:(NSString *)prompt defaultText:(NSString *)defaultText initiatedByFrame:(WKFrameInfo *)frame completionHandler:(void (^)(NSString * _Nullable))completionHandler{
-////    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:prompt message:@"" preferredStyle:UIAlertControllerStyleAlert];
-////    [alertController addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
-////        textField.text = defaultText;
-////    }];
-////    [alertController addAction:([UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-////        completionHandler(alertController.textFields[0].text?:@"");
-////    }])];
-////    [self presentViewController:alertController animated:YES completion:nil];
-//}
+- (void)webView:(WKWebView *)webView runJavaScriptTextInputPanelWithPrompt:(NSString *)prompt defaultText:(NSString *)defaultText initiatedByFrame:(WKFrameInfo *)frame completionHandler:(void (^)(NSString * _Nullable))completionHandler{
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:SafeStr(prompt) message:nil preferredStyle:UIAlertControllerStyleAlert];
+    [alertController addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
+        textField.text = defaultText;
+    }];
+    [alertController addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        completionHandler(alertController.textFields[0].text?:@"");
+    }]];
+    [WTR.curintViewController presentViewController:alertController animated:YES completion:nil];
+}
 //// 页面是弹出窗口 _blank 处理
 //- (WKWebView *)webView:(WKWebView *)webView createWebViewWithConfiguration:(WKWebViewConfiguration *)configuration forNavigationAction:(WKNavigationAction *)navigationAction windowFeatures:(WKWindowFeatures *)windowFeatures
 //{

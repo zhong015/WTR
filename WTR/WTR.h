@@ -123,7 +123,8 @@
 
 //取消tableView的自动适配大小和边距 恢复以前完全自定义控制高度和内边距
 +(void)reMoveTableViewAutoSet:(UITableView *)tableView;
-
+//取消textf的自动更正和首字母大写 用于账号登录
++(void)reMoveTextfAutoSet:(id<UITextInputTraits>)textf;
 
 +(void)showmsge:(NSString *)msg;
 +(void)showmsge:(NSString *)msgin time:(NSTimeInterval)timint;

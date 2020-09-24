@@ -56,4 +56,9 @@
 
 +(UIColor *)colorHeCheng:(UIColor *)color1 co:(UIColor *)color2;//颜色合成 相当于两个颜色覆盖
 
+
++(UIImage *)QRCodeImageWithStr:(NSString *)infoStr size:(CGSize)size;//生成二维码图片
+-(NSString *)QRCodeStr;//二维码扫描
+
+
 @end

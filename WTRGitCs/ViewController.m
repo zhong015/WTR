@@ -9,6 +9,7 @@
 #import "ViewController.h"
 #import "WTRDefine.h"
 #import "NSObject+WTRExtension.h"
+#import "UIImage+WTRManager.h"
 
 @interface ONECS : NSObject
 
@@ -43,6 +44,13 @@
 }
 -(void)testhud
 {
+//    UIImage *im=[UIImage QRCodeImageWithStr:@"https://apps.apple.com/cn/app/id1483002652" size:CGSizeMake(500, 500)];
+//    
+//    NSString *impath=[[WTRFilePath getDocumentPath] stringByAppendingPathComponent:@"zwwh.png"];
+//    [[NSFileManager defaultManager] removeItemAtPath:impath error:nil];
+//    [UIImagePNGRepresentation(im) writeToFile:impath atomically:YES];
+//    NSLog(@"%@",impath);
+    
     self.view.backgroundColor=RANDCOLOR;
     
     [WTRHUD showHUDInView:self.view];

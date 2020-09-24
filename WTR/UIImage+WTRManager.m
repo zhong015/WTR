@@ -111,6 +111,60 @@ void SetColorCWithDa(char *da,long width,int i,int j,ColorC onec)
     return img;
 }
 
+//生成二维码
++(UIImage *)QRCodeImageWithStr:(NSString *)infoStr size:(CGSize)size
+{
+    CIFilter *filter = [CIFilter filterWithName:@"CIQRCodeGenerator"];//Filters like CIQRCodeGenerator and CICode128BarcodeGenerator generate barcode images that encode specified input data.
+    [filter setDefaults];
+    NSData *infoData = [SafeStr(infoStr) dataUsingEncoding:NSUTF8StringEncoding];
+    [filter setValue:infoData forKeyPath:@"inputMessage"];
+    
+    CIImage *ciimage = [filter outputImage];
+    
+    CIContext *context = [CIContext contextWithOptions:nil];
+    CGImageRef cgimg = [context createCGImage:ciimage fromRect:[ciimage extent]];
+    
+    CGColorSpaceRef colorspaceref=CGColorSpaceCreateDeviceGray();//灰度值 每个单元1个字节
+    CGContextRef bitmapcontext=CGBitmapContextCreate(NULL, size.width, size.height, 8,size.width, colorspaceref, 0);//初始数据没有 不能用RGB
+    
+    //设置插值方式 像素放大 还是模糊放大
+    CGContextSetInterpolationQuality(bitmapcontext, kCGInterpolationNone);
+    CGContextDrawImage(bitmapcontext,CGRectMake(0, 0, size.width, size.height), cgimg);
+
+    CGImageRef imagr=CGBitmapContextCreateImage(bitmapcontext);
+
+    UIImage *retim=[[UIImage alloc]initWithCGImage:imagr];
+    CGImageRelease(imagr);
+    CGColorSpaceRelease(colorspaceref);
+    CGContextRelease(bitmapcontext);
+    
+    CGImageRelease(cgimg);
+    
+    return retim;
+}
+-(NSString *)QRCodeStr
+{
+    // CIDetector(CIDetector可用于人脸识别)进行图片解析，从而使我们可以便捷的从相册中获取到二维码
+    // 声明一个CIDetector，并设定识别类型 CIDetectorTypeQRCode
+    // 这个也可以提取图片里文字
+    CIDetector *detector = [CIDetector detectorOfType:CIDetectorTypeQRCode context:nil options:@{ CIDetectorAccuracy : CIDetectorAccuracyHigh }];
+    
+    CIImage *ciim=self.CIImage;
+    if (!ciim) {
+        ciim=[self WTRCIImage];
+    }
+    NSArray <CIFeature *>*features = [detector featuresInImage:ciim];
+    
+    for (int i = 0; i < features.count; i ++) {
+        CIQRCodeFeature *feature = (CIQRCodeFeature *)features[i];
+        if ([feature isKindOfClass:[CIQRCodeFeature class]]) {
+            return SafeStr(feature.messageString);
+        }
+    }
+    return @"";
+}
+
+
 - (UIImage *)imageCutWith:(CGSize)size
 {
     return [self imageCutWithSize:size isAspectFill:YES opaque:YES];

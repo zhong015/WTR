@@ -1544,6 +1544,16 @@ static id _s;
         tableView.contentInsetAdjustmentBehavior=UIScrollViewContentInsetAdjustmentNever;
     }
 }
++(void)reMoveTextfAutoSet:(id<UITextInputTraits>)textf
+{
+    textf.autocapitalizationType=UITextAutocapitalizationTypeNone;//首字母大写情况
+    textf.autocorrectionType=UITextAutocorrectionTypeNo;//自动更正
+//    textf.spellCheckingType=UITextSpellCheckingTypeNo;//拼写检查
+    if (@available(iOS 11.0, *)) {
+        textf.smartQuotesType=UITextSmartQuotesTypeNo;//自动引号
+        textf.smartDashesType=UITextSmartDashesTypeNo;//自动破折号
+    }
+}
 
 +(void)showmsge:(NSString *)msg
 {
