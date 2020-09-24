@@ -117,7 +117,8 @@ void SetColorCWithDa(char *da,long width,int i,int j,ColorC onec)
 {
     CIFilter *filter = [CIFilter filterWithName:@"CIQRCodeGenerator"];//Filters like CIQRCodeGenerator and CICode128BarcodeGenerator generate barcode images that encode specified input data.
     [filter setDefaults];
-    NSData *infoData = [SafeStr(infoStr) dataUsingEncoding:NSUTF8StringEncoding];
+    infoStr=SafeStr(infoStr);
+    NSData *infoData = [infoStr dataUsingEncoding:NSUTF8StringEncoding];
     [filter setValue:infoData forKeyPath:@"inputMessage"];
     
     CIImage *ciimage = [filter outputImage];
@@ -159,7 +160,8 @@ void SetColorCWithDa(char *da,long width,int i,int j,ColorC onec)
     for (int i = 0; i < features.count; i ++) {
         CIQRCodeFeature *feature = (CIQRCodeFeature *)features[i];
         if ([feature isKindOfClass:[CIQRCodeFeature class]]) {
-            return SafeStr(feature.messageString);
+            NSString *retstr=SafeStr(feature.messageString);
+            return retstr;
         }
     }
     return @"";
