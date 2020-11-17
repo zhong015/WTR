@@ -13,7 +13,6 @@
 		D24D18D81ED65BE400AB1583 /* WTRBundle.bundle in Resources */ = {isa = PBXBuildFile; fileRef = D24D18D71ED65BE400AB1583 /* WTRBundle.bundle */; };
 		D24D18DB1ED65C6B00AB1583 /* SVIndefiniteAnimatedView2.m in Sources */ = {isa = PBXBuildFile; fileRef = D24D18DA1ED65C6B00AB1583 /* SVIndefiniteAnimatedView2.m */; };
 		D24D18DE1ED65D8600AB1583 /* WTRHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = D24D18DD1ED65D8600AB1583 /* WTRHUD.m */; };
-		D25E8F0122F7C638009B4EA9 /* UIView+WTRManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D25E8F0022F7C638009B4EA9 /* UIView+WTRManager.m */; };
 		D25E8F0322F7C79D009B4EA9 /* WTR.podspec in Resources */ = {isa = PBXBuildFile; fileRef = D25E8F0222F7C79D009B4EA9 /* WTR.podspec */; };
 		D2614F4223C05451007A3679 /* WTRWebView.m in Sources */ = {isa = PBXBuildFile; fileRef = D2614F4123C05451007A3679 /* WTRWebView.m */; };
 		D264445A1ED5733800190727 /* UIView+WTRFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = D26444551ED5733800190727 /* UIView+WTRFrame.m */; };
@@ -25,6 +24,7 @@
 		D264447E1ED573E600190727 /* WTRVideoCut.m in Sources */ = {isa = PBXBuildFile; fileRef = D264447D1ED573E600190727 /* WTRVideoCut.m */; };
 		D26444851ED5740400190727 /* WTRDIYTransitions.m in Sources */ = {isa = PBXBuildFile; fileRef = D26444841ED5740400190727 /* WTRDIYTransitions.m */; };
 		D26444881ED5740E00190727 /* WTRFilePath.m in Sources */ = {isa = PBXBuildFile; fileRef = D26444871ED5740E00190727 /* WTRFilePath.m */; };
+		D26B179D2563B29600775833 /* WTRStreamDManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D26B179B2563B29600775833 /* WTRStreamDManager.m */; };
 		D270D5E22320F37000F77914 /* pod 上传制作.rtf in Resources */ = {isa = PBXBuildFile; fileRef = D270D5E12320F37000F77914 /* pod 上传制作.rtf */; };
 		D29727D822CED77500BF56BE /* WTRImageListShow.m in Sources */ = {isa = PBXBuildFile; fileRef = D29727D722CED77500BF56BE /* WTRImageListShow.m */; };
 		D29727DB22CEF16500BF56BE /* SVStatusShowView.m in Sources */ = {isa = PBXBuildFile; fileRef = D29727DA22CEF16500BF56BE /* SVStatusShowView.m */; };
@@ -48,8 +48,6 @@
 		D24D18DA1ED65C6B00AB1583 /* SVIndefiniteAnimatedView2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVIndefiniteAnimatedView2.m; sourceTree = "<group>"; };
 		D24D18DC1ED65D8600AB1583 /* WTRHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WTRHUD.h; sourceTree = "<group>"; };
 		D24D18DD1ED65D8600AB1583 /* WTRHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WTRHUD.m; sourceTree = "<group>"; };
-		D25E8EFF22F7C638009B4EA9 /* UIView+WTRManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIView+WTRManager.h"; sourceTree = "<group>"; };
-		D25E8F0022F7C638009B4EA9 /* UIView+WTRManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIView+WTRManager.m"; sourceTree = "<group>"; };
 		D25E8F0222F7C79D009B4EA9 /* WTR.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = WTR.podspec; sourceTree = "<group>"; };
 		D2614F4023C05450007A3679 /* WTRWebView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WTRWebView.h; sourceTree = "<group>"; };
 		D2614F4123C05451007A3679 /* WTRWebView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WTRWebView.m; sourceTree = "<group>"; };
@@ -72,6 +70,8 @@
 		D26444861ED5740E00190727 /* WTRFilePath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WTRFilePath.h; sourceTree = "<group>"; };
 		D26444871ED5740E00190727 /* WTRFilePath.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WTRFilePath.m; sourceTree = "<group>"; };
 		D26444891ED5846700190727 /* WTRBaseDefine.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WTRBaseDefine.h; sourceTree = "<group>"; };
+		D26B179B2563B29600775833 /* WTRStreamDManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WTRStreamDManager.m; sourceTree = "<group>"; };
+		D26B179C2563B29600775833 /* WTRStreamDManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WTRStreamDManager.h; sourceTree = "<group>"; };
 		D270D5E12320F37000F77914 /* pod 上传制作.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = "pod 上传制作.rtf"; sourceTree = "<group>"; };
 		D29727D622CED77500BF56BE /* WTRImageListShow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WTRImageListShow.h; sourceTree = "<group>"; };
 		D29727D722CED77500BF56BE /* WTRImageListShow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WTRImageListShow.m; sourceTree = "<group>"; };
@@ -111,8 +111,6 @@
 				D29727D722CED77500BF56BE /* WTRImageListShow.m */,
 				D200B2D82282B4340089EEE8 /* WTRCollectionLayout.h */,
 				D200B2D72282B4340089EEE8 /* WTRCollectionLayout.m */,
-				D25E8EFF22F7C638009B4EA9 /* UIView+WTRManager.h */,
-				D25E8F0022F7C638009B4EA9 /* UIView+WTRManager.m */,
 			);
 			name = WTRView;
 			sourceTree = "<group>";
@@ -162,6 +160,8 @@
 				D26444611ED5735A00190727 /* WTRMultipartForm.m */,
 				D26444621ED5735A00190727 /* WTRMutiDownloader.h */,
 				D26444631ED5735A00190727 /* WTRMutiDownloader.m */,
+				D26B179C2563B29600775833 /* WTRStreamDManager.h */,
+				D26B179B2563B29600775833 /* WTRStreamDManager.m */,
 			);
 			name = WTRDownload;
 			sourceTree = "<group>";
@@ -346,9 +346,9 @@
 				D26444881ED5740E00190727 /* WTRFilePath.m in Sources */,
 				D29727DB22CEF16500BF56BE /* SVStatusShowView.m in Sources */,
 				D24D18DE1ED65D8600AB1583 /* WTRHUD.m in Sources */,
-				D25E8F0122F7C638009B4EA9 /* UIView+WTRManager.m in Sources */,
 				D2226BA62321EE25005643F3 /* NSObject+WTRExtension.m in Sources */,
 				D26444661ED5735A00190727 /* WTRMutiDownloader.m in Sources */,
+				D26B179D2563B29600775833 /* WTRStreamDManager.m in Sources */,
 				D264446C1ED573AE00190727 /* UIImage+WTRManager.m in Sources */,
 				D29727D822CED77500BF56BE /* WTRImageListShow.m in Sources */,
 				D2C85D711ED42E0800528873 /* ViewController.m in Sources */,

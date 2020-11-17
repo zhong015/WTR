@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
   #
 
   s.name         = "WTR"
-  s.version      = "0.1.37"
+  s.version      = "0.1.38"
   s.summary      = "基本快捷方法"
 
   # This description is used to generate tags and improve search results.
@@ -110,7 +110,7 @@ Pod::Spec.new do |s|
   end
 
   s.subspec 'WTRDownload' do |ss|
-    ss.source_files = 'WTR/WTRMultipartForm.{h,m}','WTR/WTRMutiDownloader.{h,m}',"WTR/UIImageView+WTRLoad.{h,m}"
+    ss.source_files = 'WTR/WTRMultipartForm.{h,m}','WTR/WTRMutiDownloader.{h,m}',"WTR/UIImageView+WTRLoad.{h,m}","WTR/WTRStreamDManager.{h,m}"
     ss.dependency 'WTR/WTRBase'
   end
 
@@ -126,7 +126,7 @@ Pod::Spec.new do |s|
   end
 
   s.subspec 'WTRView' do |ss|
-    ss.source_files = "WTR/WTRCollectionLayout.{h,m}",'WTR/WTRImageListShow.{h,m}','WTR/UIView+WTRManager.{h,m}','WTR/WTRWebView.{h,m}'
+    ss.source_files = "WTR/WTRCollectionLayout.{h,m}",'WTR/WTRImageListShow.{h,m}','WTR/WTRWebView.{h,m}'
     ss.dependency 'WTR/WTRBase'
     ss.dependency 'WTR/WTRHUD'
   end
