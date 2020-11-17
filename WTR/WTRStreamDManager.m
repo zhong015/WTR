@@ -7,7 +7,6 @@
 //
 
 #import "WTRStreamDManager.h"
-#import "AppDelegate.h"
 
 @interface WTRStreamDTask : NSObject
 
@@ -60,19 +59,6 @@ static id _s=nil;
     }
     return self;
 }
-- (void)URLSessionDidFinishEventsForBackgroundURLSession:(NSURLSession*)session
-{
-    dispatch_async(dispatch_get_main_queue(), ^{
-        AppDelegate* appDelegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
-        if (appDelegate.backgroundSessionCompletionHandler) {
-            void (^completionHandler)(void) = appDelegate.backgroundSessionCompletionHandler;
-            appDelegate.backgroundSessionCompletionHandler = nil;
-            completionHandler();
-        }
-        NSLog(@"所有任务已完成!");
-    });
-}
-
 - (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask
                                  didReceiveResponse:(NSURLResponse *)response
                                   completionHandler:(void (^)(NSURLSessionResponseDisposition disposition))completionHandler
