@@ -7,6 +7,7 @@
 //
 
 #import "WTRStreamDManager.h"
+#import "WTRBaseDefine.h"
 
 @interface WTRStreamDTask : NSObject
 
