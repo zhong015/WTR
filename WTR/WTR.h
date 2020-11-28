@@ -166,4 +166,8 @@
 -(NSString*)WTR_stringByURLEncodeReal;
 -(NSString*)WTR_stringByURLDecodeReal;
 
+
+#pragma mark 字符串解码
++(NSString *)WTR_deCodeStrWithData:(NSData *)da;
+
 @end

@@ -40,8 +40,10 @@
 #define ScreenWidthD ((ScreenWidth<ScreenHeight)?ScreenWidth:ScreenHeight)
 #define ScreenHeightD ((ScreenWidth>ScreenHeight)?ScreenWidth:ScreenHeight)
 
-#define WTRSafeTopHeight (^(void){if(ISIPhoneX){if (@available(iOS 11.0, *)) {return [UIApplication sharedApplication].delegate.window.safeAreaInsets.top;}else{ return (CGFloat)20.0;}}else{return (CGFloat)20.0;}}())
-#define WTRSafeBottomHeight (^(void){if(@available(iOS 11.0, *)){return [UIApplication sharedApplication].delegate.window.safeAreaInsets.bottom;}else{return (CGFloat)0.0;}}())
+#define WTRSafeTop (^(void){if(ISIPhoneX){if (@available(iOS 11.0, *)) {return [UIApplication sharedApplication].delegate.window.safeAreaInsets.top;}else{ return (CGFloat)20.0;}}else{return (CGFloat)20.0;}}())
+#define WTRSafeLeft (^(void){if(ISIPhoneX){if (@available(iOS 11.0, *)) {return [UIApplication sharedApplication].delegate.window.safeAreaInsets.left;}else{ return (CGFloat)0.0;}}else{return (CGFloat)0.0;}}())
+#define WTRSafeBottom (^(void){if(ISIPhoneX){if (@available(iOS 11.0, *)) {return [UIApplication sharedApplication].delegate.window.safeAreaInsets.bottom;}else{ return (CGFloat)0.0;}}else{return (CGFloat)0.0;}}())
+#define WTRSafeRight (^(void){if(ISIPhoneX){if (@available(iOS 11.0, *)) {return [UIApplication sharedApplication].delegate.window.safeAreaInsets.right;}else{ return (CGFloat)0.0;}}else{return (CGFloat)0.0;}}())
 
 //判断类型
 #define ISString(str) (str&&[str isKindOfClass:[NSString class]]&&str.length>0)
