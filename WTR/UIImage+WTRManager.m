@@ -135,33 +135,32 @@ void SetColorCWithDa(char *da,long width,int i,int j,ColorC onec)
         ciimage = [falseFilter outputImage];
     }
     
-    /*
-     放大也可以使用
-     ciimage=[ciimage imageByApplyingTransform:CGAffineTransformMakeScale(5, 5)];
-     不过生成UIImage还得需要imageWithWTRCIImage
-     */
-    
-    //放大图片
-    CIContext *context = [CIContext contextWithOptions:nil];
-    CGImageRef cgimg = [context createCGImage:ciimage fromRect:[ciimage extent]];
-    
-    CGColorSpaceRef colorspaceref=CGColorSpaceCreateDeviceGray();//灰度值 每个单元1个字节
-    CGContextRef bitmapcontext=CGBitmapContextCreate(NULL, size.width, size.height, 8,size.width, colorspaceref, 0);//初始数据没有 不能用RGB
-    
-    //设置插值方式 像素放大 还是模糊放大
-    CGContextSetInterpolationQuality(bitmapcontext, kCGInterpolationNone);
-    CGContextDrawImage(bitmapcontext,CGRectMake(0, 0, size.width, size.height), cgimg);
+    CGRect rect=[ciimage extent];
 
-    CGImageRef imagr=CGBitmapContextCreateImage(bitmapcontext);
-
-    UIImage *retim=[[UIImage alloc]initWithCGImage:imagr];
-    CGImageRelease(imagr);
-    CGColorSpaceRelease(colorspaceref);
-    CGContextRelease(bitmapcontext);
+    ciimage=[ciimage imageByApplyingTransform:CGAffineTransformMakeScale(size.width/rect.size.width, size.height/rect.size.height)];
     
-    CGImageRelease(cgimg);
+    return [UIImage imageWithWTRCIImage:ciimage];
     
-    return retim;
+//    //放大图片 灰度图 没有透明度
+//    CIContext *context = [CIContext contextWithOptions:nil];
+//    CGImageRef cgimg = [context createCGImage:ciimage fromRect:[ciimage extent]];
+//
+//    CGColorSpaceRef colorspaceref=CGColorSpaceCreateDeviceGray();//灰度值 每个单元1个字节
+//    CGContextRef bitmapcontext=CGBitmapContextCreate(NULL, size.width, size.height, 8,size.width, colorspaceref, 0);//初始数据没有 不能用RGB
+//
+//    //设置插值方式 像素放大 还是模糊放大
+//    CGContextSetInterpolationQuality(bitmapcontext, kCGInterpolationNone);
+//    CGContextDrawImage(bitmapcontext,CGRectMake(0, 0, size.width, size.height), cgimg);
+//
+//    CGImageRef imagr=CGBitmapContextCreateImage(bitmapcontext);
+//
+//    UIImage *retim=[[UIImage alloc]initWithCGImage:imagr];
+//    CGImageRelease(imagr);
+//    CGColorSpaceRelease(colorspaceref);
+//    CGContextRelease(bitmapcontext);
+//
+//    CGImageRelease(cgimg);
+//    return retim;
 }
 -(NSString *)QRCodeStr
 {

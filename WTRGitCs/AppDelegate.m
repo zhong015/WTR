@@ -25,7 +25,7 @@
     
     self.window.rootViewController=[[UINavigationController alloc] initWithRootViewController:[ViewController new]];
     
-    UIImage *im=[UIImage QRCodeImageWithStr:@"https://zwwh.cnki.net/web/m/download/index" size:CGSizeMake(100, 100)];
+    UIImage *im=[UIImage QRCodeImageWithStr:@"https://zwwh.cnki.net/web/m/download/index" size:CGSizeMake(100, 100) foregroundColor:[UIColor blackColor] backgroundColor:[UIColor clearColor]];
     [UIImagePNGRepresentation(im) writeToFile:@"/Users/wfz/Desktop/cnkizwwh.png" atomically:YES];
     
 
