@@ -261,9 +261,8 @@
     layout.minimumLineSpacing=0;
     layout.minimumInteritemSpacing=0;
 
-    if (ISIOS8) {
-        layout.estimatedItemSize=CGSizeZero;
-    }
+    layout.estimatedItemSize=CGSizeZero;
+    
     self.collection = [[UICollectionView alloc] initWithFrame:CGRectMake(-WTRImageListJianGe/2.0, 0, self.bounds.size.width+WTRImageListJianGe, self.bounds.size.height) collectionViewLayout:layout];
     self.collection.dataSource=self;
     self.collection.delegate=self;

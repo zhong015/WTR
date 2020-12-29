@@ -58,6 +58,7 @@
 
 
 +(UIImage *)QRCodeImageWithStr:(NSString *)infoStr size:(CGSize)size;//生成二维码图片
++(UIImage *)QRCodeImageWithStr:(NSString *)infoStr size:(CGSize)size foregroundColor:(UIColor *)foregroundColor backgroundColor:(UIColor *)backgroundColor;
 -(NSString *)QRCodeStr;//二维码扫描
 
 

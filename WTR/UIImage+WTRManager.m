@@ -115,13 +115,33 @@ void SetColorCWithDa(char *da,long width,int i,int j,ColorC onec)
 //生成二维码
 +(UIImage *)QRCodeImageWithStr:(NSString *)infoStr size:(CGSize)size
 {
+    return [self QRCodeImageWithStr:infoStr size:size foregroundColor:[UIColor blackColor] backgroundColor:[UIColor whiteColor]];
+}
++(UIImage *)QRCodeImageWithStr:(NSString *)infoStr size:(CGSize)size foregroundColor:(UIColor *)foregroundColor backgroundColor:(UIColor *)backgroundColor
+{
     CIFilter *filter = [CIFilter filterWithName:@"CIQRCodeGenerator"];//Filters like CIQRCodeGenerator and CICode128BarcodeGenerator generate barcode images that encode specified input data.
     [filter setDefaults];
     NSData *infoData = [SafeStr(infoStr) dataUsingEncoding:NSUTF8StringEncoding];
     [filter setValue:infoData forKeyPath:@"inputMessage"];
-    
     CIImage *ciimage = [filter outputImage];
     
+    if (foregroundColor&&backgroundColor) {
+        //这个Filter其实是把图片中颜色全部映射到两个新颜色之间 跟黑白图片相似 不过终点颜色变化了
+        CIFilter *falseFilter=[CIFilter filterWithName:@"CIFalseColor"];
+        [falseFilter setDefaults];
+        [falseFilter setValue:ciimage forKeyPath:@"inputImage"];
+        [falseFilter setValue:[CIColor colorWithCGColor:foregroundColor.CGColor] forKeyPath:@"inputColor0"];
+        [falseFilter setValue:[CIColor colorWithCGColor:backgroundColor.CGColor] forKeyPath:@"inputColor1"];
+        ciimage = [falseFilter outputImage];
+    }
+    
+    /*
+     放大也可以使用
+     ciimage=[ciimage imageByApplyingTransform:CGAffineTransformMakeScale(5, 5)];
+     不过生成UIImage还得需要imageWithWTRCIImage
+     */
+    
+    //放大图片
     CIContext *context = [CIContext contextWithOptions:nil];
     CGImageRef cgimg = [context createCGImage:ciimage fromRect:[ciimage extent]];
     

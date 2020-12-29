@@ -8,6 +8,7 @@
 
 #import "AppDelegate.h"
 #import "ViewController.h"
+#import "UIImage+WTRManager.h"
 
 @interface AppDelegate ()
 
@@ -24,6 +25,10 @@
     
     self.window.rootViewController=[[UINavigationController alloc] initWithRootViewController:[ViewController new]];
     
+    UIImage *im=[UIImage QRCodeImageWithStr:@"https://zwwh.cnki.net/web/m/download/index" size:CGSizeMake(100, 100)];
+    [UIImagePNGRepresentation(im) writeToFile:@"/Users/wfz/Desktop/cnkizwwh.png" atomically:YES];
+    
+
     return YES;
 }
 

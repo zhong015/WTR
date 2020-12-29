@@ -17,16 +17,6 @@
 #import "UIView+WTRFrame.h"
 #import "WTRFilePath.h"
 
-#define ISIOS8 ([UIDevice currentDevice].systemVersion.floatValue>=8.0)
-#define ISIOS9 ([UIDevice currentDevice].systemVersion.floatValue>=9.0)
-#define ISIOS10 ([UIDevice currentDevice].systemVersion.floatValue>=10.0)
-#define ISIOS11 ([UIDevice currentDevice].systemVersion.floatValue>=11.0)
-#define ISIOS12 ([UIDevice currentDevice].systemVersion.floatValue>=12.0)
-#define ISIOS13 ([UIDevice currentDevice].systemVersion.floatValue>=13.0)
-#define ISIOS14 ([UIDevice currentDevice].systemVersion.floatValue>=14.0)
-#define ISIOS15 ([UIDevice currentDevice].systemVersion.floatValue>=15.0)
-#define ISIOS16 ([UIDevice currentDevice].systemVersion.floatValue>=16.0)
-
 #define ScreenWidth  ([UIApplication sharedApplication].delegate.window.bounds.size.width)
 #define ScreenHeight  ([UIApplication sharedApplication].delegate.window.bounds.size.height)
 #define ScreenBounds  ([UIApplication sharedApplication].delegate.window.bounds)
