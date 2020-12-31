@@ -25,9 +25,11 @@
     
     self.window.rootViewController=[[UINavigationController alloc] initWithRootViewController:[ViewController new]];
     
-    UIImage *im=[UIImage QRCodeImageWithStr:@"https://zwwh.cnki.net/web/m/download/index" size:CGSizeMake(100, 100) foregroundColor:[UIColor blackColor] backgroundColor:[UIColor clearColor]];
-    [UIImagePNGRepresentation(im) writeToFile:@"/Users/wfz/Desktop/cnkizwwh.png" atomically:YES];
+//    UIImage *im=[UIImage QRCodeImageWithStr:@"https://zwwh.cnki.net/web/m/download/index" size:CGSizeMake(100, 100) foregroundColor:[UIColor blackColor] backgroundColor:[UIColor clearColor]];
+//    [UIImagePNGRepresentation(im) writeToFile:@"/Users/wfz/Desktop/cnkizwwh.png" atomically:YES];
     
+//    NSString *strurl=[NSString WTR_urlStrWithComponents:@{@"asd":@"1",@"asd8":@"2asd",@"as2d":@"o2o"} prefix:@"http://asd.asd.com"];
+//    NSLog(@"%@",strurl);
 
     return YES;
 }

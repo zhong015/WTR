@@ -1885,4 +1885,36 @@ int32_t const WTRCHUNK_SIZE = 8 * 1024;
     return retstr;
 }
 
+-(NSDictionary *)WTR_urlParameters
+{
+    NSString *urlStr=self;
+    if ([WTR isNeedURLEncoding:urlStr]) {
+        urlStr=[urlStr WTR_stringByURLEncode];
+    }
+    NSMutableDictionary *parameters=[NSMutableDictionary dictionary];
+    NSURLComponents *urlComponents = [[NSURLComponents alloc] initWithString:urlStr];
+    [urlComponents.queryItems enumerateObjectsUsingBlock:^(NSURLQueryItem * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        if (obj.value && obj.name) {
+            [parameters setObject:obj.value forKey:obj.name];
+        }
+    }];
+    return parameters;
+}
++(NSString *)WTR_urlStrWithComponents:(NSDictionary *)components prefix:(NSString *)prefix
+{
+    if (!ISDictionary(components)) {
+        return @"";
+    }
+    prefix=SafeStr(prefix);
+    if (![prefix hasSuffix:@"?"]) {
+        prefix=[prefix stringByAppendingString:@"?"];
+    }
+    for (NSString *key in components.allKeys) {
+        NSString *value=components[key];
+        prefix=[prefix stringByAppendingFormat:@"%@=%@&",key,SafeStr(value)];
+    }
+    prefix=[prefix substringToIndex:prefix.length-1];
+    return prefix;
+}
+
 @end
