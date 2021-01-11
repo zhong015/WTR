@@ -30,6 +30,8 @@
     
 //    NSString *strurl=[NSString WTR_urlStrWithComponents:@{@"asd":@"1",@"asd8":@"2asd",@"as2d":@"o2o"} prefix:@"http://asd.asd.com"];
 //    NSLog(@"%@",strurl);
+    
+    NSLog(@"%.2f %.2f %.2f %.2f",WTRSafeTop,WTRSafeLeft,WTRSafeBottom,WTRSafeRight);
 
     return YES;
 }
