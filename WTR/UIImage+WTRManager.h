@@ -15,7 +15,7 @@
 
 - (UIImage *)imageCutWith:(CGSize)size;//改变分辨率 透明部分变白
 - (UIImage *)imageCutNoOpaqueWith:(CGSize)size;//改变分辨率 透明部分透明
-- (UIImage *)imageCutWithSize:(CGSize)size isAspectFill:(BOOL)isAspectFill opaque:(BOOL)opaque;
+- (UIImage *)imageCutWithSize:(CGSize)size isAspectFill:(BOOL)isAspectFill opaque:(BOOL)opaque scale:(CGFloat)scale;
 
 - (UIImage *)fixOrientation;//纠正系统相机照出来的图片方向
 

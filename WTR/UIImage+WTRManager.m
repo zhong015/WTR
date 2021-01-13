@@ -187,13 +187,13 @@ void SetColorCWithDa(char *da,long width,int i,int j,ColorC onec)
 
 - (UIImage *)imageCutWith:(CGSize)size
 {
-    return [self imageCutWithSize:size isAspectFill:YES opaque:YES];
+    return [self imageCutWithSize:size isAspectFill:YES opaque:YES scale:[UIScreen mainScreen].scale];
 }
 - (UIImage *)imageCutNoOpaqueWith:(CGSize)size
 {
-    return [self imageCutWithSize:size isAspectFill:YES opaque:NO];
+    return [self imageCutWithSize:size isAspectFill:YES opaque:NO scale:[UIScreen mainScreen].scale];
 }
-- (UIImage *)imageCutWithSize:(CGSize)size isAspectFill:(BOOL)isAspectFill opaque:(BOOL)opaque
+- (UIImage *)imageCutWithSize:(CGSize)size isAspectFill:(BOOL)isAspectFill opaque:(BOOL)opaque scale:(CGFloat)scale
 {
     size.width=roundf(size.width);
     size.height=roundf(size.height);
@@ -229,7 +229,7 @@ void SetColorCWithDa(char *da,long width,int i,int j,ColorC onec)
         }
     }
 
-    UIGraphicsBeginImageContextWithOptions(size, opaque, 1.0);
+    UIGraphicsBeginImageContextWithOptions(size, opaque, scale);
     CGContextRef context=UIGraphicsGetCurrentContext();
     CGContextClearRect(context, CGRectMake(0, 0, size.width, size.height));
 
