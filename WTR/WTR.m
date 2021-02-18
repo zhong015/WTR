@@ -1819,25 +1819,25 @@ int32_t const WTRCHUNK_SIZE = 8 * 1024;
     if (retstr) {
         return retstr;
     }
-    NSStringEncoding enc = CFStringConvertEncodingToNSStringEncoding(kCFStringEncodingGB_18030_2000);
-    retstr = [[NSString alloc] initWithData:da encoding:enc];
+    NSStringEncoding enc1 = CFStringConvertEncodingToNSStringEncoding(kCFStringEncodingGB_18030_2000);
+    retstr = [[NSString alloc] initWithData:da encoding:enc1];
     if (retstr) {
         return retstr;
     }
-    enc = CFStringConvertEncodingToNSStringEncoding(kCFStringEncodingGB_2312_80);
-    retstr = [[NSString alloc] initWithData:da encoding:enc];
+    NSStringEncoding enc2 = CFStringConvertEncodingToNSStringEncoding(kCFStringEncodingGB_2312_80);
+    retstr = [[NSString alloc] initWithData:da encoding:enc2];
     if (retstr) {
         return retstr;
     }
-    enc = CFStringConvertEncodingToNSStringEncoding(kCFStringEncodingGBK_95);
-    retstr = [[NSString alloc] initWithData:da encoding:enc];
+    NSStringEncoding enc3 = CFStringConvertEncodingToNSStringEncoding(kCFStringEncodingGBK_95);
+    retstr = [[NSString alloc] initWithData:da encoding:enc3];
     if (retstr) {
         return retstr;
     }
     
     //系统判断
     NSString *convertedString=nil;
-    [NSString stringEncodingForData:da encodingOptions:nil convertedString:&convertedString usedLossyConversion:nil];
+    [NSString stringEncodingForData:da encodingOptions:@{NSStringEncodingDetectionSuggestedEncodingsKey:@[@(NSUTF8StringEncoding),@(enc1),@(enc2),@(enc3),@(NSUnicodeStringEncoding)]} convertedString:&convertedString usedLossyConversion:nil];
     if (ISString(convertedString)) {
         return convertedString;
     }
