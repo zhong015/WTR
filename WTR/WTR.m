@@ -1837,7 +1837,7 @@ int32_t const WTRCHUNK_SIZE = 8 * 1024;
     
     //系统判断
     NSString *convertedString=nil;
-    [NSString stringEncodingForData:da encodingOptions:@{NSStringEncodingDetectionSuggestedEncodingsKey:@[@(NSUTF8StringEncoding),@(enc1),@(enc2),@(enc3),@(NSUnicodeStringEncoding)]} convertedString:&convertedString usedLossyConversion:nil];
+    [NSString stringEncodingForData:da encodingOptions:@{NSStringEncodingDetectionSuggestedEncodingsKey:@[@(NSUTF8StringEncoding),@(enc1),@(enc2),@(enc3)]} convertedString:&convertedString usedLossyConversion:nil];
     if (ISString(convertedString)) {
         return convertedString;
     }
