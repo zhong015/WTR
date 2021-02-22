@@ -23,17 +23,13 @@
     self.window.backgroundColor=[UIColor whiteColor];
     [self.window makeKeyAndVisible];
     
-    self.window.rootViewController=[[UINavigationController alloc] initWithRootViewController:[ViewController new]];
+    self.window.rootViewController=[ViewController new];//[[UINavigationController alloc] initWithRootViewController:[ViewController new]];
     
 //    UIImage *im=[UIImage QRCodeImageWithStr:@"https://zwwh.cnki.net/web/m/download/index" size:CGSizeMake(100, 100) foregroundColor:[UIColor blackColor] backgroundColor:[UIColor clearColor]];
 //    [UIImagePNGRepresentation(im) writeToFile:@"/Users/wfz/Desktop/cnkizwwh.png" atomically:YES];
     
 //    NSString *strurl=[NSString WTR_urlStrWithComponents:@{@"asd":@"1",@"asd8":@"2asd",@"as2d":@"o2o"} prefix:@"http://asd.asd.com"];
 //    NSLog(@"%@",strurl);
-    
-    NSLog(@"top:%.2f",(^(void){if (@available(iOS 11.0, *)) {return [UIApplication sharedApplication].delegate.window.safeAreaInsets.top;}else{ return (CGFloat)20.0;}}()));
-    
-    NSLog(@"%.2f %.2f %.2f %.2f",WTRSafeTop,WTRSafeLeft,WTRSafeBottom,WTRSafeRight);
 
     return YES;
 }

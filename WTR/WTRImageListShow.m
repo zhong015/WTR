@@ -31,6 +31,11 @@
     }
     return self;
 }
+-(void)updateAllImframe
+{
+    self.scrollView.frame=CGRectMake(WTRImageListJianGe/2.0, 0, self.width-WTRImageListJianGe, self.height);
+    self.imv.frame=self.scrollView.bounds;
+}
 -(void)loadui
 {
     self.scrollView=[[UIScrollView alloc] initWithFrame:CGRectMake(WTRImageListJianGe/2.0, 0, self.width-WTRImageListJianGe, self.height)];
@@ -88,9 +93,9 @@
         [self.scrollView setZoomScale:1 animated:YES];
         return;
     }
-    [self clearall];
+    [self clearAllShow];
 }
--(void)clearall
+-(void)clearAllShow
 {
     if (self.clearallcb) {
         self.clearallcb();
@@ -197,24 +202,43 @@
     NSArray *_listArray;
 
     int currentindex;
+    
+    CGFloat lastww,lasthh;
 }
-+(void)ShowImageList:(nonnull NSArray *)listArray current:(nonnull id)imageurlOrStr configeOne:(void (^_Nonnull)(UIImageView * _Nonnull imv,id _Nonnull imageurl)) confige completion:(void (^_Nonnull)(void))completioncb
++(instancetype)ShowImageList:(nonnull NSArray *)listArray current:(nonnull id)imageurlOrStr configeOne:(void (^_Nonnull)(UIImageView * _Nonnull imv,id _Nonnull imageurl)) confige completion:(void (^_Nonnull)(void))completioncb
 {
-    [self ShowImageList:listArray current:imageurlOrStr fromView:nil OrRect:CGRectZero configeOne:confige completion:completioncb];
+    return [self ShowImageList:listArray current:imageurlOrStr fromView:nil OrRect:CGRectZero configeOne:confige completion:completioncb];
 }
-+(void)ShowImageList:(nonnull NSArray *)listArray current:(nonnull id)imageurlOrStr Rect:(CGRect)fromRect configeOne:(void (^_Nonnull)(UIImageView * _Nonnull imv,id _Nonnull imageurlOrStr)) confige completion:(void (^_Nonnull)(void))completioncb
++(instancetype)ShowImageList:(nonnull NSArray *)listArray current:(nonnull id)imageurlOrStr fromRect:(CGRect)fromRect configeOne:(void (^_Nonnull)(UIImageView * _Nonnull imv,id _Nonnull imageurlOrStr)) confige completion:(void (^_Nonnull)(void))completioncb
 {
-    [self ShowImageList:listArray current:imageurlOrStr fromView:nil OrRect:fromRect configeOne:confige completion:completioncb];
+    return [self ShowImageList:listArray current:imageurlOrStr fromView:nil OrRect:fromRect configeOne:confige completion:completioncb];
 }
-+(void)ShowImageList:(nonnull NSArray *)listArray current:(nonnull id)imageurlOrStr fromView:(nullable UIView *)imageView configeOne:(void (^_Nonnull)(UIImageView * _Nonnull imv,id _Nonnull imageurlOrStr)) confige completion:(void (^_Nonnull)(void))completioncb
++(instancetype)ShowImageList:(nonnull NSArray *)listArray current:(nonnull id)imageurlOrStr fromView:(nullable UIView *)imageView configeOne:(void (^_Nonnull)(UIImageView * _Nonnull imv,id _Nonnull imageurlOrStr)) confige completion:(void (^_Nonnull)(void))completioncb
 {
-    [self ShowImageList:listArray current:imageurlOrStr fromView:imageView OrRect:CGRectZero configeOne:confige completion:completioncb];
+    return [self ShowImageList:listArray current:imageurlOrStr fromView:imageView OrRect:CGRectZero configeOne:confige completion:completioncb];
 }
-+(void)ShowImageList:(nonnull NSArray *)listArray current:(nonnull id)imageurlOrStr fromView:(nullable UIView *)imageView OrRect:(CGRect)fromRect configeOne:(void (^_Nonnull)(UIImageView * _Nonnull imv,id _Nonnull imageurlOrStr)) confige completion:(void (^_Nonnull)(void))completioncb
++(instancetype)ShowImageList:(nonnull NSArray *)listArray current:(nonnull id)imageurlOrStr fromView:(nullable UIView *)imageView OrRect:(CGRect)fromRect configeOne:(void (^_Nonnull)(UIImageView * _Nonnull imv,id _Nonnull imageurlOrStr)) confige completion:(void (^_Nonnull)(void))completioncb
 {
-    WTRImageListShow *show=[[WTRImageListShow alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight)];
+    WTRImageListShow *show=[WTRImageListShow new];
     [show ShowImageList:listArray current:imageurlOrStr fromView:imageView OrRect:fromRect configeOne:confige completion:completioncb];
+    return show;
 }
+
+- (void)layoutSubviews
+{
+    [super layoutSubviews];
+    if (ABS(self.width-lastww)>2||ABS(self.height-lasthh)>2) {
+        [self reloadcolloction];
+        self.numla.frame=CGRectMake(20, self.height-60, self.width/2.0, 20);
+        if (self.crutapv) {
+            [self.crutapv removeFromSuperview];//大小变过就不能有动画了 位置变了
+            self.crutapv=nil;
+        }
+        lastww=self.width;
+        lasthh=self.height;
+    }
+}
+
 -(void)ShowImageList:(nonnull NSArray *)listArray current:(nonnull id)imageurlOrStr fromView:(nullable UIView *)imageView OrRect:(CGRect)fromRect configeOne:(void (^_Nonnull)(UIImageView * _Nonnull imv,id _Nonnull imageurlOrStr)) confige completion:(void (^_Nonnull)(void))completioncb
 {
     if (!listArray||listArray.count==0) {
@@ -248,33 +272,19 @@
     }
 
     UIView *surview=[WTR curintViewController].view;
+    self.frame=surview.bounds;
     [surview addSubview:self];
+    self.autoresizingMask=UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
 
+    lastww=self.width;
+    lasthh=self.height;
+    
     self.bacview=[[UIView alloc] initWithFrame:self.bounds];
     self.bacview.backgroundColor=UIColorFromRGB0x(353637);
     [self addSubview:self.bacview];
+    self.bacview.autoresizingMask=UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
 
-    UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
-    layout.scrollDirection=UICollectionViewScrollDirectionHorizontal;
-    layout.itemSize = CGSizeMake(ScreenWidth+WTRImageListJianGe, ScreenHeight);
-
-    layout.minimumLineSpacing=0;
-    layout.minimumInteritemSpacing=0;
-
-    layout.estimatedItemSize=CGSizeZero;
-    
-    self.collection = [[UICollectionView alloc] initWithFrame:CGRectMake(-WTRImageListJianGe/2.0, 0, self.bounds.size.width+WTRImageListJianGe, self.bounds.size.height) collectionViewLayout:layout];
-    self.collection.dataSource=self;
-    self.collection.delegate=self;
-    [self.collection registerClass:[WTRImageListShowCell class] forCellWithReuseIdentifier:@"cell"];
-
-    self.collection.pagingEnabled=YES;
-
-    [self addSubview:self.collection];
-
-    self.collection.backgroundColor=[UIColor clearColor];
-
-    [self.collection scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:currentindex inSection:0] atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:NO];
+    [self reloadcolloction];
 
     self.numla=[UILabel new];
     self.numla.font=[UIFont systemFontOfSize:15];
@@ -340,9 +350,46 @@
         self.alpha=1;
     }];
 }
+-(void)reloadcolloction
+{
+    if (self.collection) {
+        UICollectionView *lastcolloction=self.collection;
+        [UIView animateWithDuration:WTRImageListAnimateDuration animations:^{
+            lastcolloction.alpha=0;
+        }completion:^(BOOL finished) {
+            [lastcolloction removeFromSuperview];
+        }];
+    }
+    
+    UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
+    layout.scrollDirection=UICollectionViewScrollDirectionHorizontal;
+    layout.itemSize = CGSizeMake(ScreenWidth+WTRImageListJianGe, ScreenHeight);
+
+    layout.minimumLineSpacing=0;
+    layout.minimumInteritemSpacing=0;
+
+    layout.estimatedItemSize=CGSizeZero;
+    
+    self.collection = [[UICollectionView alloc] initWithFrame:CGRectMake(-WTRImageListJianGe/2.0, 0, self.bounds.size.width+WTRImageListJianGe, self.bounds.size.height) collectionViewLayout:layout];
+    self.collection.dataSource=self;
+    self.collection.delegate=self;
+    [self.collection registerClass:[WTRImageListShowCell class] forCellWithReuseIdentifier:@"cell"];
+
+    self.collection.pagingEnabled=YES;
+
+    [self insertSubview:self.collection aboveSubview:self.bacview];
+
+    self.collection.backgroundColor=[UIColor clearColor];
+
+    [self.collection scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:currentindex inSection:0] atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:NO];
+}
 -(void)updataenumla
 {
-    self.numla.text=[NSString stringWithFormat:@"%d / %d",currentindex+1,(int)_listArray.count];
+    if (_listArray.count>1) {
+        self.numla.text=[NSString stringWithFormat:@"%d / %d",currentindex+1,(int)_listArray.count];
+    }else{
+        self.numla.hidden=YES;
+    }
 }
 -(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
 {
@@ -372,12 +419,16 @@
     if (!cell.clearallcb) {
         __WEAKSelf
         cell.clearallcb = ^{
-            [weakSelf clearall];
+            [weakSelf clearAllShow];
         };
     }
+    
+    [cell.scrollView setZoomScale:1 animated:NO];
+    [cell updateAllImframe];
+    
     return cell;
 }
--(void)clearall
+-(void)clearAllShow
 {
     if (self.crutapv&&self.crutapv.superview) {
         self.collection.hidden=YES;
