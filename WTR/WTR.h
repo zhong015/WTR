@@ -56,7 +56,7 @@
 +(NSString *)SortedJsonStr:(id)dicOrArr; //得到排序JSON字符串
 +(NSString *)CovertLogToJson:(NSString *)inlogstr;//NSLog打印的字符串转换为json
 
--(void)clearAllCookie;
++(void)clearAllCookie;
 +(void)clearAllCaches; //清除所有缓存
 +(unsigned long long)AllCachesSize; //所有缓存大小 Byte
 +(unsigned long long)fileSizeAtPath:(NSString*)filePath;    //文件的大小 Byte

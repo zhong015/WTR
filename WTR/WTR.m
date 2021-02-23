@@ -871,7 +871,7 @@ static id _s;
 
     return logstr;
 }
--(void)clearAllCookie
++(void)clearAllCookie
 {
     [[NSURLCache sharedURLCache] removeAllCachedResponses];
     for (NSHTTPCookie *cookie in [NSHTTPCookieStorage sharedHTTPCookieStorage].cookies) {
@@ -883,7 +883,6 @@ static id _s;
         [[WKWebsiteDataStore defaultDataStore] removeDataOfTypes:[NSSet setWithArray:@[WKWebsiteDataTypeCookies,WKWebsiteDataTypeSessionStorage]] modifiedSince:[NSDate dateWithTimeIntervalSince1970:0] completionHandler:^{
         }];
     }
-    
 }
 #pragma mark 清除缓存
 +(void)clearAllCaches
@@ -1472,7 +1471,7 @@ static id _s;
     if (!allstr||![allstr isKindOfClass:[NSMutableAttributedString class]]||!ISString(str)) {
         return;
     }
-    NSRange crange=[allstr.string rangeOfString:str];
+    NSRange crange=[allstr.string rangeOfString:str options:NSCaseInsensitiveSearch];
     while (crange.length>0) {
         [allstr addAttributes:atr range:crange];
         if (crange.location+crange.length>=allstr.string.length) {
