@@ -10,6 +10,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface WTRHUD : NSObject
 
 //自动根据bacView的背景颜色选取背景
++(void)show;
 +(void)showHUDInView:(nullable UIView *)bacView;
 +(void)showHUDInView:(nullable UIView *)bacView animated:(BOOL)animated size:(CGSize)size;
 +(void)showSuccessInView:(nullable UIView *)bacView WithStatus:(NSString*)status;
@@ -39,6 +40,7 @@ NS_ASSUME_NONNULL_BEGIN
 +(void)showImage:(nullable UIImage*)image bgColor:(UIColor *)bgColor status:(nullable NSString*)status font:(UIFont *)font tintColor:(UIColor *)tintColor textImageSpace:(CGFloat)textImageSpace boundingRectSize:(CGSize)bsize edge:(UIEdgeInsets)edge cornerRadius:(CGFloat)cornerRadius duration:(NSTimeInterval)duration animated:(BOOL)animated InView:(nullable UIView *)bacView;
 
 //取消
++(void)dismiss;
 +(void)dismissInView:(nullable UIView *)bacView;
 +(void)dismissInView:(nullable UIView *)bacView animated:(BOOL)animated;
 

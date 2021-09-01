@@ -21,14 +21,21 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    
 
 }
 -(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
 {
-    [self testhud];
+//    [self testhud];
+    [WTRHUD show];
+    [WTRHUD show];
+    [self performSelector:@selector(testhud) withObject:nil afterDelay:3];
 }
 -(void)testhud
 {
+    [WTRHUD dismiss];
+    return;
     UIImage *im1=[UIImage imageWithColor:RANDCOLOR size:CGSizeMake(50+arc4random()%1000/1000.0*150, 50+arc4random()%1000/1000.0*150)];
     UIImage *im2=[UIImage imageWithColor:RANDCOLOR size:CGSizeMake(50+arc4random()%1000/1000.0*150, 50+arc4random()%1000/1000.0*150)];
     UIImage *im3=[UIImage imageWithColor:RANDCOLOR size:CGSizeMake(50+arc4random()%1000/1000.0*150, 50+arc4random()%1000/1000.0*150)];

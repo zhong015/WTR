@@ -51,6 +51,10 @@
 }
 
 //自动根据bacView的背景颜色选取背景
++(void)show
+{
+    [self showHUDInView:nil];
+}
 +(void)showHUDInView:(nullable UIView *)bacView
 {
     [[NSOperationQueue mainQueue] addOperationWithBlock:^{
@@ -180,11 +184,7 @@
         }
     };
     
-    if ([[NSThread currentThread] isMainThread]) {
-        block();
-    }else{
-        [[NSOperationQueue mainQueue] addOperationWithBlock:block];
-    }
+    [[NSOperationQueue mainQueue] addOperationWithBlock:block];
 }
 
 
@@ -301,14 +301,14 @@
         }
     };
     
-    if ([[NSThread currentThread] isMainThread]) {
-        block();
-    }else{
-        [[NSOperationQueue mainQueue] addOperationWithBlock:block];
-    }
+    [[NSOperationQueue mainQueue] addOperationWithBlock:block];
 }
 
 #pragma mark 取消
++(void)dismiss
+{
+    [self dismissInView:nil];
+}
 +(void)dismissInView:(nullable UIView *)bacView
 {
     [self dismissInView:bacView animated:YES];
@@ -335,9 +335,9 @@
             } completion:^(BOOL finished) {
                 [svv removeFromSuperview];
             }];
-        }
-        else
+        }else{
             [svv removeFromSuperview];
+        }
     }];
 }
 

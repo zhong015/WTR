@@ -1284,7 +1284,7 @@ static id _s;
 #pragma mark 去除空行
 +(NSString *)quchukonghang:(NSString *)str
 {
-    if (!str||str.length==0) {
+    if (!ISString(str)) {
         return str;
     }
 
@@ -1312,7 +1312,7 @@ static id _s;
 #pragma mark 去除首行缩进空格回车空行
 +(NSString *)quchuShkongge:(NSString *)str
 {
-    if (!str||str.length==0) {
+    if (!ISString(str)) {
         return str;
     }
 
@@ -1341,7 +1341,7 @@ static id _s;
 #pragma mark 去除tagStr后的空白和空行
 +(NSString *)quchuKBKH:(NSString *)str tagStr:(NSString *)tagStr
 {
-    if (!str||str.length==0||!tagStr||tagStr.length==0) {
+    if (!ISString(str)||!ISString(tagStr)) {
         return str;
     }
 
