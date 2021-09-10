@@ -24,7 +24,10 @@
 
 @interface WTRWebView : WKWebView
 
++(instancetype)newWebView;//默认初始化情况
+
 @property(nonatomic,assign)BOOL isChangeHeight;//是否跟随网页改变高度 默认NO
+@property(nonatomic,assign)CGFloat maxChangeHeight;//最大高度 默认-1 不限制高度
 @property(nonatomic,copy)void (^retupdatefreame)(void);//高度改变
 
 

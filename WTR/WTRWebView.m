@@ -24,6 +24,19 @@ static void *WTRWebViewContentSizeContext = &WTRWebViewContentSizeContext;
         [self stopLoading];
     }
 }
++(instancetype)newWebView//默认初始化情况
+{
+    WKWebViewConfiguration *config = [[WKWebViewConfiguration alloc] init];
+    if (@available(iOS 10.0, *)) {
+        config.mediaTypesRequiringUserActionForPlayback = YES;
+    }
+    //手动播放设置
+    config.allowsInlineMediaPlayback = YES;//是否允许内联(YES)或使用本机全屏控制器(NO)，默认是NO。
+    config.allowsAirPlayForMediaPlayback = YES;//允许AirPlay
+    
+    WTRWebView *webView = [[WTRWebView alloc] initWithFrame:CGRectZero configuration:config];
+    return webView;
+}
 - (instancetype)initWithFrame:(CGRect)frame configuration:(nonnull WKWebViewConfiguration *)configuration
 {
     self = [super initWithFrame:frame configuration:configuration];
@@ -38,7 +51,9 @@ static void *WTRWebViewContentSizeContext = &WTRWebViewContentSizeContext;
 {
     self.UIDelegate=self;
     self.navigationDelegate=self;
-
+    
+    self.maxChangeHeight=-1;
+    
     if (@available(iOS 11.0, *)) {
         self.scrollView.contentInsetAdjustmentBehavior=UIScrollViewContentInsetAdjustmentNever;
     }
@@ -136,6 +151,9 @@ static void *WTRWebViewContentSizeContext = &WTRWebViewContentSizeContext;
         return;
     }
     if (ABS(self.height-self.scrollView.contentSize.height)<0.1) {
+        return;
+    }
+    if (self.maxChangeHeight>1&&self.scrollView.contentSize.height>self.maxChangeHeight) {
         return;
     }
     self.height=self.scrollView.contentSize.height;
