@@ -29,10 +29,9 @@ static void *WTRWebViewContentSizeContext = &WTRWebViewContentSizeContext;
     WKWebViewConfiguration *config = [[WKWebViewConfiguration alloc] init];
     if (@available(iOS 10.0, *)) {
         config.mediaTypesRequiringUserActionForPlayback = YES;
+        config.allowsAirPlayForMediaPlayback = YES;//允许AirPlay
     }
-    //手动播放设置
     config.allowsInlineMediaPlayback = YES;//是否允许内联(YES)或使用本机全屏控制器(NO)，默认是NO。
-    config.allowsAirPlayForMediaPlayback = YES;//允许AirPlay
     
     WTRWebView *webView = [[WTRWebView alloc] initWithFrame:CGRectZero configuration:config];
     return webView;
