@@ -1542,6 +1542,9 @@ static id _s;
     if (@available(iOS 11.0, *)) {
         tableView.contentInsetAdjustmentBehavior=UIScrollViewContentInsetAdjustmentNever;
     }
+    if (@available(iOS 15.0, *)) {
+        tableView.sectionHeaderTopPadding=0;
+    }
 }
 +(void)reMoveTextfAutoSet:(id<UITextInputTraits>)textf
 {
