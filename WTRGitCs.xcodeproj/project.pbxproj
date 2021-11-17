@@ -26,6 +26,7 @@
 		D26444881ED5740E00190727 /* WTRFilePath.m in Sources */ = {isa = PBXBuildFile; fileRef = D26444871ED5740E00190727 /* WTRFilePath.m */; };
 		D26B179D2563B29600775833 /* WTRStreamDManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D26B179B2563B29600775833 /* WTRStreamDManager.m */; };
 		D270D5E22320F37000F77914 /* pod 上传制作.rtf in Resources */ = {isa = PBXBuildFile; fileRef = D270D5E12320F37000F77914 /* pod 上传制作.rtf */; };
+		D287FC6C27448F1E00E5A1A4 /* UIScrollView+MultiPan.m in Sources */ = {isa = PBXBuildFile; fileRef = D287FC6A27448F1E00E5A1A4 /* UIScrollView+MultiPan.m */; };
 		D29727D822CED77500BF56BE /* WTRImageListShow.m in Sources */ = {isa = PBXBuildFile; fileRef = D29727D722CED77500BF56BE /* WTRImageListShow.m */; };
 		D29727DB22CEF16500BF56BE /* SVStatusShowView.m in Sources */ = {isa = PBXBuildFile; fileRef = D29727DA22CEF16500BF56BE /* SVStatusShowView.m */; };
 		D2AAE25522D8869500D51EE9 /* WTRWebUrlPro.m in Sources */ = {isa = PBXBuildFile; fileRef = D2AAE25422D8869500D51EE9 /* WTRWebUrlPro.m */; };
@@ -73,6 +74,8 @@
 		D26B179B2563B29600775833 /* WTRStreamDManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WTRStreamDManager.m; sourceTree = "<group>"; };
 		D26B179C2563B29600775833 /* WTRStreamDManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WTRStreamDManager.h; sourceTree = "<group>"; };
 		D270D5E12320F37000F77914 /* pod 上传制作.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = "pod 上传制作.rtf"; sourceTree = "<group>"; };
+		D287FC6A27448F1E00E5A1A4 /* UIScrollView+MultiPan.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+MultiPan.m"; sourceTree = "<group>"; };
+		D287FC6B27448F1E00E5A1A4 /* UIScrollView+MultiPan.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+MultiPan.h"; sourceTree = "<group>"; };
 		D29727D622CED77500BF56BE /* WTRImageListShow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WTRImageListShow.h; sourceTree = "<group>"; };
 		D29727D722CED77500BF56BE /* WTRImageListShow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WTRImageListShow.m; sourceTree = "<group>"; };
 		D29727D922CEF16500BF56BE /* SVStatusShowView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SVStatusShowView.h; sourceTree = "<group>"; };
@@ -196,6 +199,8 @@
 		D2AAE25222D8867300D51EE9 /* 未加入2 */ = {
 			isa = PBXGroup;
 			children = (
+				D287FC6B27448F1E00E5A1A4 /* UIScrollView+MultiPan.h */,
+				D287FC6A27448F1E00E5A1A4 /* UIScrollView+MultiPan.m */,
 				D2AAE25322D8869500D51EE9 /* WTRWebUrlPro.h */,
 				D2AAE25422D8869500D51EE9 /* WTRWebUrlPro.m */,
 			);
@@ -344,6 +349,7 @@
 				D24D18DB1ED65C6B00AB1583 /* SVIndefiniteAnimatedView2.m in Sources */,
 				D2614F4223C05451007A3679 /* WTRWebView.m in Sources */,
 				D26444881ED5740E00190727 /* WTRFilePath.m in Sources */,
+				D287FC6C27448F1E00E5A1A4 /* UIScrollView+MultiPan.m in Sources */,
 				D29727DB22CEF16500BF56BE /* SVStatusShowView.m in Sources */,
 				D24D18DE1ED65D8600AB1583 /* WTRHUD.m in Sources */,
 				D2226BA62321EE25005643F3 /* NSObject+WTRExtension.m in Sources */,
