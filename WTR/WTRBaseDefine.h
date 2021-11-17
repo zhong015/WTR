@@ -63,6 +63,11 @@ colorWithRed: ((float)((rgbValue & 0xFF0000) >> 16)) / 255.0 \
 green: ((float)((rgbValue & 0xFF00) >> 8)) / 255.0           \
 blue: ((float)(rgbValue & 0xFF)) / 255.0 alpha : a]
 
+//动态动画CGRect中间位置
+#define WTRCGRectPro(wtr_yframe,wtr_tframe,wtr_pro) (^(CGRect ylf,CGRect tof,CGFloat cp){return CGRectMake((tof.origin.x-ylf.origin.x)*cp+ylf.origin.x, (tof.origin.y-ylf.origin.y)*cp+ylf.origin.y, (tof.size.width-ylf.size.width)*cp+ylf.size.width, (tof.size.height-ylf.size.height)*cp+ylf.size.height);}(wtr_yframe,wtr_tframe,wtr_pro))
+
+//动态动画UIColor中间位置
+#define WTRUIColorPro(wtr_ycolor,wtr_tcolor,wtr_pro) (^(UIColor *color1,UIColor *color2,CGFloat pro){CGFloat c1r,c1g,c1b,c1a,c2r,c2g,c2b,c2a;[color1 getRed:&c1r green:&c1g blue:&c1b alpha:&c1a];[color2 getRed:&c2r green:&c2g blue:&c2b alpha:&c2a];return [UIColor colorWithRed:(c2r-c1r)*pro+c1r green:(c2g-c1g)*pro+c1g blue:(c2b-c1b)*pro+c1b alpha:(c2a-c1a)*pro+c1a];}(wtr_ycolor,wtr_tcolor,wtr_pro))
 
 //创造圆角
 #define LayerMakeCorner(view,radius) {(view).layer.cornerRadius=(radius);(view).layer.masksToBounds=YES;}

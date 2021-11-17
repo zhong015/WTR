@@ -13,9 +13,7 @@
 
 
 /*
-    自动调整键盘弹起时textfiledOrTextView的高度
- 
-    .layer.masksToBounds=YES;//键盘弹起，切掉超出部分
+    自动调整键盘弹起时 TransView的位置
  */
 +(void)addKeyboardTransform:(UIView <UIKeyInput>*)textfiledOrTextView TransView:(UIView *)view;//监听键盘高度 自动调整view
 +(void)addKeyboardTransform:(UIView <UIKeyInput>*)textfiledOrTextView TransView:(UIView *)view addHeight:(CGFloat )adh; //adh 多增加的高度

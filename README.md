@@ -5,9 +5,11 @@
 Podfile
 
 platform :ios, '8.0'
+inhibit_all_warnings!
 
 target 'TargetName' do
-pod 'WTR'
+    use_frameworks!
+    pod 'WTR'
 end
 ```
 

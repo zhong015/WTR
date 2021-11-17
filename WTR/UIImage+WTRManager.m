@@ -207,25 +207,25 @@ void SetColorCWithDa(char *da,long width,int i,int j,ColorC onec)
         if (imb>sib) {
             y=0;
             hh=size.height;
-            ww=image.size.width/image.size.height*hh;
-            x=-(ww-size.width)/2;
+            ww=floorf(image.size.width/image.size.height*hh);
+            x=floorf(-(ww-size.width)/2);
         }else{
             x=0;
             ww=size.width;
-            hh=image.size.height/image.size.width*ww;
-            y=-(hh-size.height)/2;
+            hh=floorf(image.size.height/image.size.width*ww);
+            y=floorf(-(hh-size.height)/2);
         }
     }else{
         if (imb>sib) {
             x=0;
             ww=size.width;
-            hh=image.size.height/image.size.width*ww;
-            y=-(hh-size.height)/2;
+            hh=floorf(image.size.height/image.size.width*ww);
+            y=floorf(-(hh-size.height)/2);
         }else{
             y=0;
             hh=size.height;
-            ww=image.size.width/image.size.height*hh;
-            x=-(ww-size.width)/2;
+            ww=floorf(image.size.width/image.size.height*hh);
+            x=floorf(-(ww-size.width)/2);
         }
     }
 

@@ -888,9 +888,13 @@ static id _s;
 +(void)clearAllCaches
 {
     /*
-     AF 需要提前运行这两个
-     [[UIImageView sharedImageDownloader].imageCache removeAllImages];
-     [[UIImageView sharedImageDownloader].sessionManager.session.configuration.URLCache removeAllCachedResponses];  //单个移除不管用从iOS8.0之后
+     AF 需要提前运行
+     [[AFImageDownloader defaultInstance].imageCache removeAllImages];
+     [[AFImageDownloader defaultInstance].sessionManager.session.configuration.URLCache removeAllCachedResponses];  //单个移除不管用从iOS8.0之后
+     
+     SD 需要提前运行
+     [[SDWebImageManager sharedManager] removeAllFailedURLs];
+     [[SDWebImageManager sharedManager].imageCache clearWithCacheType:SDImageCacheTypeAll completion:nil];
      */
     [[NSURLCache sharedURLCache] removeAllCachedResponses];
     NSFileManager* manager = [NSFileManager defaultManager];
@@ -1433,7 +1437,20 @@ static id _s;
     html=[html stringByReplacingOccurrencesOfString:@"&amp;" withString:@"&"];
     html=[html stringByReplacingOccurrencesOfString:@"&lt;" withString:@"<"];
     html=[html stringByReplacingOccurrencesOfString:@"&gt;" withString:@">"];
-
+    html=[html stringByReplacingOccurrencesOfString:@"&apos;" withString:@"'"];
+    html=[html stringByReplacingOccurrencesOfString:@"&yen;" withString:@"¥"];
+    
+    //不常用的先注释 需要的地方自己加
+//    html=[html stringByReplacingOccurrencesOfString:@"&cent;" withString:@"￠"];
+//    html=[html stringByReplacingOccurrencesOfString:@"&pound;" withString:@"£"];
+//    html=[html stringByReplacingOccurrencesOfString:@"&euro;" withString:@"€"];
+//    html=[html stringByReplacingOccurrencesOfString:@"&sect;" withString:@"§"];
+//    html=[html stringByReplacingOccurrencesOfString:@"&copy;" withString:@"©"];
+//    html=[html stringByReplacingOccurrencesOfString:@"&reg;" withString:@"®"];
+//    html=[html stringByReplacingOccurrencesOfString:@"&trade;" withString:@"™"];
+//    html=[html stringByReplacingOccurrencesOfString:@"&times;" withString:@"×"];
+//    html=[html stringByReplacingOccurrencesOfString:@"&divide;" withString:@"÷"];
+    
     return html;
 }
 #pragma mark 只留html中展示文字，去除所有标签、回车和空白
@@ -1542,9 +1559,11 @@ static id _s;
     if (@available(iOS 11.0, *)) {
         tableView.contentInsetAdjustmentBehavior=UIScrollViewContentInsetAdjustmentNever;
     }
+#if !TARGET_OS_MACCATALYST
     if (@available(iOS 15.0, *)) {
         tableView.sectionHeaderTopPadding=0;
     }
+#endif
 }
 +(void)reMoveTextfAutoSet:(id<UITextInputTraits>)textf
 {
