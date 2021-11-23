@@ -27,10 +27,22 @@
 }
 -(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
 {
+    self.view.backgroundColor=RANDCOLOR;
+    
+//    [WTRHUD show];
+//    [WTRHUD dismiss];
+    
+    [WTRHUD showSuccessInView:self.view WithStatus:@"哈哈哈"];
+//    [WTRHUD dismissInView:self.view];
+    
+//    [WTRHUD showSuccess:@"哦哦哦"];
+    
 //    [self testhud];
-    [WTRHUD show];
-    [WTRHUD show];
-    [self performSelector:@selector(testhud) withObject:nil afterDelay:3];
+//    [WTRHUD show];
+//    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+//        [WTRHUD showSuccessInView:self.view WithStatus:@"ooo"];
+//    });
+//    [self performSelector:@selector(testhud) withObject:nil afterDelay:3];
 }
 -(void)testhud
 {

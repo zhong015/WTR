@@ -5,17 +5,17 @@
 #import "WTRWebUrlPro.h"
 #import <WebKit/WebKit.h>
 
-Class ContextControllerClass() {
+Class ContextControllerClass(void) {
     static Class cls;
     if (!cls) {
         cls = [[[WKWebView new] valueForKey:@"browsingContextController"] class];
     }
     return cls;
 }
-SEL RegisterSchemeSelector() {
+SEL RegisterSchemeSelector(void) {
     return NSSelectorFromString(@"registerSchemeForCustomProtocol:");
 }
-SEL UnregisterSchemeSelector() {
+SEL UnregisterSchemeSelector(void) {
     return NSSelectorFromString(@"unregisterSchemeForCustomProtocol:");
 }
 
