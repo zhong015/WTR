@@ -146,7 +146,7 @@
 //view 的superview 列表里 是否有 class 类
 -(BOOL)isView:(UIView *)view SuperviewContentClass:(Class)class
 {
-    UIView *csuperview=view.superview;
+    UIView *csuperview=view;
     while (csuperview&&![csuperview isKindOfClass:[UIWindow class]]) {
         if ([csuperview isKindOfClass:class]) {
             return YES;
