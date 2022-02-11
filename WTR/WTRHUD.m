@@ -273,7 +273,7 @@
         SVStatusShowView * svv=[[SVStatusShowView alloc]initWithImage:image bgColor:bgColorb status:status font:font tintColor:tintColorb textImageSpace:textImageSpace boundingRectSize:bsize edge:edge cornerRadius:cornerRadius];
 
         [bacView addSubview:svv];
-        svv.center=CGPointMake(bacView.frame.size.width/2.0, bacView.frame.size.height/2.0);
+        svv.center=CGPointMake(bacView.bounds.size.width/2.0, bacView.bounds.size.height/2.0);
         svv.autoresizingMask=UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleBottomMargin;
         
         //变小点 好看
