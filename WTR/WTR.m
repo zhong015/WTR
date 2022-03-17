@@ -139,7 +139,7 @@ static id _s;
     if (hh<height) {
         if ([curinttf.transView isKindOfClass:[UIScrollView class]]) {
             UIScrollView *scrolv=(UIScrollView *)curinttf.transView;
-            [scrolv setContentOffset:CGPointMake(0, scrolv.contentOffset.y+(height-hh+20)) animated:YES];
+            [scrolv setContentOffset:CGPointMake(0, scrolv.contentOffset.y+(height-hh+20)) animated:NO];
         }else{
             curinttf.transView.transform=CGAffineTransformMakeTranslation(0, -(height-hh+20));
         }

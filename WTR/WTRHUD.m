@@ -201,7 +201,7 @@
     if (!status||![status isKindOfClass:[NSString class]]) {
         status=@"";
     }
-    CGFloat minimum = MAX(status.length * 0.06 + 0.5,WTRHUDMinimumDismissTime);
+    CGFloat minimum = MAX(status.length * 0.09 + 0.5,WTRHUDMinimumDismissTime);
     minimum=MIN(minimum, WTRHUDMaximumDismissTime);
 
     [self showType:type InView:bacView status:status duration:minimum animated:YES isWhite:isw];
