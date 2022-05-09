@@ -1836,6 +1836,9 @@ int32_t const WTRCHUNK_SIZE = 8 * 1024;
 #pragma mark 字符串解码
 +(NSString *)WTR_deCodeStrWithData:(NSData *)da
 {
+    if (!da||![da isKindOfClass:[NSData class]]) {
+        return nil;
+    }
     NSString *retstr=[[NSString alloc] initWithData:da encoding:NSUTF8StringEncoding];
     if (retstr) {
         return retstr;

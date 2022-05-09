@@ -178,20 +178,30 @@ static void *WTRWebViewContentSizeContext = &WTRWebViewContentSizeContext;
         self.didFinishNavigation(navigation);
     }
 }
-- (void)webView:(WKWebView *)webView decidePolicyForNavigationResponse:(WKNavigationResponse *)navigationResponse decisionHandler:(void (^)(WKNavigationResponsePolicy))decisionHandler
-{
-    if ([navigationResponse.response isKindOfClass:[NSHTTPURLResponse class]]) {
-        NSHTTPURLResponse *resp=(NSHTTPURLResponse *)navigationResponse.response;
-        if (resp.statusCode!=200) {
-            decisionHandler(WKNavigationResponsePolicyCancel);
-            if (self.didHaveErrorRes) {
-                self.didHaveErrorRes(navigationResponse);
-            }
-            return;
-        }
-    }
-    decisionHandler (WKNavigationResponsePolicyAllow);
-}
+//- (void)webView:(WKWebView *)webView decidePolicyForNavigationResponse:(WKNavigationResponse *)navigationResponse decisionHandler:(void (^)(WKNavigationResponsePolicy))decisionHandler
+//{
+//    if ([navigationResponse.response isKindOfClass:[NSHTTPURLResponse class]]) {
+//        NSHTTPURLResponse *resp=(NSHTTPURLResponse *)navigationResponse.response;
+//        if (resp.statusCode!=200) {//可能会有302重定向什么的 还有其它正确返回类型 所以不能只判断200
+//            decisionHandler(WKNavigationResponsePolicyCancel);
+//            if (self.didHaveErrorRes) {
+//                self.didHaveErrorRes(navigationResponse);
+//            }
+//            return;
+//        }
+//    }
+//    decisionHandler (WKNavigationResponsePolicyAllow);
+//}
+
+//打开新网页时 直接替换到当前页 可能有别的跳转 暂时不用
+//- (nullable WKWebView *)webView:(WKWebView *)webView createWebViewWithConfiguration:(WKWebViewConfiguration *)configuration forNavigationAction:(WKNavigationAction *)navigationAction windowFeatures:(WKWindowFeatures *)windowFeatures
+//{
+//    if (!navigationAction.targetFrame.isMainFrame) {
+//        [webView loadRequest:navigationAction.request];
+//    }
+//    return nil;
+//}
+
 -(void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler
 {
     BOOL resultBOOL = [self shouldStartLoadWithRequest:navigationAction.request navigationType:navigationAction.navigationType];
