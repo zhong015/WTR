@@ -193,14 +193,17 @@ static void *WTRWebViewContentSizeContext = &WTRWebViewContentSizeContext;
 //    decisionHandler (WKNavigationResponsePolicyAllow);
 //}
 
-//打开新网页时 直接替换到当前页 可能有别的跳转 暂时不用
-//- (nullable WKWebView *)webView:(WKWebView *)webView createWebViewWithConfiguration:(WKWebViewConfiguration *)configuration forNavigationAction:(WKNavigationAction *)navigationAction windowFeatures:(WKWindowFeatures *)windowFeatures
-//{
-//    if (!navigationAction.targetFrame.isMainFrame) {
-//        [webView loadRequest:navigationAction.request];
-//    }
-//    return nil;
-//}
+//打开新网页时 直接替换到当前页
+- (nullable WKWebView *)webView:(WKWebView *)webView createWebViewWithConfiguration:(WKWebViewConfiguration *)configuration forNavigationAction:(WKNavigationAction *)navigationAction windowFeatures:(WKWindowFeatures *)windowFeatures
+{
+    if (!navigationAction.targetFrame.isMainFrame) {
+        BOOL resultBOOL = [self shouldStartLoadWithRequest:navigationAction.request navigationType:navigationAction.navigationType];
+        if (resultBOOL) {
+            [webView loadRequest:navigationAction.request];
+        }
+    }
+    return nil;
+}
 
 -(void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler
 {
@@ -270,13 +273,5 @@ static void *WTRWebViewContentSizeContext = &WTRWebViewContentSizeContext;
     }]];
     [WTR.curintViewController presentViewController:alertController animated:YES completion:nil];
 }
-//// 页面是弹出窗口 _blank 处理
-//- (WKWebView *)webView:(WKWebView *)webView createWebViewWithConfiguration:(WKWebViewConfiguration *)configuration forNavigationAction:(WKNavigationAction *)navigationAction windowFeatures:(WKWindowFeatures *)windowFeatures
-//{
-//    if (!navigationAction.targetFrame.isMainFrame) {
-//        [webView loadRequest:navigationAction.request];
-//    }
-//    return nil;
-//}
 
 @end
