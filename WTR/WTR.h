@@ -128,6 +128,8 @@
 +(void)showmsge:(NSString *)msgin time:(NSTimeInterval)timint;
 
 
++(NSString *)mimeTypeForPathExtension:(NSString *)extension;
+
 @end
 
 

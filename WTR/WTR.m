@@ -14,6 +14,7 @@
 #import <sqlite3.h>
 #import <CommonCrypto/CommonCrypto.h>
 #import <WebKit/WebKit.h>
+#import <CoreServices/CoreServices.h>
 
 @interface TextFieldLinkViewWTR : NSObject
 
@@ -1626,6 +1627,18 @@ static id _s;
             }];
         }];
     });
+}
+
++(NSString *)mimeTypeForPathExtension:(NSString *)extension
+{
+    extension=SafeStr(extension);
+    NSString *UTI = (__bridge_transfer NSString *)UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, (__bridge CFStringRef)extension, NULL);
+    NSString *contentType = (__bridge_transfer NSString *)UTTypeCopyPreferredTagWithClass((__bridge CFStringRef)UTI, kUTTagClassMIMEType);
+    if (!contentType) {
+        return @"application/octet-stream";
+    } else {
+        return contentType;
+    }
 }
 
 @end

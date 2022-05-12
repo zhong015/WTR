@@ -53,10 +53,10 @@
     UIImage *im3=[UIImage imageWithColor:RANDCOLOR size:CGSizeMake(50+arc4random()%1000/1000.0*150, 50+arc4random()%1000/1000.0*150)];
     UIImage *im4=[UIImage imageWithColor:RANDCOLOR size:CGSizeMake(50+arc4random()%1000/1000.0*150, 50+arc4random()%1000/1000.0*150)];
     NSArray *imarr=@[im1,im2,im3,im4];
-    [WTRImageListShow ShowImageList:@[@"0",@"1",@"2",@"3"] current:@"2" configeOne:^(UIImageView * _Nonnull imv, NSString *imageurlOrStr) {
-        imv.image=imarr[imageurlOrStr.intValue];
+    [WTRImageListShow showWithListArray:@[@"0",@"1",@"2",@"3"] current:@"2" configOne:^(UIImageView * _Nonnull imv, NSString *imageUrlOrStr, UIView * _Nullable contentView, UIScrollView * _Nullable scrollView) {
+        imv.image=imarr[imageUrlOrStr.intValue];
     } completion:^{
-        NSLog(@"完成");
+        
     }];
 }
 

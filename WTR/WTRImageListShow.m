@@ -40,7 +40,7 @@
 {
     self.scrollView=[[UIScrollView alloc] initWithFrame:CGRectMake(WTRImageListJianGe/2.0, 0, self.width-WTRImageListJianGe, self.height)];
 
-    [self addSubview:self.scrollView];
+    [self.contentView addSubview:self.scrollView];
 
     self.scrollView.delegate=self;
     self.scrollView.contentSize=self.scrollView.bounds.size;
@@ -179,11 +179,12 @@
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
     }
 }
+
 @end
 
 @interface WTRImageListShow ()<UICollectionViewDataSource,UICollectionViewDelegate>
 
-@property(nonatomic,copy) void (^confige)(UIImageView * _Nonnull imv,id _Nonnull imageurlOrStr);
+@property(nonatomic,copy) void (^confige)(UIImageView * _Nonnull imv,id _Nonnull imageUrlOrStr,UIView * _Nullable contentView,UIScrollView * _Nullable scrollView);
 @property(nonatomic,copy) void (^completioncb)(void);
 
 @property(nonatomic,strong)UICollectionView *collection;
@@ -209,22 +210,15 @@
     
     CGFloat lastww,lasthh;
 }
-+(instancetype)ShowImageList:(nonnull NSArray *)listArray current:(nonnull id)imageurlOrStr configeOne:(void (^_Nonnull)(UIImageView * _Nonnull imv,id _Nonnull imageurl)) confige completion:(void (^_Nonnull)(void))completioncb
+
++(instancetype)showWithListArray:(nonnull NSArray *)listArray current:(nonnull id)imageUrlOrStr configOne:(void (^_Nonnull)(UIImageView * _Nonnull imv,id _Nonnull imageUrlOrStr,UIView * _Nullable contentView,UIScrollView * _Nullable scrollView))configOne completion:(void (^_Nonnull)(void))completioncb
 {
-    return [self ShowImageList:listArray current:imageurlOrStr fromView:nil OrRect:CGRectZero configeOne:confige completion:completioncb];
+    return [self showFromView:nil orRect:CGRectZero listArray:listArray current:imageUrlOrStr configOne:configOne completion:completioncb];
 }
-+(instancetype)ShowImageList:(nonnull NSArray *)listArray current:(nonnull id)imageurlOrStr fromRect:(CGRect)fromRect configeOne:(void (^_Nonnull)(UIImageView * _Nonnull imv,id _Nonnull imageurlOrStr)) confige completion:(void (^_Nonnull)(void))completioncb
-{
-    return [self ShowImageList:listArray current:imageurlOrStr fromView:nil OrRect:fromRect configeOne:confige completion:completioncb];
-}
-+(instancetype)ShowImageList:(nonnull NSArray *)listArray current:(nonnull id)imageurlOrStr fromView:(nullable UIView *)imageView configeOne:(void (^_Nonnull)(UIImageView * _Nonnull imv,id _Nonnull imageurlOrStr)) confige completion:(void (^_Nonnull)(void))completioncb
-{
-    return [self ShowImageList:listArray current:imageurlOrStr fromView:imageView OrRect:CGRectZero configeOne:confige completion:completioncb];
-}
-+(instancetype)ShowImageList:(nonnull NSArray *)listArray current:(nonnull id)imageurlOrStr fromView:(nullable UIView *)imageView OrRect:(CGRect)fromRect configeOne:(void (^_Nonnull)(UIImageView * _Nonnull imv,id _Nonnull imageurlOrStr)) confige completion:(void (^_Nonnull)(void))completioncb
++(instancetype)showFromView:(nullable UIView *)fromImageView orRect:(CGRect)fromRect listArray:(nonnull NSArray *)listArray current:(nonnull id)imageUrlOrStr configOne:(void (^_Nonnull)(UIImageView * _Nonnull imv,id _Nonnull imageUrlOrStr,UIView * _Nullable contentView,UIScrollView * _Nullable scrollView))configOne completion:(void (^_Nonnull)(void))completioncb
 {
     WTRImageListShow *show=[WTRImageListShow new];
-    [show ShowImageList:listArray current:imageurlOrStr fromView:imageView OrRect:fromRect configeOne:confige completion:completioncb];
+    [show showFromView:fromImageView orRect:fromRect listArray:listArray current:imageUrlOrStr configOne:configOne completion:completioncb];
     return show;
 }
 
@@ -243,17 +237,17 @@
     }
 }
 
--(void)ShowImageList:(nonnull NSArray *)listArray current:(nonnull id)imageurlOrStr fromView:(nullable UIView *)imageView OrRect:(CGRect)fromRect configeOne:(void (^_Nonnull)(UIImageView * _Nonnull imv,id _Nonnull imageurlOrStr)) confige completion:(void (^_Nonnull)(void))completioncb
+-(void)showFromView:(nullable UIView *)fromImageView orRect:(CGRect)fromRect listArray:(nonnull NSArray *)listArray current:(nonnull id)imageUrlOrStr configOne:(void (^_Nonnull)(UIImageView * _Nonnull imv,id _Nonnull imageUrlOrStr,UIView * _Nullable contentView,UIScrollView * _Nullable scrollView))configOne completion:(void (^_Nonnull)(void))completioncb
 {
     if (!listArray||listArray.count==0) {
         return;
     }
     _listArray=listArray;
-    _imageurl=imageurlOrStr;
-    _imageView=imageView;
+    _imageurl=imageUrlOrStr;
+    _imageView=fromImageView;
     _fromRect=fromRect;
 
-    self.confige = confige;
+    self.confige = configOne;
     self.completioncb = completioncb;
 
     currentindex=0;
@@ -310,8 +304,8 @@
         self.crutapvimv.autoresizingMask=UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
         self.crutapv.layer.masksToBounds=YES;
 
-        if (confige) {
-            confige(self.crutapvimv,imageurlOrStr);
+        if (configOne) {
+            configOne(self.crutapvimv,imageUrlOrStr,nil,nil);
         }
 
         if (self.crutapvimv.image) {
@@ -417,7 +411,7 @@
     WTRImageListShowCell *cell=[collectionView dequeueReusableCellWithReuseIdentifier:@"cell" forIndexPath:indexPath];
 
     if (self.confige) {
-        self.confige(cell.imv, _listArray[indexPath.row]);
+        self.confige(cell.imv,_listArray[indexPath.row],cell.contentView,cell.scrollView);
     }
 
     if (!cell.clearallcb) {
