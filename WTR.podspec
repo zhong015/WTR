@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
   #
 
   s.name         = "WTR"
-  s.version      = "0.1.66"
+  s.version      = "0.1.67"
   s.summary      = "基本快捷方法"
 
   # This description is used to generate tags and improve search results.
@@ -157,7 +157,7 @@ Pod::Spec.new do |s|
   #
 
   # s.framework  = "SomeFramework"
-  s.frameworks = "UIKit", "Foundation", "AVFoundation", "Accelerate"
+  s.frameworks = "UIKit", "Foundation", "AVFoundation", "Accelerate","CoreServices"
 
   # s.library   = "iconv"
   # s.libraries = "iconv", "xml2"
