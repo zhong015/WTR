@@ -1872,15 +1872,8 @@ int32_t const WTRCHUNK_SIZE = 8 * 1024;
         return retstr;
     }
     
-    //系统判断
+    //系统判断 一般到这里都会出来
     NSString *convertedString=nil;
-    [NSString stringEncodingForData:da encodingOptions:@{NSStringEncodingDetectionSuggestedEncodingsKey:@[@(NSUTF8StringEncoding),@(enc1),@(enc2),@(enc3)]} convertedString:&convertedString usedLossyConversion:nil];
-    if (ISString(convertedString)) {
-        return convertedString;
-    }
-    
-    //系统判断 全部权重平均模式 慢
-    convertedString=nil;
     [NSString stringEncodingForData:da encodingOptions:nil convertedString:&convertedString usedLossyConversion:nil];
     if (ISString(convertedString)) {
         return convertedString;
