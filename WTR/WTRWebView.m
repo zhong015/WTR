@@ -169,13 +169,13 @@ static void *WTRWebViewContentSizeContext = &WTRWebViewContentSizeContext;
 -(void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation
 {
     if (self.didFinishNavigation) {
-        self.didFinishNavigation(navigation);
+        self.didFinishNavigation(navigation,nil);
     }
 }
 - (void)webView:(WKWebView *)webView didFailNavigation:(null_unspecified WKNavigation *)navigation withError:(NSError *)error
 {
     if (self.didFinishNavigation) {
-        self.didFinishNavigation(navigation);
+        self.didFinishNavigation(navigation,error);
     }
 }
 //- (void)webView:(WKWebView *)webView decidePolicyForNavigationResponse:(WKNavigationResponse *)navigationResponse decisionHandler:(void (^)(WKNavigationResponsePolicy))decisionHandler
@@ -184,9 +184,6 @@ static void *WTRWebViewContentSizeContext = &WTRWebViewContentSizeContext;
 //        NSHTTPURLResponse *resp=(NSHTTPURLResponse *)navigationResponse.response;
 //        if (resp.statusCode!=200) {//可能会有302重定向什么的 还有其它正确返回类型 所以不能只判断200
 //            decisionHandler(WKNavigationResponsePolicyCancel);
-//            if (self.didHaveErrorRes) {
-//                self.didHaveErrorRes(navigationResponse);
-//            }
 //            return;
 //        }
 //    }

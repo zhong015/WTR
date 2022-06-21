@@ -40,12 +40,8 @@
 
 @property(nonatomic,copy)BOOL (^shouldStartLoad)(NSURL *url);//是否跳转url
 
-//开始跳转新链接
 @property(nonatomic,copy)void (^didStartNavigation)(WKNavigation *navigation);
-
-//链接加载完成会返回这两个中的一个
-@property(nonatomic,copy)void (^didHaveErrorRes)(WKNavigationResponse *navigationResponse);
-@property(nonatomic,copy)void (^didFinishNavigation)(WKNavigation *navigation);
+@property(nonatomic,copy)void (^didFinishNavigation)(WKNavigation *navigation,NSError *error);
 
 
 
