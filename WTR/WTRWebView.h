@@ -22,13 +22,15 @@
  self.webView = [[WTRWebView alloc] initWithFrame:CGRectZero configuration:config];
  */
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface WTRWebView : WKWebView
 
 +(instancetype)newWebView;//默认初始化情况
 
 @property(nonatomic,assign)BOOL isChangeHeight;//是否跟随网页改变高度 默认NO
 @property(nonatomic,assign)CGFloat maxChangeHeight;//最大高度 默认-1 不限制高度
-@property(nonatomic,copy)void (^retupdatefreame)(void);//高度改变
+@property(nonatomic,copy,nullable)void (^retupdatefreame)(void);//高度改变
 
 
 /*
@@ -38,10 +40,10 @@
  self.navigationDelegate=self;
  */
 
-@property(nonatomic,copy)BOOL (^shouldStartLoad)(NSURL *url);//是否跳转url
+@property(nonatomic,copy,nullable)BOOL (^shouldStartLoad)(NSURL *url);//是否跳转url
 
-@property(nonatomic,copy)void (^didStartNavigation)(WKNavigation *navigation);
-@property(nonatomic,copy)void (^didFinishNavigation)(WKNavigation *navigation,NSError *error);
+@property(nonatomic,copy,nullable)void (^didStartNavigation)(WKNavigation *navigation);
+@property(nonatomic,copy,nullable)void (^didFinishNavigation)(WKNavigation *navigation,NSError * _Nullable error);
 
 
 
@@ -52,6 +54,8 @@
 -(void)removeAllUserScripts;
 
 
-@property(nonatomic,strong,readonly)NSURLRequest *currentreq;//当前请求
+@property(nonatomic,strong,readonly,nullable)NSURLRequest *currentreq;//当前请求
 
 @end
+
+NS_ASSUME_NONNULL_END
