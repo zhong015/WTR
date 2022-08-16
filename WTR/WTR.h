@@ -169,7 +169,7 @@
 
 #pragma mark 字符串解码
 +(NSString *)WTR_deCodeStrWithData:(NSData *)da;
-
++(NSString *)WTR_deCodeStrWithData:(NSData *)da usedEncoding:(NSStringEncoding *)retUsedEncoding;
 
 //提取链接上的参数
 -(NSDictionary *)WTR_urlParameters;

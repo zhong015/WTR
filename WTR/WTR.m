@@ -1849,33 +1849,52 @@ int32_t const WTRCHUNK_SIZE = 8 * 1024;
 #pragma mark 字符串解码
 +(NSString *)WTR_deCodeStrWithData:(NSData *)da
 {
+    return [self WTR_deCodeStrWithData:da usedEncoding:nil];
+}
++(NSString *)WTR_deCodeStrWithData:(NSData *)da usedEncoding:(NSStringEncoding *)retUsedEncoding
+{
     if (!da||![da isKindOfClass:[NSData class]]) {
         return nil;
     }
     NSString *retstr=[[NSString alloc] initWithData:da encoding:NSUTF8StringEncoding];
     if (retstr) {
+        if (retUsedEncoding) {
+            *retUsedEncoding=NSUTF8StringEncoding;
+        }
         return retstr;
     }
-    NSStringEncoding enc1 = CFStringConvertEncodingToNSStringEncoding(kCFStringEncodingGB_18030_2000);
-    retstr = [[NSString alloc] initWithData:da encoding:enc1];
+    NSStringEncoding encoding = CFStringConvertEncodingToNSStringEncoding(kCFStringEncodingGB_18030_2000);
+    retstr = [[NSString alloc] initWithData:da encoding:encoding];
     if (retstr) {
+        if (retUsedEncoding) {
+            *retUsedEncoding=encoding;
+        }
         return retstr;
     }
-    NSStringEncoding enc2 = CFStringConvertEncodingToNSStringEncoding(kCFStringEncodingGB_2312_80);
-    retstr = [[NSString alloc] initWithData:da encoding:enc2];
+    encoding = CFStringConvertEncodingToNSStringEncoding(kCFStringEncodingGB_2312_80);
+    retstr = [[NSString alloc] initWithData:da encoding:encoding];
     if (retstr) {
+        if (retUsedEncoding) {
+            *retUsedEncoding=encoding;
+        }
         return retstr;
     }
-    NSStringEncoding enc3 = CFStringConvertEncodingToNSStringEncoding(kCFStringEncodingGBK_95);
-    retstr = [[NSString alloc] initWithData:da encoding:enc3];
+    encoding = CFStringConvertEncodingToNSStringEncoding(kCFStringEncodingGBK_95);
+    retstr = [[NSString alloc] initWithData:da encoding:encoding];
     if (retstr) {
+        if (retUsedEncoding) {
+            *retUsedEncoding=encoding;
+        }
         return retstr;
     }
     
     //系统判断 一般到这里都会出来
     NSString *convertedString=nil;
-    [NSString stringEncodingForData:da encodingOptions:nil convertedString:&convertedString usedLossyConversion:nil];
+    encoding=[NSString stringEncodingForData:da encodingOptions:nil convertedString:&convertedString usedLossyConversion:nil];
     if (ISString(convertedString)) {
+        if (retUsedEncoding) {
+            *retUsedEncoding=encoding;
+        }
         return convertedString;
     }
     
@@ -1891,7 +1910,9 @@ int32_t const WTRCHUNK_SIZE = 8 * 1024;
     
     //这里会自动判断 BOM Unicode
     retstr=[[NSString alloc] initWithData:da encoding:NSUnicodeStringEncoding];
-    
+    if (retUsedEncoding) {
+        *retUsedEncoding=NSUnicodeStringEncoding;
+    }
     return retstr;
 }
 
