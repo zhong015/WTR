@@ -153,6 +153,12 @@ static void *WTRWebViewContentSizeContext = &WTRWebViewContentSizeContext;
         return;
     }
     if (self.maxChangeHeight>1&&self.scrollView.contentSize.height>self.maxChangeHeight) {
+        if (self.height<self.maxChangeHeight) {
+            self.height=self.maxChangeHeight;
+            if (self.retupdatefreame) {
+                self.retupdatefreame();
+            }
+        }
         return;
     }
     self.height=self.scrollView.contentSize.height;
