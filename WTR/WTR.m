@@ -1853,6 +1853,10 @@ int32_t const WTRCHUNK_SIZE = 8 * 1024;
 }
 +(NSString *)WTR_deCodeStrWithData:(NSData *)da usedEncoding:(NSStringEncoding *)retUsedEncoding
 {
+    return [self WTR_deCodeStrWithData:da usedEncoding:retUsedEncoding tryUnicode:YES];
+}
++(NSString *)WTR_deCodeStrWithData:(NSData *)da usedEncoding:(NSStringEncoding *)retUsedEncoding tryUnicode:(BOOL)tryUnicode
+{
     if (!da||![da isKindOfClass:[NSData class]]) {
         return nil;
     }
@@ -1898,20 +1902,21 @@ int32_t const WTRCHUNK_SIZE = 8 * 1024;
         return convertedString;
     }
     
-    //判断BOM
-    /*
-     Unicode
-        在UTF-16（小端）中BOM为FF FE，UTF-16（大端）中BOM为FE FF。这个其实很好记，大端还有另外一个名字叫大尾端（小端同理），FF显然比FE大，所以在大尾端中它的尾巴是FF，即大端BOM为FEFF。
-     
-     　　在UTF-32中，小端BOM为FFFE0000，大端BOM为0000FEFF。
-
-     　　在UTF-8带BOM的版本中，BOM为EF BB BF。
-     */
-    
-    //这里会自动判断 BOM Unicode
-    retstr=[[NSString alloc] initWithData:da encoding:NSUnicodeStringEncoding];
-    if (retUsedEncoding) {
-        *retUsedEncoding=NSUnicodeStringEncoding;
+    if(tryUnicode){
+        //判断BOM
+        /*
+         Unicode
+            在UTF-16（小端）中BOM为FF FE，UTF-16（大端）中BOM为FE FF。这个其实很好记，大端还有另外一个名字叫大尾端（小端同理），FF显然比FE大，所以在大尾端中它的尾巴是FF，即大端BOM为FEFF。
+         
+         　　在UTF-32中，小端BOM为FFFE0000，大端BOM为0000FEFF。
+         　　在UTF-8带BOM的版本中，BOM为EF BB BF。
+         */
+        
+        //这里会自动判断 BOM Unicode
+        retstr=[[NSString alloc] initWithData:da encoding:NSUnicodeStringEncoding];
+        if (retUsedEncoding) {
+            *retUsedEncoding=NSUnicodeStringEncoding;
+        }
     }
     return retstr;
 }

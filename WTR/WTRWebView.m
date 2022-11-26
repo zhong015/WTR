@@ -152,6 +152,9 @@ static void *WTRWebViewContentSizeContext = &WTRWebViewContentSizeContext;
     if (ABS(self.height-self.scrollView.contentSize.height)<0.1) {
         return;
     }
+    
+    //scrollView.contentSize.height 可能最小是屏幕高 而且不会自动变小 这时需要自己再获取document.body.clientHeight实际网页高
+    
     if (self.maxChangeHeight>1&&self.scrollView.contentSize.height>self.maxChangeHeight) {
         if (self.height<self.maxChangeHeight) {
             self.height=self.maxChangeHeight;
