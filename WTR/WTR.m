@@ -1529,8 +1529,8 @@ static id _s;
     }
     NSString *retstr=@"";
     long long Pricelong=roundf(inPrice.doubleValue*100);
-    if (Pricelong%100>0) {
-        if (Pricelong%10>0) {
+    if (Pricelong%100!=0) {
+        if (Pricelong%10!=0) {
             retstr=[NSString stringWithFormat:@"%.2f",Pricelong*1.0/100];
         }else{
             retstr=[NSString stringWithFormat:@"%.1f",Pricelong*1.0/100];
@@ -1947,7 +1947,11 @@ int32_t const WTRCHUNK_SIZE = 8 * 1024;
     }
     for (NSString *key in components.allKeys) {
         NSString *value=components[key];
-        prefix=[prefix stringByAppendingFormat:@"%@=%@&",key,SafeStr(value)];
+        value=SafeStr(value);
+        if([WTR isNeedURLEncoding:value]){
+            value=[value WTR_stringByURLEncodeReal];
+        }
+        prefix=[prefix stringByAppendingFormat:@"%@=%@&",key,value];
     }
     prefix=[prefix substringToIndex:prefix.length-1];
     return prefix;
