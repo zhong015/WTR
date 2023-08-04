@@ -151,9 +151,16 @@
 -(NSData *)WTR_hmac_md5WithKey:(NSString *)key;
 -(NSString *)WTR_hmac_md5StrWithKey:(NSString *)key;
 
+-(NSString *)WTR_base64Str;
+
+- (NSData *)AES_DecryptWithkey:(NSData *)key iv:(NSData *)iv;
+- (NSData *)AES_EncryptWithKey:(NSData *)key iv:(NSData *)iv;
+
 @end
 
 @interface NSString (WTRStr)
+
+-(NSData *)WTR_base64Decode;
 
 /*
  WTR_stringByURLEncode

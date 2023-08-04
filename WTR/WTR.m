@@ -458,6 +458,19 @@ static id _s;
     
     NSString *address=nil;
     
+    //ipv4
+    for (NSString *key in addresses.allKeys) {
+        NSString *ipdz=addresses[key];
+        if ([key hasPrefix:@"en"]&&([ipdz hasPrefix:@"192.168"]||[ipdz hasPrefix:@"10."]||[ipdz hasPrefix:@"172."])) {
+            address=ipdz;
+            break;
+        }
+    }
+    
+    if (address) {
+        return address;
+    }
+    
     //ipv6
     for (NSString *key in addresses.allKeys) {
         NSString *ipdz=addresses[key];
@@ -472,20 +485,7 @@ static id _s;
     if (address) {
         return address;
     }
-    
-    //ipv4
-    for (NSString *key in addresses.allKeys) {
-        NSString *ipdz=addresses[key];
-        if ([key hasPrefix:@"en"]&&[ipdz hasPrefix:@"192.168"]) {
-            address=ipdz;
-            break;
-        }
-    }
-    
-    if (address) {
-        return address;
-    }
-    
+
     for (NSString *key in addresses.allKeys) {
         NSString *ipdz=addresses[key];
         if ([ipdz hasPrefix:@"192.168"]) {
@@ -1230,7 +1230,11 @@ static id _s;
 #pragma mark 验证内购
 +(void)verifyReceiptWithData:(NSData *)receiptData isSANDBOX:(BOOL)isSANDBOX completionHandler:(void (^)(NSDictionary * retdic, NSURLResponse * response, NSError * error))completionHandler
 {
-    NSString *encodeStr = [receiptData base64EncodedStringWithOptions:NSDataBase64EncodingEndLineWithLineFeed];
+    /*
+     https://developer.apple.com/cn/app-store/Receipt-Validation-Programming-Guide-CN.pdf
+     NSString *encodeStr = [receiptData base64EncodedStringWithOptions:NSDataBase64EncodingEndLineWithLineFeed];//原来是这个，不过文档内是写0
+     */
+    NSString *encodeStr = [receiptData base64EncodedStringWithOptions:0];
 
     NSURL *url;
     if (isSANDBOX) {
@@ -1781,10 +1785,94 @@ int32_t const WTRCHUNK_SIZE = 8 * 1024;
     return retStr;
 }
 
+-(NSString *)WTR_base64Str
+{
+    return [self base64EncodedStringWithOptions:0];
+}
+
+- (NSData *)AES_DecryptWithkey:(NSData *)key iv:(NSData *)iv {
+    if (key.length != 16 && key.length != 24 && key.length != 32) {
+        return nil;
+    }
+    if (iv.length != 16 && iv.length != 0) {
+        return nil;
+    }
+    
+    NSData *result = nil;
+    size_t bufferSize = self.length + kCCBlockSizeAES128;
+    void *buffer = malloc(bufferSize);
+    if (!buffer) return nil;
+    size_t encryptedSize = 0;
+    CCCryptorStatus cryptStatus = CCCrypt(kCCDecrypt,
+                                          kCCAlgorithmAES128,
+                                          kCCOptionPKCS7Padding,
+                                          key.bytes,
+                                          key.length,
+                                          iv.bytes,
+                                          self.bytes,
+                                          self.length,
+                                          buffer,
+                                          bufferSize,
+                                          &encryptedSize);
+    if (cryptStatus == kCCSuccess) {
+        result = [[NSData alloc]initWithBytes:buffer length:encryptedSize];
+        free(buffer);
+        return result;
+    } else {
+        free(buffer);
+        return nil;
+    }
+}
+- (NSData *)AES_EncryptWithKey:(NSData *)key iv:(NSData *)iv {
+    if (key.length != 16 && key.length != 24 && key.length != 32) {
+        return nil;
+    }
+    if (iv.length != 16 && iv.length != 0) {
+        return nil;
+    }
+
+    NSData *result = nil;
+    size_t bufferSize = self.length + kCCBlockSizeAES128;
+    void *buffer = malloc(bufferSize);
+    if (!buffer) return nil;
+    size_t encryptedSize = 0;
+    CCCryptorStatus cryptStatus = CCCrypt(kCCEncrypt,
+                                          kCCAlgorithmAES128,
+                                          kCCOptionPKCS7Padding,
+                                          key.bytes,
+                                          key.length,
+                                          iv.bytes,
+                                          self.bytes,
+                                          self.length,
+                                          buffer,
+                                          bufferSize,
+                                          &encryptedSize);
+    if (cryptStatus == kCCSuccess) {
+        result = [[NSData alloc]initWithBytes:buffer length:encryptedSize];
+        free(buffer);
+        return result;
+    } else {
+        free(buffer);
+        return nil;
+    }
+}
+
 @end
 
 
 @implementation NSString (WTRStr)
+
+
+-(NSData *)WTR_base64Decode
+{
+    NSString *wdstr=self;
+    if (wdstr.length % 4 != 0) {
+        NSUInteger newlength = wdstr.length + 4 - (wdstr.length % 4);
+        wdstr = [wdstr stringByPaddingToLength:newlength withString:@"=" startingAtIndex:0];
+    }
+    return [[NSData alloc] initWithBase64EncodedString:wdstr options:0];
+}
+
 
 /*
  这里只适用于值中不需要对 !$&'()*+,;= 加密的
