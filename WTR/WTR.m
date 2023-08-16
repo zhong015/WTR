@@ -1129,10 +1129,14 @@ static id _s;
     [searchDictionary setObject:(id)kSecClassGenericPassword forKey:(id)kSecClass];
 
     //id
-    [searchDictionary setObject:identifier forKey:(id)kSecAttrService];
+    if(identifier){
+        [searchDictionary setObject:identifier forKey:(id)kSecAttrService];
+    }
 
     //账户名
-    [searchDictionary setObject:Account forKey:(id)kSecAttrAccount];
+    if(Account){
+        [searchDictionary setObject:Account forKey:(id)kSecAttrAccount];
+    }
 
     if (kSecAttrAccessibleStr) {
         //pdmn = ck; kSecAttrAccessibleAfterFirstUnlock
@@ -1148,12 +1152,11 @@ static id _s;
      and:
      https://developer.apple.com/library/ios/technotes/tn2311/_index.html
      */
-    //例子 "ED6U86NK2U.wfz.asd.asdasd"
+    //这个一般都是固定的可以不用设置
     //[searchDictionary setObject:Group forKey:(id)kSecAttrAccessGroup];
 
     return searchDictionary;
 }
-
 +(NSData *)readKeychainId:(NSString *)identifier
 {
     return [self readKeychainId:identifier Account:identifier Group:identifier];
@@ -1220,11 +1223,49 @@ static id _s;
 }
 +(BOOL)deleteKeychainId:(NSString *)identifier Account:(NSString *)Account Group:(NSString *)Group
 {
-    NSMutableDictionary *searchDictionary=[self newkSecDictionary:identifier Account:Account Group:Group];
+    return [self deleteKeychainId:identifier Account:Account Group:Group Accessible:(id)kSecAttrAccessibleAfterFirstUnlock];
+}
++(BOOL)deleteKeychainId:(NSString *)identifier Account:(NSString *)Account Group:(NSString *)Group Accessible:(NSString *)kSecAttrAccessibleStr
+{
+    NSMutableDictionary *searchDictionary=[self newkSecDictionary:identifier Account:Account Group:Group Accessible:kSecAttrAccessibleStr];
     if (SecItemDelete((CFDictionaryRef)searchDictionary)==errSecSuccess) {
         return YES;
     }
     return NO;
+}
++(NSArray *)readAllKeychainID
+{
+    NSMutableDictionary *searchDictionary = [NSMutableDictionary dictionary];
+    [searchDictionary setObject:(id)kSecClassGenericPassword forKey:(id)kSecClass];
+    [searchDictionary setObject:(id)kSecMatchLimitAll forKey:(id)kSecMatchLimit];
+    [searchDictionary setObject:(id)kCFBooleanTrue forKey:(id)kSecReturnAttributes];
+    CFTypeRef outdata = nil;
+    OSStatus rets=SecItemCopyMatching((CFDictionaryRef)searchDictionary,&outdata);
+    if (rets==errSecSuccess) {
+        NSArray *arr=(__bridge NSArray *)outdata;
+        for (NSDictionary *dic in arr) {
+            NSString *svce=dic[@"svce"];
+            NSString *acct=dic[@"acct"];
+            NSString *agrp=dic[@"agrp"];
+            NSString *pdmn=dic[@"pdmn"];
+            NSLog(@"\nacct:%@ \nagrp:%@ \nsvce:%@\npdmn:%@\n",acct,agrp,svce,pdmn);
+        }
+        return arr;
+    };
+    return nil;
+}
++(void)deleteAllKeychainID
+{
+    NSArray *arr=[self readAllKeychainID];
+    if(arr&&arr.count>0){
+        for (NSDictionary *dic in arr) {
+            NSString *svce=dic[@"svce"];
+            NSString *acct=dic[@"acct"];
+            NSString *agrp=dic[@"agrp"];
+            NSString *pdmn=dic[@"pdmn"];
+            [self deleteKeychainId:svce Account:acct Group:agrp Accessible:pdmn];
+        }
+    }
 }
 
 #pragma mark 验证内购
@@ -1271,13 +1312,12 @@ static id _s;
     if (!yarr||![yarr isKindOfClass:[NSArray class]]) {
         return nil;
     }
+    if(num>yarr.count){
+        num=yarr.count;
+    }
     
     NSMutableArray *muarr=[NSMutableArray array];
-    if (yarr.count<=num) {
-        [muarr addObjectsFromArray:yarr];
-        return muarr;
-    }
-
+    
     NSInteger indexc=arc4random()%yarr.count;
 
     for (int i=0; i<num; i++) {

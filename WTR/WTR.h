@@ -80,6 +80,9 @@
 +(BOOL)writeData:(NSData *)data KeychainId:(NSString *)identifier Account:(NSString *)Account Group:(NSString *)Group;
 +(BOOL)deleteKeychainId:(NSString *)identifier; //删除数据
 +(BOOL)deleteKeychainId:(NSString *)identifier Account:(NSString *)Account Group:(NSString *)Group;
++(BOOL)deleteKeychainId:(NSString *)identifier Account:(NSString *)Account Group:(NSString *)Group Accessible:(NSString *)kSecAttrAccessibleStr;
++(NSArray *)readAllKeychainID;
++(void)deleteAllKeychainID;
 
 #pragma mark 验证内购
 +(void)verifyReceiptWithData:(NSData *)receiptData isSANDBOX:(BOOL)isSANDBOX completionHandler:(void (^)(NSDictionary * retdic, NSURLResponse * response, NSError * error))completionHandler;
