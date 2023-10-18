@@ -32,7 +32,7 @@
 //    [WTRHUD show];
 //    [WTRHUD dismiss];
     
-    [WTRHUD showSuccessInView:self.view WithStatus:@"哈哈哈"];
+    [WTRHUD showSuccessInView:self.view WithStatus:@"哈哈哈" transform:CGAffineTransformConcat(CGAffineTransformMakeTranslation(100, -100),CGAffineTransformMakeScale(WTRHUDScale, WTRHUDScale))];
 //    [WTRHUD dismissInView:self.view];
     
 //    [WTRHUD showSuccess:@"哦哦哦"];
