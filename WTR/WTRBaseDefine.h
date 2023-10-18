@@ -44,7 +44,9 @@
 //只返回字符串
 #define SafeStr(str) ((str&&[str isKindOfClass:[NSString class]])?(NSString *)str:([str isKindOfClass:[NSNumber class]]?((NSNumber*)str).stringValue:@""))
 
-#define SafeInteger(obj)  ((obj&&[obj isKindOfClass:[NSString class]])?[(NSString *)obj integerValue]:([obj isKindOfClass:[NSNumber class]]?((NSNumber*)obj).integerValue:0))
+#define SafeInteger(obj) ((obj&&[obj isKindOfClass:[NSString class]])?[(NSString *)obj integerValue]:([obj isKindOfClass:[NSNumber class]]?((NSNumber*)obj).integerValue:0))
+
+#define SafeFloat(obj) ((obj&&[obj isKindOfClass:[NSString class]])?[(NSString *)obj floatValue]:([obj isKindOfClass:[NSNumber class]]?((NSNumber*)obj).floatValue:0))
 
 //颜色
 #define RANDOMF (arc4random()%1000/1000.0)
