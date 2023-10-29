@@ -15,7 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface WCTLabel : UIView
 
-@property(nonatomic,strong,nullable)NSAttributedString *attributedText;
+@property(nonatomic,copy,nullable)NSAttributedString *attributedText;
 
 @property(nonatomic,assign)UIEdgeInsets contentInsets;
 

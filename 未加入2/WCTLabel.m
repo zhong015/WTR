@@ -38,6 +38,9 @@ typedef struct WTRCTline {
 
 @property(nonatomic,strong)UITapGestureRecognizer *tap;
 
+//持有附件，要不然会被释放
+@property(nonatomic,strong)NSMutableArray <NSTextAttachment *>*attArray;
+
 @end
 
 @implementation WCTLabel
@@ -63,6 +66,21 @@ typedef struct WTRCTline {
     retsize.width=ceilf(retsize.width);
     
     return retsize;
+}
+
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        [self chushihua];
+    }
+    return self;
+}
+-(void)chushihua
+{
+    self.backgroundColor=[UIColor clearColor];
+    self.attArray=[NSMutableArray array];
+    self.userInteractionEnabled=NO;
 }
 
 -(void)layoutSubviews
@@ -100,6 +118,10 @@ typedef struct WTRCTline {
 
 -(void)setAttributedText:(NSAttributedString *)attributedText
 {
+    if(attributedText&&![attributedText isKindOfClass:[NSAttributedString class]]){
+        return;
+    }
+    attributedText=[self tupianzhichi:attributedText];
     _attributedText=attributedText;
     _preferredMaxLayoutWidth=0;
     [self invalidateIntrinsicContentSize];
@@ -175,6 +197,8 @@ typedef struct WTRCTline {
     CGContextTranslateCTM(ctx, 0, rect.size.height);
     CGContextScaleCTM(ctx, 1.0, -1.0);
     CTFrameDraw(_strRef, ctx);
+    
+    [self huizhitupian:ctx rect:UIEdgeInsetsInsetRect(rect, UIEdgeInsetsMake(_contentInsets.bottom, _contentInsets.left, _contentInsets.top, _contentInsets.right))];
     
 //    CGContextRestoreGState(ctx);
     
@@ -302,7 +326,7 @@ typedef struct WTRCTline {
 - (void)setTapClick:(void (^)(WCTLabel * _Nonnull, CGPoint, NSInteger))tapClick
 {
     _tapClick = tapClick;
-    
+    self.userInteractionEnabled=YES;
     if(!self.tap){
         self.tap=[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(ctTapClick:)];
         [self addGestureRecognizer:self.tap];
@@ -317,5 +341,106 @@ typedef struct WTRCTline {
     }
 }
 
+
+#pragma mark 图片支持
+-(NSAttributedString *)tupianzhichi:(NSAttributedString *)attr
+{
+    if(!attr){
+        return attr;
+    }
+    [self.attArray removeAllObjects];
+    NSMutableAttributedString *retattr=[[NSMutableAttributedString alloc] initWithAttributedString:attr];
+    for (int i=0; i<retattr.length; i++) {
+        NSRange era;
+        NSDictionary *adic=[retattr attributesAtIndex:i effectiveRange:&era];
+        NSTextAttachment *att=adic[NSAttachmentAttributeName];
+        if(att&&att.image){
+            [self.attArray addObject:att];
+            [retattr replaceCharactersInRange:NSMakeRange(i, 1) withAttributedString:[self tupiantihuan:att]];
+        }
+    }
+    return retattr;
+}
+static CGFloat wctAscentCallback(void *refCon){
+    CGFloat ret=20;
+    NSTextAttachment *att = (__bridge NSTextAttachment *)refCon;
+    if([att isKindOfClass:[NSTextAttachment class]]){
+        if(att.bounds.size.height>0){
+            ret=att.bounds.size.height;
+        }
+        ret+=att.bounds.origin.y;
+    }
+    return ret;
+}
+
+static CGFloat wctDescentCallback(void * refCon){
+    CGFloat ret=0;
+    NSTextAttachment *att = (__bridge NSTextAttachment *)refCon;
+    if([att isKindOfClass:[NSTextAttachment class]]){
+        ret-=att.bounds.origin.y;
+    }
+    return ret;
+}
+
+static CGFloat wctWidthCallback(void *refCon){
+    CGFloat ret=20;
+    NSTextAttachment *att = (__bridge NSTextAttachment *)refCon;
+    if([att isKindOfClass:[NSTextAttachment class]]){
+        if(att.bounds.size.width>0){
+            ret=att.bounds.size.width;
+        }
+    }
+    return ret;
+}
+
+-(NSAttributedString *)tupiantihuan:(NSTextAttachment *)att
+{
+    CTRunDelegateCallbacks callbacks;
+    memset(&callbacks, 0, sizeof(CTRunDelegateCallbacks));
+    callbacks.version = kCTRunDelegateVersion1;
+    callbacks.getAscent = wctAscentCallback;
+    callbacks.getDescent = wctDescentCallback;
+    callbacks.getWidth = wctWidthCallback;
+    CTRunDelegateRef delegate = CTRunDelegateCreate(&callbacks,(__bridge void * _Nullable)(att));
+    NSMutableAttributedString *space = [[NSMutableAttributedString alloc] initWithString:@" "];
+    CFAttributedStringSetAttribute((CFMutableAttributedStringRef)space,
+                                   CFRangeMake(0, 1),
+                                   kCTRunDelegateAttributeName,
+                                   delegate);
+    CFRelease(delegate);
+    return space;
+}
+
+-(void)huizhitupian:(CGContextRef)ctx rect:(CGRect)rect
+{
+    if (!_strRef) {
+        return;
+    }
+    CFArrayRef linesArr = CTFrameGetLines(_strRef);
+    for (int i = 0; i < CFArrayGetCount(linesArr); ++i) {
+        CTLineRef line = CFArrayGetValueAtIndex(linesArr, i);
+        CFArrayRef runsArr = CTLineGetGlyphRuns(line);
+        for (int j = 0; j < CFArrayGetCount(runsArr); ++j) {
+            CTRunRef run = CFArrayGetValueAtIndex(runsArr, j);
+            CTRunDelegateRef delegate = CFDictionaryGetValue(CTRunGetAttributes(run), kCTRunDelegateAttributeName);
+            if (!delegate) {
+                continue;
+            }
+            NSTextAttachment *att = CTRunDelegateGetRefCon(delegate);
+            if (!att||![att isKindOfClass:[NSTextAttachment class]]||!att.image) {
+                continue;
+            }
+            CGFloat offsetX;
+            CTLineGetOffsetForStringIndex(line, CTRunGetStringRange(run).location,&offsetX);
+
+            CGPoint lineOrigin;
+            CTFrameGetLineOrigins(_strRef, CFRangeMake(i, 1), &lineOrigin);
+            
+            UIImage *image = att.image;
+            CGContextDrawImage(ctx,CGRectMake(lineOrigin.x + offsetX +rect.origin.x, lineOrigin.y+att.bounds.origin.y+rect.origin.y, att.bounds.size.width, att.bounds.size.height), image.CGImage);
+            
+        }
+    }
+}
 
 @end
