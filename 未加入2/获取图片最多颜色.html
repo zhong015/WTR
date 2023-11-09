@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>优美的歌声</title>
+    <!-- 启用 WebApp 全屏模式 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <style type="text/css">
+    body {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+        background-color: #ffffff;
+    }
+    #canvas{
+        width: 200px;
+        height: 200px;
+    }
+    </style>
+</head>
+
+<body>
+    <!-- <button onclick="asdaasd()">测试点击</button> -->
+    <input type="file" id="fileInput" />
+    <canvas id="oneca"></canvas>
+    <script>
+        // function asdaasd() {
+        //     console.log("window.location.href:",window.location.href);
+        //     alert("请升级应用版本");
+        //     setTimeout("window.location.href='https://wap.cnki.net/appdownload.html';",1000);
+        // }
+        // window.onload=function() {
+        //      // window.location.href = "cnki://wap.cnki.net/cnkiapp.aspx?token=CX002";
+        // }
+        
+        let oFile = document.querySelector('#fileInput')
+        oFile.onchange = function(){
+            console.log(this.files)
+            
+            var canvas = document.getElementById('oneca');
+            var ctx = canvas.getContext('2d');
+            var img = new Image();
+            img.onload = function() {
+                canvas.width = img.width;
+                canvas.height = img.height;
+                ctx.drawImage(img, 0, 0);
+                var imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                var maxcolor=getmaxcolor(imageData);
+                console.log("maxcolor:",maxcolor);
+                document.body.style.backgroundColor = maxcolor;
+            };
+            img.src = URL.createObjectURL(this.files[0]);
+
+        }
+
+        //获取imageData最多颜色值
+        function getmaxcolor(imageData) {
+            var data = imageData.data;
+            // console.log("data:",data);
+            var colors = [];
+            let jumnum=4*8;//每次跳8个像素
+            for (var i = 0, len = data.length; i < len; i += jumnum) {
+                var r = data[i];
+                var g = data[i + 1];
+                var b = data[i + 2];
+                var a = data[i + 3];
+
+                //跳过接近白色的颜色
+                if(r>230&&g>230&&b>230){
+                    continue;
+                }
+                //跳过灰色系
+                if(r==g&&r==b){
+                    continue;
+                }
+
+                var isin=false;
+                for (var j = 0, colen = colors.length; j < colen; j += 1) {
+                    var onecolor = colors[j];
+                    if(onecolor[0]==r&&onecolor[1]==g&&onecolor[2]==b){
+                        isin=true;
+                        onecolor[4]+=1;
+                        break;
+                    }
+                }
+                if(!isin){
+                    colors.push([r, g, b, a,1]);
+                }
+            }
+            // console.log("colors:",colors);
+
+            var maxindex=-1;
+            var maxnum=0;
+            for (var j = 0, colen = colors.length; j < colen; j += 1) {
+                if(colors[j][4]>maxnum){
+                    maxnum=colors[j][4];
+                    maxindex=j;
+                }
+            }
+
+            if(maxindex>-1){
+                return 'rgb('+colors[maxindex][0]+','+colors[maxindex][1]+','+colors[maxindex][2]+')';
+            }
+            return "rgb(100,100,100)";//默认颜色
+        }
+    </script>
+</body>
+
+</html>

@@ -684,6 +684,9 @@ void SetColorCWithDa(char *da,long width,int i,int j,ColorC onec)
                 if ((onec.r<20)&&(onec.g<20)&&(onec.b<20)) {
                     continue;//黑色继续 不是特殊颜色
                 }
+                if (onec.r==onec.g&&onec.r==onec.b) {
+                    continue;//灰色系继续 不是特殊颜色
+                }
                 zr+=onec.r;
                 zg+=onec.g;
                 zb+=onec.b;
@@ -760,6 +763,9 @@ void SetColorCWithDa(char *da,long width,int i,int j,ColorC onec)
                 }
                 if ((onec.r<20)&&(onec.g<20)&&(onec.b<20)) {
                     continue;//黑色继续 不是特殊颜色
+                }
+                if (onec.r==onec.g&&onec.r==onec.b) {
+                    continue;//灰色系继续 不是特殊颜色
                 }
                 uint32_t cr=onec.r;
                 uint32_t cg=onec.g;
