@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>WTR</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no,minimal-ui" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <script src="./tesseract.min.js"></script>
+</head>
+
+<body>
+    <script>
+    var retstr = "";
+    const ocr_recognize = async (base64imageStr) => {
+        console.log("开始分析");
+        const worker = await Tesseract.createWorker("chi_sim", 1, {
+            workerPath: "./v5.0.2_dist_worker.min.js",
+            corePath: "./tesseract-core.wasm.js",
+            langPath: ".",
+            gzip: true,
+            logger: m => console.log(m),
+        });
+        const ret = await worker.recognize(base64imageStr);
+        retstr = ret.data.text;
+        console.log("结果:", retstr);
+    }
+    </script>
+</body>
+
+</html>
