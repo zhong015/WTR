@@ -95,7 +95,11 @@ static void *WTRWebViewContentSizeContext = &WTRWebViewContentSizeContext;
 }
 -(void)setScalesPageToFitWithUserScalable:(BOOL)userScalable
 {
-    ///<meta name="viewport" content="width=device-width,initial-scale=1;maximum-scale=1, minimum-scale=1, user-scalable=no" />
+    // <meta name="viewport" content="width=device-width,initial-scale=1;maximum-scale=1, minimum-scale=1, user-scalable=no" />
+    
+    // 手机端如果字体自动调整了可以设置这个
+    // css: -webkit-text-size-adjust:none;
+    // js: document.body.style.WebkitTextSizeAdjust='none'
 
     NSString* jScript;
 
