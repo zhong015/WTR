@@ -15,6 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface WCTLabel : UIView
 
+//如果需要使用sizeToFit去改变大小，attributedText设置后需要再更新设置frame一下
 @property(nonatomic,copy,nullable)NSAttributedString *attributedText;
 
 @property(nonatomic,assign)UIEdgeInsets contentInsets;

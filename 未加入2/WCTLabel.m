@@ -7,6 +7,7 @@
 //
 
 #import "WCTLabel.h"
+#import <CoreText/CoreText.h>
 
 /*
  字体 从上到下位置
@@ -39,7 +40,7 @@ typedef struct WTRCTline {
 @property(nonatomic,strong)UITapGestureRecognizer *tap;
 
 //持有附件，要不然会被释放
-@property(nonatomic,strong)NSMutableArray <NSTextAttachment *>*attArray;
+//@property(nonatomic,strong)NSMutableArray <NSTextAttachment *>*attArray;
 
 @end
 
@@ -72,6 +73,16 @@ typedef struct WTRCTline {
 {
     self = [super init];
     if (self) {
+//        if(!self.attArray){
+            [self chushihua];
+//        }
+    }
+    return self;
+}
+- (instancetype)initWithFrame:(CGRect)frame
+{
+    self = [super initWithFrame:frame];
+    if (self) {
         [self chushihua];
     }
     return self;
@@ -79,8 +90,8 @@ typedef struct WTRCTline {
 -(void)chushihua
 {
     self.backgroundColor=[UIColor clearColor];
-    self.attArray=[NSMutableArray array];
     self.userInteractionEnabled=NO;
+//    self.attArray=[NSMutableArray array];
 }
 
 -(void)layoutSubviews
@@ -348,15 +359,16 @@ typedef struct WTRCTline {
     if(!attr){
         return attr;
     }
-    [self.attArray removeAllObjects];
+//    [self.attArray removeAllObjects];
     NSMutableAttributedString *retattr=[[NSMutableAttributedString alloc] initWithAttributedString:attr];
     for (int i=0; i<retattr.length; i++) {
         NSRange era;
         NSDictionary *adic=[retattr attributesAtIndex:i effectiveRange:&era];
         NSTextAttachment *att=adic[NSAttachmentAttributeName];
-        if(att&&att.image){
-            [self.attArray addObject:att];
-            [retattr replaceCharactersInRange:NSMakeRange(i, 1) withAttributedString:[self tupiantihuan:att]];
+        if(att&&[att isKindOfClass:[NSTextAttachment class]]&&att.image){
+//            [self.attArray addObject:att];
+//            [retattr replaceCharactersInRange:NSMakeRange(i, 1) withAttributedString:[self tupiantihuan:att]];
+            [self addtupianAttribute:retattr att:att index:i];
         }
     }
     return retattr;
@@ -393,7 +405,24 @@ static CGFloat wctWidthCallback(void *refCon){
     return ret;
 }
 
--(NSAttributedString *)tupiantihuan:(NSTextAttachment *)att
+//-(NSAttributedString *)tupiantihuan:(NSTextAttachment *)att
+//{
+//    CTRunDelegateCallbacks callbacks;
+//    memset(&callbacks, 0, sizeof(CTRunDelegateCallbacks));
+//    callbacks.version = kCTRunDelegateVersion1;
+//    callbacks.getAscent = wctAscentCallback;
+//    callbacks.getDescent = wctDescentCallback;
+//    callbacks.getWidth = wctWidthCallback;
+//    CTRunDelegateRef delegate = CTRunDelegateCreate(&callbacks,(__bridge void * _Nullable)(att));
+//    NSMutableAttributedString *space = [[NSMutableAttributedString alloc] initWithString:@" "];
+//    CFAttributedStringSetAttribute((CFMutableAttributedStringRef)space,
+//                                   CFRangeMake(0, 1),
+//                                   kCTRunDelegateAttributeName,
+//                                   delegate);
+//    CFRelease(delegate);
+//    return space;
+//}
+-(void)addtupianAttribute:(NSMutableAttributedString *)matr att:(NSTextAttachment *)att index:(NSInteger)index
 {
     CTRunDelegateCallbacks callbacks;
     memset(&callbacks, 0, sizeof(CTRunDelegateCallbacks));
@@ -402,13 +431,11 @@ static CGFloat wctWidthCallback(void *refCon){
     callbacks.getDescent = wctDescentCallback;
     callbacks.getWidth = wctWidthCallback;
     CTRunDelegateRef delegate = CTRunDelegateCreate(&callbacks,(__bridge void * _Nullable)(att));
-    NSMutableAttributedString *space = [[NSMutableAttributedString alloc] initWithString:@" "];
-    CFAttributedStringSetAttribute((CFMutableAttributedStringRef)space,
-                                   CFRangeMake(0, 1),
+    CFAttributedStringSetAttribute((CFMutableAttributedStringRef)matr,
+                                   CFRangeMake(index, 1),
                                    kCTRunDelegateAttributeName,
                                    delegate);
     CFRelease(delegate);
-    return space;
 }
 
 -(void)huizhitupian:(CGContextRef)ctx rect:(CGRect)rect
