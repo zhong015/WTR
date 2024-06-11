@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
   #
 
   s.name         = "WTR"
-  s.version      = "0.1.83"
+  s.version      = "1.0.0"
   s.summary      = "基本快捷方法"
 
   # This description is used to generate tags and improve search results.
@@ -65,7 +65,7 @@ Pod::Spec.new do |s|
   #
 
   # s.platform     = :ios
-  s.platform     = :ios, "9.0"
+  s.platform     = :ios, "12.0"
 
   #  When using multiple platforms
   # s.ios.deployment_target = "5.0"
