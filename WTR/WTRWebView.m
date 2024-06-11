@@ -56,6 +56,15 @@ static void *WTRWebViewContentSizeContext = &WTRWebViewContentSizeContext;
     if (@available(iOS 11.0, *)) {
         self.scrollView.contentInsetAdjustmentBehavior=UIScrollViewContentInsetAdjustmentNever;
     }
+    
+#if DEBUG
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 160400
+    if (@available(iOS 16.4, *)) {
+        self.inspectable=YES;
+    }
+#endif
+#endif
+
 }
 -(void)setIsChangeHeight:(BOOL)isChangeHeight
 {
