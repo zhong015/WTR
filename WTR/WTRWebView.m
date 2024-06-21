@@ -82,6 +82,11 @@ static void *WTRWebViewContentSizeContext = &WTRWebViewContentSizeContext;
     }
     self.isAddObserver=YES;
     [self addObserver:self forKeyPath:@"scrollView.contentSize" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:WTRWebViewContentSizeContext];
+    
+    if(_isChangeHeight){
+        //解决bug:内容的第一个元素的margin-top大于0时，更新web高度后，body会循环增大
+        [self addUserScript:@"document.body.style.paddingTop='1px';" injectionTime:WKUserScriptInjectionTimeAtDocumentEnd forMainFrameOnly:NO];
+    }
 }
 -(void)removeHHObserver
 {
@@ -181,6 +186,10 @@ static void *WTRWebViewContentSizeContext = &WTRWebViewContentSizeContext;
     if (self.retupdatefreame) {
         self.retupdatefreame();
     }
+    
+    /*
+     如果这里循环调用，说明内容的第一个元素的 margin-top大于0 可以移除或者改成 padding-top 或者给body加上 style="padding-top: 1px;"
+     */
 }
 - (void)webView:(WKWebView *)webView didStartProvisionalNavigation:(null_unspecified WKNavigation *)navigation
 {
