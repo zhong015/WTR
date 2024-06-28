@@ -86,6 +86,8 @@ static void *WTRWebViewContentSizeContext = &WTRWebViewContentSizeContext;
     if(_isChangeHeight){
         //解决bug:内容的第一个元素的margin-top大于0时，更新web高度后，body会循环增大
         [self addUserScript:@"document.body.style.paddingTop='1px';" injectionTime:WKUserScriptInjectionTimeAtDocumentEnd forMainFrameOnly:NO];
+        
+        //如果最后一个元素margin-bottom>0那么最下面的空白不会显示到高度里，可以改成padding-bottom或者body增加padding-bottom: document.body.style.paddingTop='1px';
     }
 }
 -(void)removeHHObserver
