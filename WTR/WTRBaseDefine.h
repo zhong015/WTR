@@ -46,6 +46,8 @@
 
 #define SafeInteger(obj) ((obj&&[obj isKindOfClass:[NSString class]])?[(NSString *)obj integerValue]:([obj isKindOfClass:[NSNumber class]]?((NSNumber*)obj).integerValue:0))
 
+#define SafeLongLongValue(obj) ((obj&&[obj isKindOfClass:[NSString class]])?[(NSString *)obj integerValue]:([obj isKindOfClass:[NSNumber class]]?((NSNumber*)obj).longLongValue:0))
+
 #define SafeFloat(obj) ((obj&&[obj isKindOfClass:[NSString class]])?[(NSString *)obj floatValue]:([obj isKindOfClass:[NSNumber class]]?((NSNumber*)obj).floatValue:0))
 
 //颜色
