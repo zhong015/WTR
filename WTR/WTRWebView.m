@@ -120,13 +120,15 @@ static void *WTRWebViewContentSizeContext = &WTRWebViewContentSizeContext;
     NSString* jScript;
 
     if (userScalable) {
-        jScript = @"var meta = document.createElement('meta'); \
+        jScript = @"document.querySelectorAll('meta').forEach(function(meta) {if(meta.name=='viewport'){meta.parentNode.removeChild(meta);}});\
+        var meta = document.createElement('meta'); \
         meta.name = 'viewport'; \
         meta.content = 'width=device-width, user-scalable=yes'; \
         var head = document.getElementsByTagName('head')[0];\
         head.appendChild(meta);";
     }else{
-        jScript = @"var meta = document.createElement('meta'); \
+        jScript = @"document.querySelectorAll('meta').forEach(function(meta) {if(meta.name=='viewport'){meta.parentNode.removeChild(meta);}});\
+        var meta = document.createElement('meta'); \
         meta.name = 'viewport'; \
         meta.content = 'width=device-width,initial-scale=1;maximum-scale=1, minimum-scale=1, user-scalable=no'; \
         var head = document.getElementsByTagName('head')[0];\
