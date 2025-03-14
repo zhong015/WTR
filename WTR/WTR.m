@@ -1072,7 +1072,7 @@ static id _s;
     if (allstr.length>1&&[[allstr substringFromIndex:allstr.length-1] isEqualToString:@"零"]) {
         [allstr replaceCharactersInRange:NSMakeRange(allstr.length-1, 1) withString:@""];
     }
-    if (allstr.length>2&&[[allstr substringWithRange:NSMakeRange(0, 2)] isEqualToString:@"一十"]) {
+    if (allstr.length>=2&&[[allstr substringWithRange:NSMakeRange(0, 2)] isEqualToString:@"一十"]) {
         [allstr replaceCharactersInRange:NSMakeRange(0, 2) withString:@"十"];
     }
     return allstr;
