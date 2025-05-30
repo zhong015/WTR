@@ -42,7 +42,9 @@
 #define ISDictionary(dic) (dic&&[dic isKindOfClass:[NSDictionary class]])
 
 //只返回字符串
-#define SafeStr(str) ((str&&[str isKindOfClass:[NSString class]])?(NSString *)str:([str isKindOfClass:[NSNumber class]]?((NSNumber*)str).stringValue:@""))
+#define SafeStr(str) (([str isKindOfClass:[NSString class]])?(NSString *)str:([str isKindOfClass:[NSNumber class]]?((NSNumber*)str).stringValue:@""))
+
+#define SafeNumber(num) (([num isKindOfClass:[NSNumber class]])?(NSNumber *)num:([num isKindOfClass:[NSString class]]?((NSString*)num).numberValue:@(0)))
 
 #define SafeInteger(obj) ((obj&&[obj isKindOfClass:[NSString class]])?[(NSString *)obj integerValue]:([obj isKindOfClass:[NSNumber class]]?((NSNumber*)obj).integerValue:0))
 
