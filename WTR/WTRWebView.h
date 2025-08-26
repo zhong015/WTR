@@ -26,6 +26,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface WTRWebView : WKWebView
 
+//生成完整html
++(NSString *)htmlStrWithBodyXml:(NSString *)bodyXml fontSize:(CGFloat)fontSize;
+
 +(instancetype)newWebView;//默认初始化情况
 
 @property(nonatomic,assign)BOOL isChangeHeight;//是否跟随网页改变高度 默认NO
@@ -40,6 +43,12 @@ NS_ASSUME_NONNULL_BEGIN
  self.navigationDelegate=self;
  */
 
+/*
+ 拦截不了跳转的话可以给a标签加上 target='_blank'
+ webv.didFinishNavigation = ^(WKNavigation * _Nonnull navigation, NSError * _Nullable error) {
+     [weakWebv evaluateJavaScript:@"document.querySelectorAll('a').forEach(function(one) {one.target='_blank';});" completionHandler:nil];
+ };
+ */
 @property(nonatomic,copy,nullable)BOOL (^shouldStartLoad)(NSURL *url);//是否跳转url
 
 @property(nonatomic,copy,nullable)void (^didStartNavigation)(WKNavigation *navigation);

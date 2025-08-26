@@ -17,6 +17,11 @@ static void *WTRWebViewContentSizeContext = &WTRWebViewContentSizeContext;
 
 @implementation WTRWebView
 
++(NSString *)htmlStrWithBodyXml:(NSString *)bodyXml fontSize:(CGFloat)fontSize
+{
+    return [NSString stringWithFormat:@"<html><head><meta charset=\"UTF-8\" /><meta name=\"viewport\" content=\"width=device-width,initial-scale=1;maximum-scale=1, minimum-scale=1, user-scalable=no\" /><style type=\"text/css\">*{box-sizing:border-box;padding:0;margin:0;}\nhtml,body{height: auto;overflow-y:hidden;overflow-x:hidden;font-size: %.0fpx;color: #000000;background-color: #FFFFFF;}</style></head><body>%@</body></html>",roundf(fontSize),bodyXml];
+}
+
 - (void)dealloc
 {
     [self removeHHObserver];
@@ -33,7 +38,7 @@ static void *WTRWebViewContentSizeContext = &WTRWebViewContentSizeContext;
     }
     config.allowsInlineMediaPlayback = YES;//是否允许内联(YES)或使用本机全屏控制器(NO)，默认是NO。
     
-    WTRWebView *webView = [[WTRWebView alloc] initWithFrame:CGRectZero configuration:config];
+    WTRWebView *webView = [[WTRWebView alloc] initWithFrame:CGRectMake(0, 0, 60, 50) configuration:config];
     return webView;
 }
 - (instancetype)initWithFrame:(CGRect)frame configuration:(nonnull WKWebViewConfiguration *)configuration
@@ -256,6 +261,12 @@ static void *WTRWebViewContentSizeContext = &WTRWebViewContentSizeContext;
 }
 -(BOOL)shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(WKNavigationType)navigationType
 {
+    /*
+     拦截不了跳转的话可以给a标签加上 target='_blank'
+     webv.didFinishNavigation = ^(WKNavigation * _Nonnull navigation, NSError * _Nullable error) {
+         [weakWebv evaluateJavaScript:@"document.querySelectorAll('a').forEach(function(one) {one.target='_blank';});" completionHandler:nil];
+     };
+     */
     if (self.shouldStartLoad) {
         return self.shouldStartLoad(request.URL);
     }
