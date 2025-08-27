@@ -38,7 +38,8 @@ static void *WTRWebViewContentSizeContext = &WTRWebViewContentSizeContext;
     }
     config.allowsInlineMediaPlayback = YES;//是否允许内联(YES)或使用本机全屏控制器(NO)，默认是NO。
     
-    WTRWebView *webView = [[WTRWebView alloc] initWithFrame:CGRectMake(0, 0, 60, 50) configuration:config];
+    //初始化后需要再手动改变一下self.frame的大小才能正常更新高度
+    WTRWebView *webView = [[WTRWebView alloc] initWithFrame:CGRectZero configuration:config];
     return webView;
 }
 - (instancetype)initWithFrame:(CGRect)frame configuration:(nonnull WKWebViewConfiguration *)configuration
@@ -93,6 +94,8 @@ static void *WTRWebViewContentSizeContext = &WTRWebViewContentSizeContext;
         [self addUserScript:@"document.body.style.paddingTop='1px';" injectionTime:WKUserScriptInjectionTimeAtDocumentEnd forMainFrameOnly:NO];
         
         //如果最后一个元素margin-bottom>0那么最下面的空白不会显示到高度里，可以改成padding-bottom或者body增加padding-bottom: document.body.style.paddingTop='1px';
+        
+        //初始化后需要再手动改变一下self.frame的大小才能正常更新高度
     }
 }
 -(void)removeHHObserver
