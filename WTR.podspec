@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
   #
 
   s.name         = "WTR"
-  s.version      = "1.0.6"
+  s.version      = "1.0.7"
   s.summary      = "基本快捷方法"
 
   # This description is used to generate tags and improve search results.
